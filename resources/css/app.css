@@ -8,6 +8,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+    --color-primary-blue: var(--primary-blue);
+
     --font-sans:
         'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
@@ -78,6 +80,8 @@
 }
 
 :root {
+    --primary-blue: oklch(61.83% 0.1981 266.66);
+
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);

@@ -1,8 +1,8 @@
+import TimelineContainer from '@/components/timeline-container';
+import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Head, Link } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -15,22 +15,51 @@ export default function Home() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Home" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <Carousel className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 rounded-xl border md:min-h-min">
-                    <CarouselContent>
-                        <CarouselItem>...</CarouselItem>
-                        <CarouselItem>...</CarouselItem>
-                        <CarouselItem>...</CarouselItem>
-                    </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
-                </Carousel>
 
-                <div className="flex min-h-60 gap-6">
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative w-full overflow-hidden rounded-xl border"></div>
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative w-1/2 overflow-hidden rounded-xl border duration-1000 hover:w-full"></div>
+            <section className="h-screen w-screen bg-[url('/imgs/homepage_hero_light.png')] bg-cover bg-center bg-no-repeat dark:bg-[url('/imgs/homepage_hero_dark-3.png')]">
+                <div className="mx-auto mt-36 px-4 md:max-w-7xl">
+                    <div className="md:w-2/3 dark:text-white">
+                        <h1 className="text-3xl font-semibold">Sajic 5ª Edição | outubro de 2025</h1>
+                        <p className="mt-5 text-justify text-xl">
+                            A Semana Acadêmica do UniSenac é um evento que oferece uma série de atividades acadêmicas, culturais e profissionais,
+                            voltadas para o desenvolvimento de competências e a troca de conhecimentos entre alunos, professores e o público em geral.
+                            A programação inclui palestras, oficinas, debates e workshops sobre temas diversos, como tecnologia, inovação,
+                            diversidade, empreendedorismo, e tendências de mercado.
+                        </p>
+
+                        <Link href="/palestras">
+                            <Button className="mt-8 px-6 py-3">Veja nossas palestras</Button>
+                        </Link>
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            <section className="mx-auto flex justify-between gap-12 px-4 py-8 md:max-w-7xl">
+                <div className="mt-3 space-y-1">
+                    <h2 className="text-primary-blue/90 text-xl font-semibold">Palestrantes</h2>
+                    <h3 className="text-3xl font-semibold">Conheça os profissionais</h3>
+                    <p className="mb-5 w-4/5 text-lg">
+                        que oferecerão palestras, oficinas, debates e workshops sobre temas diversos, como tecnologia, inovação, diversidade,
+                        empreendedorismo, e tendências de mercado.
+                    </p>
+                    <Link href="/palestrantes">
+                        <Button className="px-12">Saiba mais</Button>
+                    </Link>
+                </div>
+
+                {/* image */}
+                <Link
+                    href="/palestrantes"
+                    className="group relative flex min-h-[300px] w-4/5 cursor-pointer items-center justify-center overflow-hidden rounded-xl shadow-lg duration-1000 hover:w-full"
+                >
+                    <div className="absolute inset-0 h-full w-full items-center justify-center border bg-[url('/imgs/palestrante_thumb.png')] bg-cover bg-center bg-no-repeat filter duration-1000 group-hover:blur-[2px] hover:brightness-75"></div>
+                    <span className="absolute z-20 mb-3 text-xl font-semibold text-white opacity-30 duration-1000 group-hover:opacity-100">
+                        Palestrantes
+                    </span>
+                </Link>
+            </section>
+
+            <TimelineContainer />
         </AppLayout>
     );
 }
