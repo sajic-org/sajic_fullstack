@@ -4,6 +4,7 @@ import { useAppearance } from '@/hooks/use-appearance';
 import { Moon, Sun } from 'lucide-react';
 import { HTMLAttributes } from 'react';
 
+/* Podemos deletar */
 export default function AppearanceToggleDropdown({ className = '', ...props }: HTMLAttributes<HTMLDivElement>) {
     const { appearance, updateAppearance } = useAppearance();
 
