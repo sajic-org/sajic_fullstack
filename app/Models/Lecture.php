@@ -11,7 +11,9 @@ class Lecture extends Model
     protected $fillable = [
         'title',
         'type',
-        'time',
+        'date',
+        'starts',
+        'ends',
         'speaker_id',
         'room_number'
     ];
