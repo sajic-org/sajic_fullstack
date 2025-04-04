@@ -14,6 +14,7 @@ class Lecture extends Model
         'date',
         'starts',
         'ends',
+        'is_active',
         'speaker_id',
         'room_number'
     ];
