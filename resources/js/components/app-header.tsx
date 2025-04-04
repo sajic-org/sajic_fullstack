@@ -32,7 +32,7 @@ const rightNavItems: NavItem[] = [
     // {
     //     title: 'Documentation',
     //     url: 'https://laravel.com/docs/starter-kits',
-    //     icon: BookOpen,
+    //     icon: Folder,
     // },
 ];
 

@@ -28,7 +28,7 @@ const images = [
     'https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-4.0.3&',
 ];
 
-function Lecturers() {
+function Speakers() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Palestrantes" />
@@ -40,4 +40,4 @@ function Lecturers() {
         </AppLayout>
     );
 }
-export default Lecturers;
+export default Speakers;

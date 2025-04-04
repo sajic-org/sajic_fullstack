@@ -25,7 +25,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('lectures', function (Blueprint $table) {
-            //
+            $table->string('time');
+            $table->dropColumn('date');
+            $table->dropColumn('starts');
+            $table->dropColumn('ends');
         });
     }
 };
