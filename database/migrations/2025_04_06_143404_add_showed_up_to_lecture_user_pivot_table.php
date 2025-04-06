@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lecture_user', function (Blueprint $table) {
-            $table->foreignId('lecture_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+        Schema::table('lecture_user', function (Blueprint $table) {
+            $table->boolean('showed_up')->default(false);
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lecture_user');
+        Schema::table('lecture_user_pivot', function (Blueprint $table) {
+            //
+        });
     }
 };

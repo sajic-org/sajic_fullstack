@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lecture;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,9 @@ class LectureController extends Controller
     // Listagem de Palestras
     public function index()
     {
-        return Inertia::render('lectures');
+        $lectures = Lecture::all();
+
+        return Inertia::render('lectures', $lectures);
     }
 
     // GET do Form de criação de Palestras
@@ -22,7 +25,7 @@ class LectureController extends Controller
     }
 
 
-    //  POST de criação de Tabelas
+    //  POST de criação de Palestras
     public function store(Request $request)
     {
         #todo
@@ -42,11 +45,18 @@ class LectureController extends Controller
     }
 
 
-    // Check in
-    public function checkin(Lecture $lecture)
+    // GET Check In
+    public function attendant_table(Lecture $lecture)
     {
-        return Inertia::render('check-in', $lecture);
+        $attendants = User::with('lectures')->whereIn('lectures', $lecture);
+
+        return Inertia::render('check-in', [$lecture, 'users' => $attendants]);
     }
+
+    // realiza o Check In
+    public function checkin(Request $request, User $users) {}
+
+
 
     // GET do Form de Edição de Palestra
     public function edit(Lecture $lecture)
@@ -54,7 +64,7 @@ class LectureController extends Controller
         return Inertia::render('edit-lecture-form', $lecture);
     }
 
-    // POST da edição de Palestra
+    // PATCH da edição de Palestra
     public function update(Request $request, Lecture $lecture)
     {
         //
