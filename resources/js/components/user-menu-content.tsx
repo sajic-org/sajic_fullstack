@@ -29,11 +29,15 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                     </Link>
                 </DropdownMenuItem>
 
-                <DropdownMenuItem asChild>
-                    <Link className="block w-full" href={route('lectures.create')} as="button" prefetch onClick={cleanup}>
-                        <BookPlus className="mr-2" /> Novas Palestras
-                    </Link>
-                </DropdownMenuItem>
+                {user.is_admin ? (
+                    <DropdownMenuItem asChild>
+                        <Link className="block w-full" href={route('lectures.create')} as="button" prefetch onClick={cleanup}>
+                            <BookPlus className="mr-2" /> Novas Palestras
+                        </Link>
+                    </DropdownMenuItem>
+                ) : (
+                    ''
+                )}
 
                 <DropdownMenuItem asChild>
                     <Link className="block w-full" href={route('profile.edit')} as="button" prefetch onClick={cleanup}>

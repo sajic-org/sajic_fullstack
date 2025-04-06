@@ -46,6 +46,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
     const getInitials = useInitials();
+
     return (
         <>
             <div className="border-sidebar-border/80 border-b">
@@ -204,7 +205,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="w-56" align="end">
-                                    <UserMenuContent user={auth.user} />
+                                    <UserMenuContent user={auth.user} isAdmin={auth.user.is_admin} />
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         )}
