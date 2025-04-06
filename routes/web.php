@@ -20,7 +20,7 @@ Route::get('/palestras', [LectureController::class, 'index'])->name('lectures.in
 Route::prefix('minhas-palestras')->middleware(['auth', 'verified'])->group(function () {
     Route::get(
         '/',
-        [UserController::class, 'lectures']
+        [UserController::class, 'my_lectures']
     )->name('user.lectures');
 
     Route::post(
