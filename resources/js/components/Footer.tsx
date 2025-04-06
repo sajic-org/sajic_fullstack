@@ -45,18 +45,18 @@ function Footer() {
                     <div className="space-y-6 text-center md:text-right">
                         <nav className="flex flex-col gap-1">
                             <h2 className="text-lg font-semibold">Seções</h2>
-                            <a href="/">Home</a>
-                            <a href="/palestras">Palestras</a>
-                            <a href="/palestrantes">Palestrantes</a>
+                            <a className="hover:underline" href="/">Home</a>
+                            <a className="hover:underline" href="/palestras">Palestras</a>
+                            <a className="hover:underline" href="/palestrantes">Palestrantes</a>
                         </nav>
 
                         <nav className="flex flex-col gap-1">
                             <h2 className="text-lg font-semibold">Redes Sociais</h2>
-                            <a href="https://www.instagram.com/sajic_unisenac/" className="ml-auto flex w-fit items-center gap-1">
+                            <a href="https://www.instagram.com/sajic_unisenac/" className="hover:underline ml-auto flex w-fit items-center gap-1">
                                 @sajic_unisenac
                                 <Instagram className="size-4" />
                             </a>
-                            <a href="https://www.instagram.com/unisenacpelotas/" className="ml-auto flex w-fit items-center gap-1">
+                            <a href="https://www.instagram.com/unisenacpelotas/" className="hover:underline ml-auto flex w-fit items-center gap-1">
                                 @unisenacpelotas <Instagram className="size-4" />
                             </a>
                         </nav>
