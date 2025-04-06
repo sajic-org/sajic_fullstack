@@ -54,7 +54,17 @@ class LectureController extends Controller
     }
 
     // realiza o Check In
-    public function checkin(Request $request, User $users) {}
+    public function checkin(Request $request, Lecture $lecture)
+    {
+        $validated = $request->validate([
+            'user_ids' => 'array',
+            'user_ids.*' => 'exists:users,id',
+        ]);
+
+        $lecture->users()->whereIn('user_id', $validated['user_ids'])->update(['showed_up' => true]);
+
+        return to_route('lectures.index');
+    }
 
 
 
