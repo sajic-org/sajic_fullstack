@@ -77,13 +77,25 @@ class LectureController extends Controller
     // PATCH da edição de Palestra
     public function update(Request $request, Lecture $lecture)
     {
-        //
+        $validated = $request->validate([
+            'speaker_id' => 'required',
+            'room_number' => 'required',
+            'type' => 'required',
+            'title' => 'required',
+            'date' => 'required',
+            'starts' => 'required',
+            'ends' => 'required',
+        ]);
+
+        Lecture::update($validated);
+
+        return to_route('lectures.create');
     }
 
 
     // Deleta Palestra
     public function destroy(Lecture $lecture)
     {
-        //
+        Lecture::destroy($lecture);
     }
 }

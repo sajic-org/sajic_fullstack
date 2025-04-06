@@ -18,9 +18,9 @@ class SpeakerController extends Controller
         Speaker::create($validated);
     }
 
-    public function destroy(string $id)
+    public function destroy(Speaker $speaker)
     {
-        Speaker::destroy($id);
+        Speaker::destroy($speaker);
 
         return to_route("lectures.index");
     }
