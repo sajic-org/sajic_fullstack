@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class SpeakerController extends Controller
 {
+    public function index()
+    {
+        $speakers = Speaker::get();
+
+        return $speakers;
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -21,7 +28,5 @@ class SpeakerController extends Controller
     public function destroy(Speaker $speaker)
     {
         Speaker::destroy($speaker);
-
-        return to_route("lectures.index");
     }
 }
