@@ -4,17 +4,17 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 
 export function TypeDropdown({ children, onSetData }) {
     return (
-        <Select>
+        <Select onValueChange={(value) => onSetData('type', value)}>
             <SelectTrigger className="w-full">{children}</SelectTrigger>
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Tipo</SelectLabel>
 
-                    <SelectItem value="tecnologia" onClick={() => onSetData('type', 'tecnologia')} className="flex justify-between">
+                    <SelectItem value="Tecnologia" className="flex justify-between">
                         Tecnologia
                     </SelectItem>
 
-                    <SelectItem value="Gestão e Mercado" onClick={() => onSetData('type', 'Gestão e Mercado')} className="flex justify-between">
+                    <SelectItem value="Gestão e Mercado" className="flex justify-between">
                         Gestão e Mercado
                     </SelectItem>
                 </SelectGroup>
