@@ -10,7 +10,7 @@ function SpeakerSearchInput({ onSetData, speakers }) {
     console.log(speakers);
 
     useEffect(() => {
-        const results = speakers.filter((s) => s.name.toLowerCase().includes(query));
+        const results = speakers.filter((s) => s.name.toLowerCase().includes(query.toLowerCase()));
         setFilteredSpeakers(results);
     }, [query, speakers]);
 
@@ -21,13 +21,13 @@ function SpeakerSearchInput({ onSetData, speakers }) {
                 type="text"
                 className="mt-1 block w-full"
                 onChange={(e) => setQuery(e.target.value)}
-                required
+                autoComplete="off"
                 placeholder="Encontre por nome"
             />
 
-            {filteredSpeakers && (
+            {query && (
                 <Alert className="absolute left-8 mt-2 max-w-md sm:min-w-[100px]">
-                    {speakers.map((s) => {
+                    {filteredSpeakers.map((s) => {
                         return (
                             <AlertDescription
                                 className="my-2 flex items-center gap-2 text-base"

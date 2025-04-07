@@ -35,8 +35,6 @@ class SpeakerController extends Controller
         ]);
 
         Log::debug('SPEAKER 🔥🔥🔥:' . $speaker);
-
-        return Inertia::render('new-lecture-form');
     }
 
     public function destroy(Speaker $speaker)
