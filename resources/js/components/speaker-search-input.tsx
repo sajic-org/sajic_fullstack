@@ -3,11 +3,9 @@ import { useEffect, useState } from 'react';
 import AddSpeakerDialog from './add-speaker-dialog';
 import { Input } from './ui/input';
 
-function SpeakerSearchInput({ onSetData, speakers }) {
+function SpeakerSearchInput({ onSetData, speakers, onSetSelectedSpeaker }) {
     const [query, setQuery] = useState('');
     const [filteredSpeakers, setFilteredSpeakers] = useState([]);
-
-    console.log(speakers);
 
     useEffect(() => {
         const results = speakers.filter((s) => s.name.toLowerCase().includes(query.toLowerCase()));
@@ -30,10 +28,11 @@ function SpeakerSearchInput({ onSetData, speakers }) {
                     {filteredSpeakers.map((s) => {
                         return (
                             <AlertDescription
-                                className="my-2 flex items-center gap-2 text-base"
+                                className="my-2 flex cursor-pointer items-center gap-2 text-base"
                                 key={s.id}
                                 onClick={() => {
                                     onSetData('speaker_id', s.id);
+                                    onSetSelectedSpeaker(s);
                                 }}
                             >
                                 <img src={s.image} className="size-7 rounded-full" /> {s.name}

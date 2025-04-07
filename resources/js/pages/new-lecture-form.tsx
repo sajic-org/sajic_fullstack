@@ -1,19 +1,24 @@
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
+import { BreadcrumbItem, SharedData } from '@/types';
+import { Head, useForm, usePage } from '@inertiajs/react';
 
 import { Transition } from '@headlessui/react';
 
 import { DatePicker } from '@/components/date-picker';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
+import { RadioGroupDropdown } from '@/components/radio-group-dropdown';
 import SpeakerSearchInput from '@/components/speaker-search-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { FormEventHandler } from 'react';
+import { ArrowDownNarrowWide } from 'lucide-react';
+import { FormEventHandler, useState } from 'react';
 
-function NewLectureForm({ speakers }) {
+function NewLectureForm({ speakers, rooms }) {
+    const page = usePage<SharedData>();
+    const { auth } = page.props;
+
     // Cópia do profile settings modificada visualmente, funcionalidades precisam ser adaptadas
     interface LectureForm {
         speaker_id: number;
@@ -23,15 +28,16 @@ function NewLectureForm({ speakers }) {
         date: Date;
         starts: string;
         ends: string;
-        is_active?: boolean;
     }
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
+    const [selectedSpeaker, setSelectedSpeaker] = useState();
+
+    const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
-            title: 'Palestras',
-            href: '/palestras',
+            title: `Admin ${auth.user.name.split(' ', 1)}`,
+            href: route('user.lectures'),
         },
         {
             title: 'Nova Palestra',
@@ -42,9 +48,12 @@ function NewLectureForm({ speakers }) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        // patch(route('profile.update'), {
-        //     preserveScroll: true,
-        // });
+        setData('speaker_id', selectedSpeaker.id);
+        console.log(data);
+
+        post(route('lectures.store'), {
+            preserveScroll: true,
+        });
     };
 
     return (
@@ -57,21 +66,44 @@ function NewLectureForm({ speakers }) {
                 <form onSubmit={submit} className="space-y-6">
                     <div className="grid gap-2">
                         <Label htmlFor="title">Palestrante</Label>
-                        <SpeakerSearchInput data={data} onSetData={setData} speakers={speakers} />
+                        {selectedSpeaker ? (
+                            <div className="flex items-center gap-5">
+                                <div className="flex gap-2">
+                                    <img src={selectedSpeaker.img} alt={selectedSpeaker.name} className="rounded-full" />
+                                    <span className="font-medium">{selectedSpeaker.name}</span>
+                                </div>
+
+                                <Button variant="outline" className="w-fit" onClick={() => setSelectedSpeaker(null)}>
+                                    Outro Palestrante?
+                                </Button>
+                            </div>
+                        ) : (
+                            <SpeakerSearchInput onSetData={setData} onSetSelectedSpeaker={setSelectedSpeaker} speakers={speakers} />
+                        )}
                     </div>
 
-                    <div className="grid gap-2">
-                        <Label htmlFor="title">Título</Label>
+                    <div className="grid grid-cols-5 gap-2">
+                        <div className="col-span-3">
+                            <Label htmlFor="title">Título</Label>
 
-                        <Input
-                            id="title"
-                            className="mt-1 block w-full"
-                            onChange={(e) => setData('title', e.target.value)}
-                            required
-                            placeholder="Título da Palestra"
-                        />
+                            <Input
+                                id="title"
+                                className="mt-1 block w-full"
+                                onChange={(e) => setData('title', e.target.value)}
+                                required
+                                placeholder="Título da Palestra"
+                            />
 
-                        <InputError className="mt-2" message={errors.title} />
+                            <InputError className="mt-2" message={errors.title} />
+                        </div>
+                        <div className="col-span-2 flex flex-col gap-[14px]">
+                            <Label>Sala</Label>
+
+                            <RadioGroupDropdown rooms={rooms} onSetData={setData}>
+                                <div className="w-full text-left">{data.room_number}</div>
+                                <ArrowDownNarrowWide className="ml-auto" />
+                            </RadioGroupDropdown>
+                        </div>
                     </div>
 
                     <div>

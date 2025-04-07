@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lecture;
+use App\Models\Room;
 use App\Models\Speaker;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class LectureController extends Controller
     // GET do Form de criação de Palestras
     public function create()
     {
-        return Inertia::render('new-lecture-form', ['speakers' => Speaker::get()]);
+        return Inertia::render('new-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::get()]);
     }
 
 
