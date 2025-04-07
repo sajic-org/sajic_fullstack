@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem, SharedData } from '@/types';
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { BreadcrumbItem } from '@/types';
+import { Head, useForm } from '@inertiajs/react';
 
 import { Transition } from '@headlessui/react';
 
@@ -15,19 +15,18 @@ import { FormEventHandler } from 'react';
 
 function NewLectureForm({ speakers }) {
     // Cópia do profile settings modificada visualmente, funcionalidades precisam ser adaptadas
-
-    const page = usePage<SharedData>();
-    // const { auth } = page.props;
-
-    interface ProfileForm {
-        // name: string;
-        // email: string;
+    interface LectureForm {
+        speaker_id: number;
+        room_number: string;
+        title: string;
+        type: string;
+        date: Date;
+        starts: string;
+        ends: string;
+        is_active?: boolean;
     }
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<Required<ProfileForm>>({
-        // name: auth.user.name,
-        // email: auth.user.email,
-    });
+    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
@@ -82,7 +81,7 @@ function NewLectureForm({ speakers }) {
                                 <DatePicker />
                             </div>
                             <div>
-                                {/* Step = 1, o motivo do formato ser --:--:-- está servindo para garantir que o input aceitará o formato 24h e não dependerá das configurações do navegador */}
+                                {/* Step = 1, o motivo do formato ser --:--:-- -> garante que o input aceitará o formato 24h e não dependerá das configurações do navegador */}
                                 <Label htmlFor="email">Das</Label>
                                 <Input
                                     id="from"

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Speaker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class SpeakerController extends Controller
 {
@@ -16,13 +19,24 @@ class SpeakerController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'image' => 'required|image',
             'name' => 'required|max:30',
             'description' => 'required|min:150|max:1500'
         ]);
 
-        Speaker::create($validated);
+        $imagePath = Storage::disk('public')->putFile('speakers/', $request->image);
+        $imagePath = $request->image->store();
+
+        $speaker = Speaker::create([
+            'image' => $imagePath,
+            'name' => $request['name'],
+            'description' => $request['description'],
+        ]);
+
+        Log::debug('SPEAKER 🔥🔥🔥:' . $speaker);
+
+        return Inertia::render('new-lecture-form');
     }
 
     public function destroy(Speaker $speaker)

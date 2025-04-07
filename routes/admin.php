@@ -10,13 +10,12 @@ Route::get('/nova-palestra', [LectureController::class, 'create'])->name('lectur
 Route::post('/nova-palestra', [LectureController::class, 'store'])->name('lectures.store');
 
 
+Route::get('/palestrantes')->name('speakers.index');
+Route::post('/palestrantes/novo', [SpeakerController::class, 'store'])->name('speakers.store');
+
 
 Route::get('/palestras/{lecture}/check-in', [LectureController::class, 'attendant_table'])->name('lectures.attendant_table');
 Route::post('/palestras/{lecture}/check-in', [LectureController::class, 'checkin'])->name('lectures.check-in');
-
-Route::get('/palestrantes')->name('speakers.index');
-
-Route::post('/palestrantes/novo', [SpeakerController::class, 'store'])->name('speakers.store');
 
 
 Route::get('/palestras/{lecture}/edit', [LectureController::class, 'edit'])->name('lectures.edit');

@@ -3,16 +3,16 @@ import { useEffect, useState } from 'react';
 import AddSpeakerDialog from './add-speaker-dialog';
 import { Input } from './ui/input';
 
-function SpeakerSearchInput({ data, onSetData, speakers }) {
+function SpeakerSearchInput({ onSetData, speakers }) {
     const [query, setQuery] = useState('');
-    const [queryResults, setQueryResults] = useState([]);
+    const [filteredSpeakers, setFilteredSpeakers] = useState([]);
 
     console.log(speakers);
 
     useEffect(() => {
         const results = speakers.filter((s) => s.name.toLowerCase().includes(query));
-        setQueryResults(results);
-    }, [query]);
+        setFilteredSpeakers(results);
+    }, [query, speakers]);
 
     return (
         <div className="relative">
@@ -25,21 +25,20 @@ function SpeakerSearchInput({ data, onSetData, speakers }) {
                 placeholder="Encontre por nome"
             />
 
-            {query && (
+            {filteredSpeakers && (
                 <Alert className="absolute left-8 mt-2 max-w-md sm:min-w-[100px]">
-                    <AlertDescription className="my-2 flex items-center gap-2 text-base">
-                        <img src="https://avatars.githubusercontent.com/u/140647677?v=4" className="size-7 rounded-full" /> Gorecockson
-                    </AlertDescription>
-
                     {speakers.map((s) => {
-                        <AlertDescription
-                            className="my-2 flex items-center gap-2 text-base"
-                            onClick={() => {
-                                onSetData('speaker_id', s.id);
-                            }}
-                        >
-                            <img src="https://avatars.githubusercontent.com/u/140647677?v=4" className="size-7 rounded-full" /> {s.name}
-                        </AlertDescription>;
+                        return (
+                            <AlertDescription
+                                className="my-2 flex items-center gap-2 text-base"
+                                key={s.id}
+                                onClick={() => {
+                                    onSetData('speaker_id', s.id);
+                                }}
+                            >
+                                <img src={s.image} className="size-7 rounded-full" /> {s.name}
+                            </AlertDescription>
+                        );
                     })}
 
                     <AddSpeakerDialog />
