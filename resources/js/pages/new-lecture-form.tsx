@@ -7,12 +7,13 @@ import { Transition } from '@headlessui/react';
 import { DatePicker } from '@/components/date-picker';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
-import { RadioGroupDropdown } from '@/components/radio-group-dropdown';
+import { RoomDropdown } from '@/components/RoomDropdown';
 import SpeakerSearchInput from '@/components/speaker-search-input';
+import { TypeDropdown } from '@/components/TypeDropdown';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowDownNarrowWide } from 'lucide-react';
+import { SelectValue } from '@/components/ui/select';
 import { FormEventHandler, useState } from 'react';
 
 function NewLectureForm({ speakers, rooms }) {
@@ -82,8 +83,8 @@ function NewLectureForm({ speakers, rooms }) {
                         )}
                     </div>
 
-                    <div className="grid grid-cols-5 gap-2">
-                        <div className="col-span-3">
+                    <div className="grid grid-cols-8 gap-2">
+                        <div className="col-span-4">
                             <Label htmlFor="title">Título</Label>
 
                             <Input
@@ -96,13 +97,21 @@ function NewLectureForm({ speakers, rooms }) {
 
                             <InputError className="mt-2" message={errors.title} />
                         </div>
+
                         <div className="col-span-2 flex flex-col gap-[14px]">
                             <Label>Sala</Label>
 
-                            <RadioGroupDropdown rooms={rooms} onSetData={setData}>
-                                <div className="w-full text-left">{data.room_number}</div>
-                                <ArrowDownNarrowWide className="ml-auto" />
-                            </RadioGroupDropdown>
+                            <RoomDropdown rooms={rooms} onSetData={setData}>
+                                <SelectValue className="w-full" placeholder="Sala" />
+                            </RoomDropdown>
+                        </div>
+
+                        <div className="col-span-2 flex flex-col gap-[14px]">
+                            <Label>Tipo</Label>
+
+                            <TypeDropdown onSetData={setData}>
+                                <SelectValue className="w-full" placeholder="Categoria" />
+                            </TypeDropdown>
                         </div>
                     </div>
 
