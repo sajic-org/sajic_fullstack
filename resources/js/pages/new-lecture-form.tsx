@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { FormEventHandler } from 'react';
 
-function NewLectureForm() {
+function NewLectureForm({ speakers }) {
     // Cópia do profile settings modificada visualmente, funcionalidades precisam ser adaptadas
 
     const page = usePage<SharedData>();
@@ -58,7 +58,7 @@ function NewLectureForm() {
                 <form onSubmit={submit} className="space-y-6">
                     <div className="grid gap-2">
                         <Label htmlFor="title">Palestrante</Label>
-                        <SpeakerSearchInput data={data} onSetData={setData} />
+                        <SpeakerSearchInput data={data} onSetData={setData} speakers={speakers} />
                     </div>
 
                     <div className="grid gap-2">
@@ -107,10 +107,6 @@ function NewLectureForm() {
                                 />
                             </div>
                         </div>
-
-                        <InputError className="mt-2" message={errors.email} />
-                        <InputError className="mt-2" message={errors.email} />
-                        <InputError className="mt-2" message={errors.email} />
                     </div>
 
                     <div className="flex items-center gap-4">

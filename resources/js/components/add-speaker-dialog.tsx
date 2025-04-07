@@ -9,8 +9,8 @@ import { Textarea } from './ui/textarea';
 function AddSpeakerDialog() {
     return (
         <Dialog>
-            <DialogTrigger asChild className="">
-                <Button variant="outline" className="ml-auto w-fit">
+            <DialogTrigger asChild className="mt-2">
+                <Button variant="outline" className="w-fit">
                     <PlusIcon className="mt-0.5 size-4" />
                     Adicionar Palestrante
                 </Button>
