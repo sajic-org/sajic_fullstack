@@ -63,3 +63,8 @@ export default function Home() {
         </AppLayout>
     );
 }
+
+// This is a bunch of fake data for timeline until the true backend part is not done
+const timeLineContentMock = {
+
+}
