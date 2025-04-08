@@ -7,33 +7,28 @@ import { Transition } from '@headlessui/react';
 import { DatePicker } from '@/components/date-picker';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
-import { RadioGroupDropdown } from '@/components/radio-group-dropdown';
+import { Room, RoomDropdown } from '@/components/RoomDropdown';
 import SpeakerSearchInput from '@/components/speaker-search-input';
+import { TypeDropdown } from '@/components/TypeDropdown';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowDownNarrowWide } from 'lucide-react';
-import { FormEventHandler, useState } from 'react';
+import { SelectValue } from '@/components/ui/select';
+import { FormEventHandler, useEffect, useState } from 'react';
 
-function NewLectureForm({ speakers, rooms }) {
+interface LectureForm {
+    speaker_id: number;
+    room_number: string;
+    title: string;
+    type: string;
+    date: Date;
+    starts: string;
+    ends: string;
+}
+
+function NewLectureForm({ speakers, rooms }: { rooms: Room[] }) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
-
-    // Cópia do profile settings modificada visualmente, funcionalidades precisam ser adaptadas
-    interface LectureForm {
-        speaker_id: number;
-        room_number: string;
-        title: string;
-        type: string;
-        date: Date;
-        starts: string;
-        ends: string;
-    }
-
-    const [selectedSpeaker, setSelectedSpeaker] = useState();
-
-    const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
-
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: `Admin ${auth.user.name.split(' ', 1)}`,
@@ -45,16 +40,20 @@ function NewLectureForm({ speakers, rooms }) {
         },
     ];
 
+    const [selectedSpeaker, setSelectedSpeaker] = useState();
+
+    const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-
-        setData('speaker_id', selectedSpeaker.id);
-        console.log(data);
 
         post(route('lectures.store'), {
             preserveScroll: true,
         });
     };
+
+    useEffect(() => {
+        console.log(data);
+    }, [data]);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -82,8 +81,8 @@ function NewLectureForm({ speakers, rooms }) {
                         )}
                     </div>
 
-                    <div className="grid grid-cols-5 gap-2">
-                        <div className="col-span-3">
+                    <div className="grid grid-cols-8 gap-2">
+                        <div className="col-span-4">
                             <Label htmlFor="title">Título</Label>
 
                             <Input
@@ -96,13 +95,21 @@ function NewLectureForm({ speakers, rooms }) {
 
                             <InputError className="mt-2" message={errors.title} />
                         </div>
+
                         <div className="col-span-2 flex flex-col gap-[14px]">
                             <Label>Sala</Label>
 
-                            <RadioGroupDropdown rooms={rooms} onSetData={setData}>
-                                <div className="w-full text-left">{data.room_number}</div>
-                                <ArrowDownNarrowWide className="ml-auto" />
-                            </RadioGroupDropdown>
+                            <RoomDropdown rooms={rooms} onSetData={setData}>
+                                <SelectValue className="w-full" placeholder="Sala" />
+                            </RoomDropdown>
+                        </div>
+
+                        <div className="col-span-2 flex flex-col gap-[14px]">
+                            <Label>Tipo</Label>
+
+                            <TypeDropdown onSetData={setData}>
+                                <SelectValue className="w-full" placeholder="Categoria" />
+                            </TypeDropdown>
                         </div>
                     </div>
 
@@ -110,7 +117,7 @@ function NewLectureForm({ speakers, rooms }) {
                         <div className="grid gap-2 md:grid-cols-3">
                             <div>
                                 <Label htmlFor="email">Data</Label>
-                                <DatePicker />
+                                <DatePicker onSetData={setData} />
                             </div>
                             <div>
                                 {/* Step = 1, o motivo do formato ser --:--:-- -> garante que o input aceitará o formato 24h e não dependerá das configurações do navegador */}
@@ -120,7 +127,7 @@ function NewLectureForm({ speakers, rooms }) {
                                     type="time"
                                     step={1}
                                     className="mt-1 block w-full"
-                                    onChange={(e) => setData('from', e.target.value)}
+                                    onChange={(e) => setData('starts', e.target.value)}
                                     required
                                     placeholder="Das"
                                 />
@@ -132,7 +139,7 @@ function NewLectureForm({ speakers, rooms }) {
                                     type="time"
                                     step={1}
                                     className="mt-1 block w-full"
-                                    onChange={(e) => setData('to', e.target.value)}
+                                    onChange={(e) => setData('ends', e.target.value)}
                                     required
                                     placeholder="Às"
                                 />
