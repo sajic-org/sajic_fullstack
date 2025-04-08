@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react';
 import { Instagram } from 'lucide-react';
 import DevCard from './dev-card';
 import MadeWithLaravel from './laravel-logo';
@@ -45,18 +46,24 @@ function Footer() {
                     <div className="space-y-6 text-center md:text-right">
                         <nav className="flex flex-col gap-1">
                             <h2 className="text-lg font-semibold">Seções</h2>
-                            <a className="hover:underline" href="/">Home</a>
-                            <a className="hover:underline" href="/palestras">Palestras</a>
-                            <a className="hover:underline" href="/palestrantes">Palestrantes</a>
+                            <Link className="hover:underline" prefetch href="/">
+                                Home
+                            </Link>
+                            <Link className="hover:underline" prefetch href="/palestras">
+                                Palestras
+                            </Link>
+                            <Link className="hover:underline" prefetch href="/palestrantes">
+                                Palestrantes
+                            </Link>
                         </nav>
 
                         <nav className="flex flex-col gap-1">
                             <h2 className="text-lg font-semibold">Redes Sociais</h2>
-                            <a href="https://www.instagram.com/sajic_unisenac/" className="hover:underline ml-auto flex w-fit items-center gap-1">
+                            <a href="https://www.instagram.com/sajic_unisenac/" className="ml-auto flex w-fit items-center gap-1 hover:underline">
                                 @sajic_unisenac
                                 <Instagram className="size-4" />
                             </a>
-                            <a href="https://www.instagram.com/unisenacpelotas/" className="hover:underline ml-auto flex w-fit items-center gap-1">
+                            <a href="https://www.instagram.com/unisenacpelotas/" className="ml-auto flex w-fit items-center gap-1 hover:underline">
                                 @unisenacpelotas <Instagram className="size-4" />
                             </a>
                         </nav>

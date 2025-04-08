@@ -27,7 +27,7 @@ export default function Home() {
                             diversidade, empreendedorismo, e tendências de mercado.
                         </p>
 
-                        <Link href="/palestras">
+                        <Link prefetch="mount" href="/palestras">
                             <Button className="mt-8 px-6 py-3">Veja nossas palestras</Button>
                         </Link>
                     </div>

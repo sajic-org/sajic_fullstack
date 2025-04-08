@@ -151,7 +151,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                     <TooltipProvider key={item.title} delayDuration={0}>
                                         <Tooltip>
                                             <TooltipTrigger className="flex items-center text-sm font-medium">
-                                                <a
+                                                <Link
                                                     href={item.url}
                                                     rel="noopener noreferrer"
                                                     className="group text-accent-foreground ring-offset-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring ml-1 inline-flex items-center justify-center gap-2 rounded-md bg-transparent p-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
@@ -159,7 +159,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                     <span className="sr-only">{item.title}</span>
                                                     <span>{item.title}</span>
                                                     {item.icon && <Icon iconNode={item.icon} className="size-5 opacity-80 group-hover:opacity-100" />}
-                                                </a>
+                                                </Link>
                                             </TooltipTrigger>
                                             <TooltipContent>
                                                 <p>{item.title}</p>
