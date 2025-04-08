@@ -3,7 +3,18 @@ import TimelineContent from './timeline/timeline-content';
 import TimelineHour from './timeline/timeline-hour';
 import TimelineLecture from './timeline/timeline-lecture';
 
-function TimelineContainer() {
+interface Lecture {
+    day: string
+    time: string
+    lecture: string
+    speaker: string
+}
+
+interface Props {
+    timelineData: Lecture[]
+}
+
+function TimelineContainer({ timelineData }: Props) {
     return (
         <section>
             {/* Blue Background Section */}
