@@ -31,7 +31,7 @@ export default function Home() {
                         <Link
                             prefetch="mount"
                             href="/palestras"
-                            className="bg-primary-blue/90 hover:bg-primary-blue mt-8 flex h-fit w-fit items-center gap-3 rounded-lg px-9 py-3.5 text-xl font-medium text-white shadow-lg drop-shadow-md"
+                            className="bg-primary-blue/90 hover:bg-primary-blue mt-8 flex h-fit w-fit items-center gap-3 rounded-lg px-9 py-3.5 text-xl  text-white shadow-lg drop-shadow-md"
                         >
                             Veja nossas palestras
                             <MousePointerClick size={23} className="mt-px" />
