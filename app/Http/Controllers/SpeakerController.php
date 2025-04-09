@@ -20,7 +20,7 @@ class SpeakerController extends Controller
     {
         $request->validate([
             'image' => 'required|image',
-            'name' => 'required|max:30',
+            'name' => 'required|min:8|max:30',
             'description' => 'required|min:150|max:1500',
         ]);
 
