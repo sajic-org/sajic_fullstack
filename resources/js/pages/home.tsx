@@ -17,7 +17,7 @@ export default function Home() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Home" />
 
-            <section className="h-screen w-screen bg-[url('/imgs/homepage_hero_light.png')] bg-cover bg-center bg-no-repeat dark:bg-[url('/imgs/homepage_hero_dark-3.png')]">
+            <section className="h-screen w-screen bg-[url('/imgs/homepage_hero_light.webp')] bg-cover bg-center bg-no-repeat dark:bg-[url('/imgs/homepage_hero_dark-3.png')]">
                 <div className="mx-auto mt-36 px-4 md:max-w-7xl">
                     <div className="md:w-2/3 dark:text-white">
                         <h1 className="text-3xl font-semibold">Sajic 5ª Edição | outubro de 2025</h1>
