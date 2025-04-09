@@ -6,7 +6,6 @@ use App\Models\Speaker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Inertia\Inertia;
 
 class SpeakerController extends Controller
 {
@@ -22,7 +21,7 @@ class SpeakerController extends Controller
         $request->validate([
             'image' => 'required|image',
             'name' => 'required|max:30',
-            'description' => 'required|min:150|max:1500'
+            'description' => 'required|min:150|max:1500',
         ]);
 
         $imagePath = Storage::disk('public')->putFile('speakers/', $request->image);
@@ -33,8 +32,6 @@ class SpeakerController extends Controller
             'name' => $request['name'],
             'description' => $request['description'],
         ]);
-
-        Log::debug('SPEAKER 🔥🔥🔥:' . $speaker);
     }
 
     public function destroy(Speaker $speaker)

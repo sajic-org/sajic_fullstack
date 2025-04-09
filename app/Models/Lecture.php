@@ -16,7 +16,7 @@ class Lecture extends Model
         'ends',
         'is_active',
         'speaker_id',
-        'room_number'
+        'room_number',
     ];
 
     public function speaker(): BelongsTo
@@ -26,7 +26,7 @@ class Lecture extends Model
 
     public function room(): BelongsTo
     {
-        return  $this->belongsTo(Room::class, 'room_number', 'number');
+        return $this->belongsTo(Room::class, 'room_number', 'number');
     }
 
     public function attendants(): BelongsToMany

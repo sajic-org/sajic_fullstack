@@ -9,7 +9,7 @@ class Room extends Model
 {
     protected $fillable = [
         'number',
-        'capacity'
+        'capacity',
     ];
 
     public function lectures(): HasMany

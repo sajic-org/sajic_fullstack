@@ -22,7 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'is_unisenac_student'
+        'is_unisenac_student',
     ];
 
     public function lectures(): BelongsToMany

@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('is-admin',  function (): bool {
+        Gate::define('is-admin', function (): bool {
             return Auth::user()->is_admin === 1;
         });
     }

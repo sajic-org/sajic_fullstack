@@ -5,18 +5,15 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-
-# Home
+// Home
 Route::get('/', function () {
     return Inertia::render('home');
 })->name('home');
 
-
-# Palestras
+// Palestras
 Route::get('/palestras', [LectureController::class, 'index'])->name('lectures.index');
 
-
-# Minhas Palestras
+// Minhas Palestras
 Route::prefix('minhas-palestras')->middleware(['auth', 'verified'])->group(function () {
     Route::get(
         '/',
@@ -29,8 +26,5 @@ Route::prefix('minhas-palestras')->middleware(['auth', 'verified'])->group(funct
     )->name('user.attend-lecture');
 });
 
-
-
-
-require __DIR__ . '/settings.php';
-require __DIR__ . '/auth.php';
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';

@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Speaker>
@@ -20,7 +19,7 @@ class SpeakerFactory extends Factory
         return [
             'image' => storage_path('app\public\speakers\66b3e5d0c2ab246786ca1d5e_86'),
             'name' => fake()->name(),
-            'description' => fake()->text(300)
+            'description' => fake()->text(300),
         ];
     }
 }

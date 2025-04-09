@@ -11,7 +11,6 @@ use Inertia\Inertia;
 
 class LectureController extends Controller
 {
-
     // Listagem de Palestras
     public function index()
     {
@@ -26,11 +25,10 @@ class LectureController extends Controller
         return Inertia::render('new-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::get()]);
     }
 
-
     //  POST de criação de Palestras
     public function store(Request $request)
     {
-        #todo
+        // todo
         $validated = $request->validate([
             'speaker_id' => 'required',
             'room_number' => 'required',
@@ -45,7 +43,6 @@ class LectureController extends Controller
 
         return to_route('lectures.create');
     }
-
 
     // GET Check In
     public function attendant_table(Lecture $lecture)
@@ -67,8 +64,6 @@ class LectureController extends Controller
 
         return to_route('lectures.index');
     }
-
-
 
     // GET do Form de Edição de Palestra
     public function edit(Lecture $lecture)
@@ -93,7 +88,6 @@ class LectureController extends Controller
 
         return to_route('lectures.create');
     }
-
 
     // Deleta Palestra
     public function destroy(Lecture $lecture)
