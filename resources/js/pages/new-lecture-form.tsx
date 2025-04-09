@@ -125,7 +125,6 @@ function NewLectureForm({ speakers, rooms }: { rooms: Room[] }) {
                                 <Input
                                     id="from"
                                     type="time"
-                                    step={1}
                                     className="mt-1 block w-full"
                                     onChange={(e) => setData('starts', e.target.value)}
                                     required
@@ -137,7 +136,6 @@ function NewLectureForm({ speakers, rooms }: { rooms: Room[] }) {
                                 <Input
                                     id="to"
                                     type="time"
-                                    step={1}
                                     className="mt-1 block w-full"
                                     onChange={(e) => setData('ends', e.target.value)}
                                     required
