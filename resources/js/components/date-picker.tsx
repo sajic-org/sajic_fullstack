@@ -7,13 +7,13 @@ import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
+import { cn, now } from '@/lib/utils';
 
 export function DatePicker({ onSetData }) {
-    const [date, setDate] = React.useState<Date>();
+    const [date, setDate] = React.useState(now());
 
     React.useEffect(() => {
-        onSetData('date', date);
+        onSetData('date', format(date, 'dd/MM'));
     }, [date]);
 
     return (

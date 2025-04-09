@@ -42,9 +42,13 @@ function NewLectureForm({ speakers, rooms }: { rooms: Room[] }) {
 
     const [selectedSpeaker, setSelectedSpeaker] = useState();
 
-    const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
+    const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>({
+        date: '01/01',
+    });
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+
+        console.log(data);
 
         post(route('lectures.store'), {
             preserveScroll: true,
@@ -121,18 +125,18 @@ function NewLectureForm({ speakers, rooms }: { rooms: Room[] }) {
                             </div>
                             <div>
                                 {/* Step = 1, o motivo do formato ser --:--:-- -> garante que o input aceitará o formato 24h e não dependerá das configurações do navegador */}
-                                <Label htmlFor="email">Das</Label>
+                                <Label htmlFor="starts">Das</Label>
                                 <Input
                                     id="from"
                                     type="time"
-                                    className="mt-1 block w-full"
+                                    className="mt-1"
                                     onChange={(e) => setData('starts', e.target.value)}
                                     required
                                     placeholder="Das"
                                 />
                             </div>
                             <div>
-                                <Label htmlFor="email">Às</Label>
+                                <Label htmlFor="ends">Às</Label>
                                 <Input
                                     id="to"
                                     type="time"

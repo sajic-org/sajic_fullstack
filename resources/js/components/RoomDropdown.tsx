@@ -9,7 +9,11 @@ export interface Room {
 
 export function RoomDropdown({ children, rooms, onSetData }: { children: any; rooms: Room[]; onSetData: any }) {
     return (
-        <Select onValueChange={(value) => onSetData('room_number', value)}>
+        <Select
+            onValueChange={(value) => {
+                onSetData('room_number', value);
+            }}
+        >
             <SelectTrigger className="w-full">{children}</SelectTrigger>
             <SelectContent>
                 <SelectGroup>

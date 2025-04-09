@@ -7,6 +7,7 @@ use App\Models\Room;
 use App\Models\Speaker;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class LectureController extends Controller
@@ -28,8 +29,10 @@ class LectureController extends Controller
     //  POST de criação de Palestras
     public function store(Request $request)
     {
+
+        Log::debug(join(['PALESTRA 🔥🔥🔥: ', $request]));
         // todo
-        $validated = $request->validate([
+        $request->validate([
             'speaker_id' => 'required',
             'room_number' => 'required',
             'type' => 'required',
@@ -39,9 +42,19 @@ class LectureController extends Controller
             'ends' => 'required',
         ]);
 
-        Lecture::create($validated);
+        $lecture = Lecture::create([
+            'speaker_id' => $request['speaker_id'],
+            'room_number' => $request['room_number'],
+            'type' => $request['type'],
+            'title' => $request['title'],
+            'date' => $request['date'],
+            'starts' => $request['starts'],
+            'ends' => $request['ends'],
+        ]);
 
-        return to_route('lectures.create');
+        dump(join(['PALESTRA 🔥🔥🔥: ', $lecture]));
+
+        // return to_route('lectures.create');
     }
 
     // GET Check In
