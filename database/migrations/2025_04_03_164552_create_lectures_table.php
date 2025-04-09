@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('lectures', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->enum('type', ['tecnologia', 'gestão e mercado']);
+            $table->enum('type', ['Tecnologia', 'Gestão e Mercado']);
             $table->dateTime('time');
             $table->foreignId('speaker_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('room_number')->constrained()->cascadeOnDelete();
+            $table->tinyText('room_number');
+            $table->foreign('room_number')->references('number')->on('rooms');
             $table->timestamps();
         });
     }
