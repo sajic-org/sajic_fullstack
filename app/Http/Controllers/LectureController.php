@@ -8,6 +8,7 @@ use App\Models\Speaker;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class LectureController extends Controller
@@ -51,10 +52,6 @@ class LectureController extends Controller
             'starts' => $request['starts'],
             'ends' => $request['ends'],
         ]);
-
-        dump(join(['PALESTRA 🔥🔥🔥: ', $lecture]));
-
-        // return to_route('lectures.create');
     }
 
     // GET Check In

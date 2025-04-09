@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\UserController;
+use App\Models\Speaker;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,5 +27,11 @@ Route::prefix('minhas-palestras')->middleware(['auth', 'verified'])->group(funct
     )->name('user.attend-lecture');
 });
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+Route::get('/deletarspeakers', function () {
+    Speaker::query()->delete();
+
+    return to_route('lectures.create');
+});
+
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';

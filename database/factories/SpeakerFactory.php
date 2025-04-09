@@ -17,7 +17,7 @@ class SpeakerFactory extends Factory
     public function definition(): array
     {
         return [
-            'image' => storage_path('app\public\speakers\66b3e5d0c2ab246786ca1d5e_86'),
+            'image' => 'public/speakers/66b3e5d0c2ab246786ca1d5e_86',
             'name' => fake()->name(),
             'description' => fake()->text(300),
         ];

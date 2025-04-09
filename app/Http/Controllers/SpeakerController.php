@@ -24,11 +24,12 @@ class SpeakerController extends Controller
             'description' => 'required|min:150|max:1500',
         ]);
 
-        $imagePath = Storage::disk('public')->putFile('speakers/', $request->image);
-        $imagePath = $request->image->store();
+        $imagePath = Storage::disk('public')->putFile('speakers', $request->image);
 
-        $speaker = Speaker::create([
-            'image' => $imagePath,
+        $assetPath = asset(Storage::url('public/' . $imagePath));
+
+        Speaker::create([
+            'image' => $assetPath,
             'name' => $request['name'],
             'description' => $request['description'],
         ]);

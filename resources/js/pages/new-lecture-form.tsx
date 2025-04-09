@@ -42,9 +42,8 @@ function NewLectureForm({ speakers, rooms }: { rooms: Room[] }) {
 
     const [selectedSpeaker, setSelectedSpeaker] = useState();
 
-    const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>({
-        date: '01/01',
-    });
+    const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
+
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
@@ -56,6 +55,8 @@ function NewLectureForm({ speakers, rooms }: { rooms: Room[] }) {
     };
 
     useEffect(() => {
+        console.log('selected:', selectedSpeaker);
+
         console.log(data);
     }, [data]);
 
@@ -66,25 +67,25 @@ function NewLectureForm({ speakers, rooms }: { rooms: Room[] }) {
             <div className="mx-auto mb-20 space-y-6 px-4 pt-12 md:w-2/3">
                 <HeadingSmall title="Nova Palestra" description="Publique aqui novas palestras" />
 
-                <form onSubmit={submit} className="space-y-6">
-                    <div className="grid gap-2">
-                        <Label htmlFor="title">Palestrante</Label>
-                        {selectedSpeaker ? (
-                            <div className="flex items-center gap-5">
-                                <div className="flex gap-2">
-                                    <img src={selectedSpeaker.img} alt={selectedSpeaker.name} className="rounded-full" />
-                                    <span className="font-medium">{selectedSpeaker.name}</span>
-                                </div>
-
-                                <Button variant="outline" className="w-fit" onClick={() => setSelectedSpeaker(null)}>
-                                    Outro Palestrante?
-                                </Button>
+                <div className="grid gap-2">
+                    <Label htmlFor="title">Palestrante</Label>
+                    {selectedSpeaker ? (
+                        <div className="flex items-center justify-between gap-5">
+                            <div className="mt-2 flex items-center gap-4 font-light">
+                                <img src={selectedSpeaker.image} alt={selectedSpeaker.name} className="size-10 rounded-full" />
+                                <span>{selectedSpeaker.name}</span>
                             </div>
-                        ) : (
-                            <SpeakerSearchInput onSetData={setData} onSetSelectedSpeaker={setSelectedSpeaker} speakers={speakers} />
-                        )}
-                    </div>
 
+                            <Button variant="outline" className="w-fit" onClick={() => setSelectedSpeaker(null)}>
+                                Outro Palestrante?
+                            </Button>
+                        </div>
+                    ) : (
+                        <SpeakerSearchInput onSetData={setData} onSetSelectedSpeaker={setSelectedSpeaker} speakers={speakers} />
+                    )}
+                </div>
+
+                <form onSubmit={submit} className="space-y-6">
                     <div className="grid grid-cols-8 gap-2">
                         <div className="col-span-4">
                             <Label htmlFor="title">Título</Label>

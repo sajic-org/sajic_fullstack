@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import AddSpeakerDialog from './add-speaker-dialog';
 import { Input } from './ui/input';
 
-function SpeakerSearchInput({ onSetData, speakers, onSetSelectedSpeaker }) {
+function SpeakerSearchInput({ onSetData, speakers, onSetSelectedSpeaker }: { assetPath: string }) {
     const [query, setQuery] = useState('');
     const [filteredSpeakers, setFilteredSpeakers] = useState([]);
 
