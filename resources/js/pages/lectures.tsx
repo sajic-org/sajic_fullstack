@@ -20,7 +20,7 @@ function Lectures() {
             <Head title="Palestras" />
 
             <div className="mt-10 px-4 md:max-w-7xl">
-                <h2 className="text-primary-blue/90 text-xl font-semibold">Palestras</h2>
+                <h2 className="text-primary-blue text-xl font-semibold">Palestras</h2>
                 <h3 className="text-3xl font-semibold">Confira o que te aguarda no evento</h3>
             </div>
 
@@ -29,7 +29,7 @@ function Lectures() {
                     title="Tecnologia"
                     description="Explore o mercado atual da tecnologia"
                     image="https://phoenixnap.com/glossary/wp-content/uploads/2022/07/what-is-a-data-center.jpg"
-                    className={'bg-primary-blue/90 mt-8 aspect-[3/2] text-white md:w-3/8'}
+                    className={'bg-primary-blue mt-8 aspect-[3/2] text-white md:w-3/8'}
                 />
                 <LecturesGrid>
                     {dia1.map((item, i) => (
@@ -42,7 +42,7 @@ function Lectures() {
                     title="Gestão e Mercado"
                     image="https://www.ziprecruiter.com/svc/fotomat/public-ziprecruiter/cms/929029342ArchitecturalEngineer.jpg=ws1280x960"
                     description="Explore the birth of groundbreaking ideas and inventions."
-                    className={'bg-primary-blue/90 mt-8 ml-auto aspect-[3/2] text-white md:w-3/8'}
+                    className={'bg-primary-blue mt-8 ml-auto aspect-[3/2] text-white md:w-3/8'}
                 />
                 <LecturesGrid>
                     {dia2.map((item, i) => (
@@ -54,7 +54,7 @@ function Lectures() {
                 <LecturesGridHeading
                     title="Sla"
                     description="Explore the birth of groundbreaking ideas and inventions."
-                    className={'bg-primary-blue/90 mt-8 aspect-[3/2] text-white md:w-3/8'}
+                    className={'bg-primary-blue mt-8 aspect-[3/2] text-white md:w-3/8'}
                 />
                 <LecturesGrid>
                     {dia3.map((item, i) => (

@@ -80,7 +80,7 @@
 }
 
 :root {
-    --primary-blue: oklch(61.83% 0.1981 266.66);
+    --primary-blue: oklch(0.65 0.1776 267.37);
     --light-text: oklch(0.44 0 0);
 
     --background: oklch(1 0 0);

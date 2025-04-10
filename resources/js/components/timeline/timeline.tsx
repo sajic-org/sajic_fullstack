@@ -1,8 +1,8 @@
 function Timeline({ children, section = 'white', date }: { children: any; section?: string; date: string }) {
     return (
-        <div className={` ${section === 'blue' ? 'bg-primary-blue/90 text-white' : 'text-primary-blue'}`}>
+        <div className={` ${section === 'blue' ? 'bg-primary-blue text-white' : 'text-primary-blue'}`}>
             <h2
-                className={`m-auto w-fit rounded-b-3xl px-6 pt-10 pb-12 text-7xl font-semibold shadow-lg ${section === 'blue' ? 'text-primary-blue bg-white' : 'bg-primary-blue/90 text-white'}`}
+                className={`m-auto w-fit rounded-b-3xl px-6 pt-10 pb-12 text-7xl font-semibold shadow-lg ${section === 'blue' ? 'text-primary-blue bg-white' : 'bg-primary-blue text-white'}`}
             >
                 {date}
             </h2>

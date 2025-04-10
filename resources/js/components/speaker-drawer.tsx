@@ -21,7 +21,7 @@ function SpeakerDialog({ children, speaker }) {
                 </DialogHeader>
                 <ul className="px-4 pb-4">
                     <h4 className="text-lg font-bold text-neutral-800">
-                        Palestras de <span className="text-primary-blue/90">{speaker.name}</span>
+                        Palestras de <span className="text-primary-blue">{speaker.name}</span>
                     </h4>
 
                     {speaker.lectures.map((item, index) => {
