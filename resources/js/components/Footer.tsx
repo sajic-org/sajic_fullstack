@@ -71,7 +71,7 @@ function Footer() {
                 </section>
 
                 <div className="mt-10 flex flex-col items-center gap-6 text-center md:flex-row md:justify-between md:text-right">
-                    <img src="/imgs/logo_branco.png" alt="" className="s max-w-[200px] filter not-dark:invert" />
+                    <img src="/assets/logo_branco.png" alt="" className="s max-w-[200px] filter not-dark:invert" />
                     <p className="max-w-[450px] text-sm">
                         © 2024. Todos os direitos reservados. Projeto idealizado por estudantes do 4º semestre do curso de Análise e Desenvolvimento
                         de Sistemas.

@@ -3,11 +3,11 @@ import { MousePointerClick } from 'lucide-react';
 
 function Hero() {
     return (
-        <section className="h-screen w-screen bg-[url('/imgs/homepage_hero_light.webp')] bg-cover bg-center bg-no-repeat dark:bg-[url('/imgs/homepage_hero_dark-3.png')]">
+        <section className="h-screen w-screen bg-[url('/assets/homepage_hero_light.webp')] bg-cover bg-center bg-no-repeat">
             <div className="mx-auto mt-36 px-4 md:max-w-7xl">
                 <div className="md:w-2/3 dark:text-white">
-                    <h1 className="text-3xl font-semibold">Sajic 5ª Edição | outubro de 2025</h1>
-                    <p className="mt-5 text-justify text-[22px]">
+                    <h1 className="text-4xl font-semibold">Sajic 5ª Edição | outubro de 2025</h1>
+                    <p className="mt-5 text-justify text-xl">
                         A Semana Acadêmica do UniSenac é um evento que oferece uma série de atividades acadêmicas, culturais e profissionais, voltadas
                         para o desenvolvimento de competências e a troca de conhecimentos entre alunos, professores e o público em geral. A
                         programação inclui palestras, oficinas, debates e workshops sobre temas diversos, como tecnologia, inovação, diversidade,

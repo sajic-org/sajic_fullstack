@@ -6,13 +6,32 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
-const data: string[] = [
-    '../../assets/newton_i_guess.png',
-    '../../assets/school_of_athens.png',
-    '../../assets/oppenheimer.png',
-    '../../assets/school_of_athens.png',
-    '../../assets/newton_i_guess.png',
-    '../../assets/oppenheimer.png',
+interface PastEditionsItem {
+    image: string;
+    year: string;
+}
+
+const data: PastEditionsItem[] = [
+    {
+        image: '/assets/newton_i_guess.png',
+        year: '1690',
+    },
+    {
+        image: '/assets/school_of_athens.png',
+        year: '380 AC',
+    },
+    {
+        image: '/assets/oppenheimer.png',
+        year: '1942',
+    },
+    {
+        image: '/assets/marie_curie.png',
+        year: '1910',
+    },
+    {
+        image: '/assets/pliny_the_elder.jpg',
+        year: '55',
+    },
 ];
 
 const PastEditions = () => {
@@ -38,12 +57,12 @@ const PastEditions = () => {
     }, [carouselApi]);
 
     return (
-        <section className="py-32">
-            <div className="container mx-auto md:max-w-7xl">
+        <section className="py-30">
+            <div className="container mx-auto px-4 md:max-w-7xl">
                 <div className="mb-8 flex items-end justify-between md:mb-14 lg:mb-16">
                     <div className="flex flex-col gap-4">
-                        <h2 className="text-3xl font-medium md:text-4xl lg:text-5xl">Eventos Passados</h2>
-                        <p className="text-muted-foreground max-w-lg">
+                        <h2 className="text-4xl font-semibold">Eventos Passados</h2>
+                        <p className="text-muted-foreground max-w-lg text-xl">
                             A SAJIC é um evento que ocorre anualmente desde 2300 AC. Confira alguns registros de edições passadas:
                         </p>
                     </div>
@@ -77,6 +96,7 @@ const PastEditions = () => {
                 <Carousel
                     setApi={setCarouselApi}
                     opts={{
+                        loop: true,
                         breakpoints: {
                             '(max-width: 768px)': {
                                 dragFree: true,
@@ -90,17 +110,19 @@ const PastEditions = () => {
                                 <div className="group rounded-xl">
                                     <div className="group relative h-full min-h-[27rem] max-w-full overflow-hidden rounded-xl md:aspect-[5/4] lg:aspect-[16/9]">
                                         <img
-                                            src={item}
+                                            src={item.image}
                                             className="absolute h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
                                         />
-                                        {/* <div className="absolute inset-0 h-full bg-[linear-gradient(transparent_20%,var(--primary)_100%)] mix-blend-multiply" />
+                                        <div className="absolute inset-0 h-full bg-[linear-gradient(transparent_20%,var(--primary)_100%)] mix-blend-multiply" />
                                         <div className="text-primary-foreground absolute inset-x-0 bottom-0 flex flex-col items-start p-6 md:p-8">
-                                            <div className="mb-2 pt-4 text-xl font-semibold md:mb-3 md:pt-4 lg:pt-4">{item.title}</div>
-                                            <div className="mb-8 line-clamp-2 md:mb-12 lg:mb-9">{item.description}</div>
                                             <div className="flex items-center text-sm">
-                                                Read more <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
-                                            </div> */}
-                                        {/* </div> */}
+                                                <img src="/assets/logo_branco.png" alt="" className="w-21" />
+                                                <span className="mt-4 ml-2 size-5 w-fit transition-transform group-hover:translate-x-1">
+                                                    {' '}
+                                                    {item.year}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </CarouselItem>

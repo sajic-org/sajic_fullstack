@@ -10,7 +10,7 @@ function SecondHero() {
                     href="/palestrantes"
                     className="group relative flex min-h-[350px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl duration-1000"
                 >
-                    <div className="absolute inset-0 h-full items-center justify-center bg-[url('/imgs/palestrante_thumb.png')] bg-cover bg-center bg-no-repeat filter duration-1000 group-hover:blur-[1px] hover:brightness-90"></div>
+                    <div className="absolute inset-0 h-full items-center justify-center bg-[url('/assets/palestrante_thumb.png')] bg-cover bg-center bg-no-repeat filter duration-1000 group-hover:blur-[1px] hover:brightness-90"></div>
                     <span className="absolute z-20 mb-3 text-xl font-semibold text-white opacity-0 duration-1000 group-hover:opacity-100">
                         Palestras
                     </span>
