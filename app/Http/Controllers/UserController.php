@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function my_lectures()
     {
-        return Inertia::render('my-lectures');
+        return Inertia::render('my-lectures', ['user' => Auth::user()]);
     }
 
     public function attend_lecture(Lecture $lecture)
