@@ -15,7 +15,8 @@ Route::get('/', function () {
 Route::get('/palestras', [LectureController::class, 'index'])->name('lectures.index');
 
 // Minhas Palestras
-Route::prefix('minhas-palestras')->middleware(['auth', 'verified'])->group(function () {
+# adicionar 'verified'
+Route::prefix('minhas-palestras')->middleware(['auth'])->group(function () {
     Route::get(
         '/',
         [UserController::class, 'my_lectures']
