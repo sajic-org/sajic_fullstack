@@ -26,7 +26,7 @@ function SpeakerDialog({ children, speaker }) {
 
                     {speaker.lectures.map((item, index) => {
                         return (
-                            <li className="m-2 text-neutral-600">
+                            <li className="m-2 text-neutral-600" key={index}>
                                 <p className="font-medium">{item.date}</p>
 
                                 <div className="ml-3 flex items-center gap-2">
