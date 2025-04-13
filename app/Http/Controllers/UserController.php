@@ -22,4 +22,12 @@ class UserController extends Controller
 
         return back();
     }
+
+    public function leave_lecture(Request $request)
+    {
+        $user = Auth::user();
+        $user->lectures()->detach($request->id);
+
+        return back();
+    }
 }

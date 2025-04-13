@@ -5,6 +5,49 @@ import { toast } from 'sonner';
 import { Button } from './ui/button';
 
 function ParticipateDialog({ lecture }) {
+    function join(id: number) {
+        router.post(
+            route('user.attend-lecture'),
+            { id: id },
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast('Inscrição realizada!', {
+                        // dar a opcao de cancelar
+                        description: `Você agora está inscrito na palestra "${lecture.title}"`,
+                        action: {
+                            label: 'Cancelar',
+                            onClick: () => unsubcribe(id),
+                        },
+                    });
+                },
+                onError: (errors) => {
+                    toast.error('Erro ao se inscrever.');
+                    console.error(errors);
+                },
+            },
+        );
+    }
+
+    function unsubcribe(id: number) {
+        router.post(
+            route('user.leave-lecture'),
+            { id: id },
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast('Pronto!', {
+                        description: `Você não está mais inscrito na palestra "${lecture.title}"`,
+                    });
+                },
+                onError: (errors) => {
+                    toast.error('Erro ao se desenscrever.');
+                    console.error(errors);
+                },
+            },
+        );
+    }
+
     return (
         <Dialog>
             <DialogTrigger className="bg-primary-blue flex cursor-pointer items-center gap-2 rounded-md p-2 text-white lg:px-4">
@@ -19,23 +62,7 @@ function ParticipateDialog({ lecture }) {
                 <Button
                     className="ml-auto w-fit"
                     onClick={() => {
-                        router.post(
-                            route('user.attend-lecture'),
-                            { id: lecture.id },
-                            {
-                                preserveScroll: true,
-                                onSuccess: () => {
-                                    toast('Inscrição realizada!', {
-                                        // dar a opcao de cancelar
-                                        description: `Você agora está inscrito na palestra "${lecture.title}"`,
-                                    });
-                                },
-                                onError: (errors) => {
-                                    toast.error('Erro ao se inscrever.');
-                                    console.error(errors);
-                                },
-                            },
-                        );
+                        join(lecture.id);
                     }}
                 >
                     Tenho Certeza
