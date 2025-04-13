@@ -14,7 +14,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-function Lectures({ lectures }) {
+function Lectures({ lectures, user = '' }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Palestras" />
@@ -35,7 +35,7 @@ function Lectures({ lectures }) {
                 <LecturesGrid>
                     {lectures
                         ?.filter((lecture) => lecture.type === 'Tecnologia')
-                        .map((item, i) => <LecturesGridItem key={i} lecture={item} className="md:col-span-1" />)}
+                        .map((item, i) => <LecturesGridItem key={i} lecture={item} user={user[0]} className="md:col-span-1" />)}
                 </LecturesGrid>
 
                 {/* dia 2 */}
@@ -48,7 +48,7 @@ function Lectures({ lectures }) {
                 <LecturesGrid>
                     {lectures
                         ?.filter((lecture) => lecture.type === 'Gestão e Mercado')
-                        .map((item, i) => <LecturesGridItem key={i} lecture={item} className="md:col-span-1" />)}
+                        .map((item, i) => <LecturesGridItem key={i} lecture={item} user={user[0]} className="md:col-span-1" />)}
                 </LecturesGrid>
             </section>
         </AppLayout>

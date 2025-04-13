@@ -1,12 +1,15 @@
-import { cn } from '@/lib/utils';
+import { cn, unsubcribe } from '@/lib/utils';
+import { Link } from '@inertiajs/react';
+import { GraduationCap } from 'lucide-react';
 import ParticipateDialog from './participate-dialog';
 import SpeakerDialog from './speaker-drawer';
+import { Button } from './ui/button';
 
 export const LecturesGrid = ({ className, children }: { className?: string; children?: React.ReactNode }) => {
     return <div className={cn('mx-auto grid max-w-7xl grid-cols-1 gap-4 md:grid-cols-3', className)}>{children}</div>;
 };
 
-export const LecturesGridItem = ({ className, lecture }: { className?: string }) => {
+export const LecturesGridItem = ({ className, lecture, user }: { className?: string }) => {
     return (
         <div
             className={cn(
@@ -23,7 +26,22 @@ export const LecturesGridItem = ({ className, lecture }: { className?: string })
                     />
                 </SpeakerDialog>
 
-                <ParticipateDialog lecture={lecture} />
+                {user && user.lectures.some((userLecture) => userLecture.id === lecture.id) ? (
+                    <Button variant="destructive" className="px-6 font-semibold shadow-md" onClick={() => unsubcribe(lecture)}>
+                        Cancelar
+                    </Button>
+                ) : (
+                    <ParticipateDialog lecture={lecture} />
+                )}
+
+                {!user && (
+                    <Link href={route('login')}>
+                        <Button className="flex cursor-pointer items-center gap-2 rounded-md p-2 text-white lg:px-4">
+                            Participar
+                            <GraduationCap className="size-5" />
+                        </Button>
+                    </Link>
+                )}
             </div>
 
             <div className="transition duration-200 group-hover/bento:translate-x-2 dark:text-neutral-200">
