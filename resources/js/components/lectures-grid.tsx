@@ -23,7 +23,7 @@ export const LecturesGridItem = ({ className, lecture }: { className?: string })
                     />
                 </SpeakerDialog>
 
-                <ParticipateDialog />
+                <ParticipateDialog lecture={lecture} />
             </div>
 
             <div className="transition duration-200 group-hover/bento:translate-x-2 dark:text-neutral-200">

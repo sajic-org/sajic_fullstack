@@ -16,6 +16,6 @@ class UserController extends Controller
     public function attend_lecture(Lecture $lecture)
     {
         $user = Auth::user();
-        $user->lectures->attach($lecture);
+        $user->lectures()->attach($lecture);
     }
 }

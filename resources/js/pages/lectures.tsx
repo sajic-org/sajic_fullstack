@@ -31,7 +31,12 @@ function Lectures({ lectures }) {
                     image="https://phoenixnap.com/glossary/wp-content/uploads/2022/07/what-is-a-data-center.jpg"
                     className={'bg-primary-blue mt-8 aspect-[3/2] text-white md:w-3/8'}
                 />
-                <LecturesGrid>{lectures?.map((item, i) => <LecturesGridItem key={i} lecture={item} className="md:col-span-1" />)}</LecturesGrid>
+
+                <LecturesGrid>
+                    {lectures
+                        ?.filter((lecture) => lecture.type === 'Tecnologia')
+                        .map((item, i) => <LecturesGridItem key={i} lecture={item} className="md:col-span-1" />)}
+                </LecturesGrid>
 
                 {/* dia 2 */}
                 <LecturesGridHeading
@@ -40,7 +45,11 @@ function Lectures({ lectures }) {
                     description="Explore the birth of groundbreaking ideas and inventions."
                     className={'bg-primary-blue mt-8 ml-auto aspect-[3/2] text-white md:w-3/8'}
                 />
-                <LecturesGrid>{dia2?.map((item, i) => <LecturesGridItem key={i} lecture={item} className="md:col-span-1" />)}</LecturesGrid>
+                <LecturesGrid>
+                    {lectures
+                        ?.filter((lecture) => lecture.type === 'Gestão e Mercado')
+                        .map((item, i) => <LecturesGridItem key={i} lecture={item} className="md:col-span-1" />)}
+                </LecturesGrid>
             </section>
         </AppLayout>
     );
