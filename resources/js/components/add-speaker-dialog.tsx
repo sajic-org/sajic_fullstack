@@ -26,12 +26,6 @@ function AddSpeakerDialog() {
         });
     };
 
-    // useEffect(() => {
-    //     errors.name = '';
-    //     errors.description = '';
-    //     errors.image = '';
-    // }, [data]);
-
     return (
         <Dialog>
             <DialogTrigger asChild className="mt-2">

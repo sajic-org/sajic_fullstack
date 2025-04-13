@@ -5,7 +5,7 @@ import MadeWithLaravel from './laravel-logo';
 
 function Footer() {
     return (
-        <footer className="border-sidebar-border/80 border-t">
+        <footer className="border-sidebar-border/80 mt-12 border-t">
             <div className="mx-auto px-4 py-10 md:max-w-7xl">
                 <section className="flex flex-col items-center justify-center gap-4 md:flex-row md:justify-between">
                     <div className="flex flex-col items-start">

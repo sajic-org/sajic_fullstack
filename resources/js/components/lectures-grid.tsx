@@ -1,12 +1,12 @@
 import { cn, unsubcribe } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { GraduationCap } from 'lucide-react';
+import { CircleX, GraduationCap } from 'lucide-react';
 import ParticipateDialog from './participate-dialog';
 import SpeakerDialog from './speaker-drawer';
 import { Button } from './ui/button';
 
 export const LecturesGrid = ({ className, children }: { className?: string; children?: React.ReactNode }) => {
-    return <div className={cn('mx-auto grid max-w-7xl grid-cols-1 gap-4 md:grid-cols-3', className)}>{children}</div>;
+    return <div className={cn('mx-auto my-8 grid grid-cols-1 gap-4 md:max-w-7xl md:grid-cols-3', className)}>{children}</div>;
 };
 
 export const LecturesGridItem = ({ className, lecture, user }: { className?: string }) => {
@@ -29,6 +29,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                 {user && user.lectures.some((userLecture) => userLecture.id === lecture.id) ? (
                     <Button variant="destructive" className="px-6 font-semibold shadow-md" onClick={() => unsubcribe(lecture)}>
                         Cancelar
+                        <CircleX />
                     </Button>
                 ) : (
                     <ParticipateDialog lecture={lecture} />

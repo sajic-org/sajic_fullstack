@@ -49,7 +49,7 @@ class LectureController extends Controller
             'ends' => 'required',
         ]);
 
-        $lecture = Lecture::create([
+        Lecture::create([
             'speaker_id' => $request['speaker_id'],
             'room_number' => $request['room_number'],
             'type' => $request['type'],
@@ -59,7 +59,7 @@ class LectureController extends Controller
             'ends' => $request['ends'],
         ]);
 
-        return Inertia::render('new-lecture-form');
+        return to_route('lectures.index');
     }
 
     // GET Check In

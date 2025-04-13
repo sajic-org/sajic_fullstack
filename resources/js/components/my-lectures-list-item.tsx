@@ -1,4 +1,5 @@
 import { unsubcribe } from '@/lib/utils';
+import { CircleX } from 'lucide-react';
 import { Button } from './ui/button';
 
 function MyLecturesListItem({
@@ -25,6 +26,7 @@ function MyLecturesListItem({
             </div>
             <Button variant="destructive" className="px-6 font-semibold shadow-md" onClick={() => unsubcribe(lecture)}>
                 Cancelar
+                <CircleX />
             </Button>
         </div>
     );
