@@ -23,6 +23,7 @@ function ParticipateDialog({ lecture }) {
                             route('user.attend-lecture'),
                             { id: lecture.id },
                             {
+                                preserveScroll: true,
                                 onSuccess: () => {
                                     toast('Inscrição realizada!', {
                                         // dar a opcao de cancelar
