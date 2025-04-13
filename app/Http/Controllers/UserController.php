@@ -17,7 +17,5 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $user->lectures->attach($lecture);
-
-        return 'TODO';
     }
 }

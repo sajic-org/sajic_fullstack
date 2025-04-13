@@ -6,35 +6,7 @@ export const LecturesGrid = ({ className, children }: { className?: string; chil
     return <div className={cn('mx-auto grid max-w-7xl grid-cols-1 gap-4 md:grid-cols-3', className)}>{children}</div>;
 };
 
-const speaker = {
-    name: 'Gladimir  Catarino',
-    description:
-        'Suspendisse vel neque in risus dignissim euismod. Vivamus quis erat sapien. Aliquam ac est vitae ligula commodo convallis vel sit amet enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec mattis libero et lectus vehicula rhoncus. Phasellus quis tellus quis ipsum consequat malesuada. Praesent eleifend, neque eget porta elementum, arcu diam hendrerit velit, eu ornare urna erat et sem. Aliquam commodo justo quis nunc feugiat, nec semper dolor lacinia. Donec porttitor lacinia ipsum vel tincidunt. Etiam malesuada ex diam, ut faucibus sapien scelerisque sit amet.',
-    image: 'https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80',
-    lectures: [
-        {
-            title: 'Introduction to Backend Devin',
-            date: '2023-10-15',
-        },
-        {
-            title: 'Advanced Machine Something',
-            date: '2023-11-20',
-        },
-    ],
-};
-export const LecturesGridItem = ({
-    className,
-    lecture,
-}: {
-    className?: string;
-    lecture: {
-        title: string | React.ReactNode;
-        description: string | React.ReactNode;
-        image?: string;
-        time: string;
-    };
-}) => {
-    //receber o tipo da palestra (tecnologia, etc) e fazer os loops baseado nisso
+export const LecturesGridItem = ({ className, lecture }: { className?: string }) => {
     return (
         <div
             className={cn(
@@ -43,12 +15,10 @@ export const LecturesGridItem = ({
             )}
         >
             <div className="flex items-start justify-between gap-8 transition duration-200 group-hover/bento:translate-x-2">
-                <SpeakerDialog speaker={speaker}>
+                <SpeakerDialog speaker={lecture.speaker}>
                     <img
-                        // src={lecture.speaker.image}
-                        // alt={lecture.speaker.name}
-                        src={speaker.image}
-                        alt={speaker.name}
+                        src={lecture.speaker.image}
+                        alt={lecture.speaker.name}
                         className="aspect-square w-28 cursor-pointer rounded-xl object-cover"
                     />
                 </SpeakerDialog>
@@ -57,9 +27,17 @@ export const LecturesGridItem = ({
             </div>
 
             <div className="transition duration-200 group-hover/bento:translate-x-2 dark:text-neutral-200">
-                <div className="mt-2 mb-2 text-lg font-bold">{lecture.title}</div>
-                <div className="text-sm font-normal">{lecture.description}</div>
-                <div className="mt-1 ml-auto w-fit text-sm font-semibold text-neutral-500">{lecture.time}</div>
+                <div className="mt-2 text-lg font-bold">{lecture.title}</div>
+                <div className="font-normal">
+                    com <span className="text-primary-blue font-medium capitalize">{lecture.speaker.name}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                    <span>Sala {lecture.room_number}</span>
+
+                    <span className="text-sm font-medium">
+                        {lecture.date}, {lecture.starts} - {lecture.ends}
+                    </span>
+                </div>
             </div>
         </div>
     );

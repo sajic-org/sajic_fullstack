@@ -28,11 +28,7 @@ Route::prefix('minhas-palestras')->middleware(['auth'])->group(function () {
     )->name('user.attend-lecture');
 });
 
-Route::get('/deletarspeakers', function () {
-    Speaker::query()->delete();
 
-    return to_route('lectures.create');
-});
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

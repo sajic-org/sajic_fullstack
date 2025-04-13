@@ -16,9 +16,9 @@ class LectureController extends Controller
     // Listagem de Palestras
     public function index()
     {
-        $lectures = Lecture::all();
+        $lectures = Lecture::with('speaker.lectures')->get();
 
-        return Inertia::render('lectures', $lectures);
+        return Inertia::render('lectures', ['lectures' => $lectures]);
     }
 
     // GET do Form de criação de Palestras
@@ -52,6 +52,8 @@ class LectureController extends Controller
             'starts' => $request['starts'],
             'ends' => $request['ends'],
         ]);
+
+        return Inertia::render('new-lecture-form');
     }
 
     // GET Check In
