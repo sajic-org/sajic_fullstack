@@ -24,8 +24,8 @@ function MyLecturesListItem({
                     <p className="text-sm">{lecture.time}</p>
                 </div>
             </div>
-            <Button variant="destructive" className="px-6 font-semibold shadow-md" onClick={() => unsubcribe(lecture)}>
-                Cancelar
+            <Button variant="destructive" className="max-md:rounded-full md:px-6 font-semibold shadow-md" onClick={() => unsubcribe(lecture)}>
+                <span className='max-md:hidden'>Cancelar</span>
                 <CircleX />
             </Button>
         </div>
