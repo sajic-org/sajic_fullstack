@@ -24,7 +24,7 @@ function Lectures({ lectures, user = '' }) {
                 <h3 className="text-3xl font-semibold">Confira o que te aguarda no evento</h3>
             </div>
 
-            <section className="mx-auto space-y-4 px-4 md:max-w-7xl">
+            <section className="mx-auto w-full space-y-4 px-4 md:max-w-7xl">
                 <LecturesGridHeading
                     title="Tecnologia"
                     description="Explore o mercado atual da tecnologia"
