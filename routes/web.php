@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\UserController;
-use App\Models\Speaker;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,12 +35,21 @@ Route::prefix('minhas-palestras')->middleware(['auth'])->group(function () {
 });
 
 
-# Rota pra limpar as inscrições pra me facilitar a vida no desenvolvimento
-Route::get('/clean', function () {
-    $user = Auth::user();
-    $user->lectures()->detach([1, 2, 3, 4]);
 
-    return back();
+# Rota p os guri criar admin rapido dps de limpar o db
+Route::get('/criar-admin', function(){
+
+    $user = User::create([
+        'name' => 'admin',
+        'email' => 'admin@gmail.com',
+        'password' => 'admin1234',
+        'is_admin' => 1
+    ]);
+
+
+    Auth::login($user);
+
+    return to_route('home');
 });
 
 

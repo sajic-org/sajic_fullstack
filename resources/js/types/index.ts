@@ -1,4 +1,5 @@
 import { LucideIcon } from 'lucide-react';
+import { User } from './models';
 
 export interface Auth {
     user: User;

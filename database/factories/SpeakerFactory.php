@@ -16,8 +16,9 @@ class SpeakerFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
-            'image' => 'public/speakers/66b3e5d0c2ab246786ca1d5e_86',
+            'image' => 'assets/edecio.jpeg',
             'name' => fake()->name(),
             'description' => fake()->text(300),
         ];
