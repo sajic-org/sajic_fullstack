@@ -26,12 +26,6 @@ function AddSpeakerDialog() {
         });
     };
 
-    // useEffect(() => {
-    //     errors.name = '';
-    //     errors.description = '';
-    //     errors.image = '';
-    // }, [data]);
-
     return (
         <Dialog>
             <DialogTrigger asChild className="mt-2">
@@ -89,13 +83,13 @@ function AddSpeakerDialog() {
                         </div>
                     </div>
                     <DialogFooter>
-                        {!errors && (
-                            <DialogClose>
-                                <Button type="submit">Salvar</Button>
+                        {errors.image || errors.name || errors.description ? (
+                            <Button className="bg-gray-600 hover:bg-gray-600">Salvar</Button>
+                        ) : (
+                            <DialogClose type="submit">
+                                <Button>Salvar</Button>
                             </DialogClose>
                         )}
-
-                        {errors && <Button type="submit">Salvar</Button>}
                     </DialogFooter>
                 </form>
             </DialogContent>

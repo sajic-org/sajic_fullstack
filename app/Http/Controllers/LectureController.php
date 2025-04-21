@@ -7,6 +7,7 @@ use App\Models\Room;
 use App\Models\Speaker;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -16,9 +17,14 @@ class LectureController extends Controller
     // Listagem de Palestras
     public function index()
     {
-        $lectures = Lecture::all();
+        $lectures = Lecture::with(['speaker.lectures'])->get();
 
-        return Inertia::render('lectures', $lectures);
+        $user = '';
+        if (Auth::check()) {
+            $user = User::with('lectures')->find(Auth::user());
+        }
+
+        return Inertia::render('lectures', ['lectures' => $lectures, 'user' => $user]);
     }
 
     // GET do Form de criação de Palestras
@@ -43,7 +49,7 @@ class LectureController extends Controller
             'ends' => 'required',
         ]);
 
-        $lecture = Lecture::create([
+        Lecture::create([
             'speaker_id' => $request['speaker_id'],
             'room_number' => $request['room_number'],
             'type' => $request['type'],
@@ -52,6 +58,8 @@ class LectureController extends Controller
             'starts' => $request['starts'],
             'ends' => $request['ends'],
         ]);
+
+        return to_route('lectures.index');
     }
 
     // GET Check In

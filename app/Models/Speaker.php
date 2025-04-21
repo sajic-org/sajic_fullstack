@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Speaker extends Model
 {
@@ -11,8 +12,8 @@ class Speaker extends Model
 
     protected $fillable = ['name', 'description', 'image'];
 
-    public function lectures()
+    public function lectures(): HasMany
     {
-        $this->hasMany(Lecture::class, 'speaker_id', 'id');
+        return  $this->hasMany(Lecture::class);
     }
 }

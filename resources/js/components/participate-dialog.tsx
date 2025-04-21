@@ -1,33 +1,25 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { subscribe } from '@/lib/utils';
 import { GraduationCap } from 'lucide-react';
-import { toast } from 'sonner';
 import { Button } from './ui/button';
 
-function ParticipateDialog() {
+function ParticipateDialog({ lecture }) {
     return (
         <Dialog>
-            <DialogTrigger>
-                <Button>
-                    Participar
-                    <GraduationCap className="size-5" />
-                </Button>
+            <DialogTrigger className="bg-primary-blue flex cursor-pointer items-center gap-2 rounded-md p-2 text-white lg:px-4">
+                Participar
+                <GraduationCap className="size-5" />
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Tem certeza?</DialogTitle>
-                    <DialogDescription>Você será adicionado à lista de participantes e levará na bundinha se não comparecer</DialogDescription>
+                    <DialogDescription>Você será adicionado à lista de participantes.</DialogDescription>
                 </DialogHeader>
                 <Button
-                    className="ml-auto w-fit px-8"
-                    onClick={() =>
-                        toast('Agora você está inscrito', {
-                            description: 'à palestra The Pursuit of Knowledge',
-                            action: {
-                                label: 'Cancelar',
-                                onClick: () => console.log('Cancelar'),
-                            },
-                        })
-                    }
+                    className="ml-auto w-fit"
+                    onClick={() => {
+                        subscribe(lecture);
+                    }}
                 >
                     Tenho Certeza
                 </Button>

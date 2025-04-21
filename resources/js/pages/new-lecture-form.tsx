@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FormEventHandler, useState } from 'react';
 
 interface LectureForm {
     speaker_id: number;
@@ -53,12 +53,6 @@ function NewLectureForm({ speakers, rooms }: { rooms: Room[] }) {
             preserveScroll: true,
         });
     };
-
-    useEffect(() => {
-        console.log('selected:', selectedSpeaker);
-
-        console.log(data);
-    }, [data]);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

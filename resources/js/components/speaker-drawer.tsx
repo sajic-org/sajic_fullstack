@@ -10,13 +10,13 @@ function SpeakerDialog({ children, speaker }) {
                     <DialogTitle>
                         <h3 className="text-primary-blue text-xl">{speaker.name}</h3>
                     </DialogTitle>
-                    <div className="flex items-center gap-4">
+                    <div className="grid items-start gap-4 md:grid-cols-2">
                         <img
-                            src="https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80"
+                            src={speaker.image}
                             alt={`Foto de ${speaker.name}`}
-                            className="aspect-square rounded-xl object-cover object-center md:max-w-1/3"
+                            className="aspect-square w-full rounded-xl object-cover object-center"
                         />
-                        <DialogDescription className="px-4">{speaker.description}</DialogDescription>
+                        <DialogDescription className="max-w-full px-4 break-all">{speaker.description}</DialogDescription>
                     </div>
                 </DialogHeader>
                 <ul className="px-4 pb-4">
@@ -26,7 +26,7 @@ function SpeakerDialog({ children, speaker }) {
 
                     {speaker.lectures.map((item, index) => {
                         return (
-                            <li className="m-2 text-neutral-600">
+                            <li className="m-2 text-neutral-600" key={index}>
                                 <p className="font-medium">{item.date}</p>
 
                                 <div className="ml-3 flex items-center gap-2">
