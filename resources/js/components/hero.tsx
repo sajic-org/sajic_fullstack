@@ -17,7 +17,7 @@ function Hero() {
                     <Link
                         prefetch="mount"
                         href="/palestras"
-                        className="bg-primary-blue mt-8 flex h-fit w-fit items-center gap-3 rounded-lg px-9 py-3.5 text-xl text-white shadow-lg drop-shadow-md hover:bg-orange-500"
+                        className="bg-primary-blue mt-8 flex h-fit w-fit items-center gap-3 rounded-lg px-9 py-3.5 text-xl text-white shadow-lg drop-shadow-md"
                     >
                         Veja nossas palestras
                         <MousePointerClick size={23} className="mt-px" />

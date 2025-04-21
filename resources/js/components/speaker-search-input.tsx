@@ -1,14 +1,25 @@
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useEffect, useState } from 'react';
+import { LectureForm } from '@/pages/new-lecture-form';
+import { Speaker } from '@/types/models';
+import { InertiaFormProps } from '@inertiajs/react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import AddSpeakerDialog from './add-speaker-dialog';
 import { Input } from './ui/input';
 
-function SpeakerSearchInput({ onSetData, speakers, onSetSelectedSpeaker }: { assetPath: string }) {
+function SpeakerSearchInput({
+    onSetData,
+    speakers,
+    onSetSelectedSpeaker,
+}: {
+    onSetData: InertiaFormProps<LectureForm>['setData'];
+    speakers: Speaker[];
+    onSetSelectedSpeaker: Dispatch<SetStateAction<Speaker | undefined>>;
+}) {
     const [query, setQuery] = useState('');
-    const [filteredSpeakers, setFilteredSpeakers] = useState([]);
+    const [filteredSpeakers, setFilteredSpeakers] = useState<Speaker[]>([]);
 
     useEffect(() => {
-        const results = speakers.filter((s) => s.name.toLowerCase().includes(query.toLowerCase()));
+        const results = speakers.filter((s: Speaker) => s.name.toLowerCase().includes(query.toLowerCase()));
         setFilteredSpeakers(results);
     }, [query, speakers]);
 

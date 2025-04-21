@@ -1,4 +1,6 @@
 import { cn, unsubcribe } from '@/lib/utils';
+import { User } from '@/types';
+import { Lecture } from '@/types/models';
 import { Link } from '@inertiajs/react';
 import { CircleX, GraduationCap } from 'lucide-react';
 import ParticipateDialog from './participate-dialog';
@@ -9,7 +11,7 @@ export const LecturesGrid = ({ className, children }: { className?: string; chil
     return <div className={cn('mx-auto my-8 grid grid-cols-1 gap-4 md:max-w-7xl md:grid-cols-3', className)}>{children}</div>;
 };
 
-export const LecturesGridItem = ({ className, lecture, user }: { className?: string }) => {
+export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user: User }) => {
     return (
         <div
             className={cn(
@@ -26,7 +28,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                     />
                 </SpeakerDialog>
 
-                {user && user.lectures.some((userLecture) => userLecture.id === lecture.id) ? (
+                {user && user.lectures.some((userLecture: Lecture) => userLecture.id === lecture.id) ? (
                     <Button variant="destructive" className="px-6 font-semibold shadow-md" onClick={() => unsubcribe(lecture)}>
                         Cancelar
                         <CircleX />

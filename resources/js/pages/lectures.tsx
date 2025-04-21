@@ -2,6 +2,7 @@ import { LecturesGrid, LecturesGridItem } from '@/components/lectures-grid';
 import LecturesGridHeading from '@/components/lectures-grid-heading';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
+import { Lecture, User } from '@/types/models';
 import { Head } from '@inertiajs/react';
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,7 +15,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-function Lectures({ lectures, user = '' }) {
+function Lectures({ lectures, user = undefined }: { lectures: Lecture[]; user?: User }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Palestras" />
@@ -55,5 +56,3 @@ function Lectures({ lectures, user = '' }) {
     );
 }
 export default Lectures;
-
-const dia2 = [];

@@ -7,7 +7,7 @@ export interface Room {
     capacity: number;
 }
 
-export function RoomDropdown({ children, rooms, onSetData }: { children: any; rooms: Room[]; onSetData: any }) {
+export function RoomDropdown({ children, rooms, onSetData }: { children: React.ReactNode; rooms: Room[]; onSetData: any }) {
     return (
         <Select
             onValueChange={(value) => {

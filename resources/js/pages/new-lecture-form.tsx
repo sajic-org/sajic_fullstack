@@ -14,9 +14,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
+import { Speaker } from '@/types/models';
 import { FormEventHandler, useState } from 'react';
 
-interface LectureForm {
+export interface LectureForm {
     speaker_id: number;
     room_number: string;
     title: string;
@@ -24,9 +25,10 @@ interface LectureForm {
     date: Date;
     starts: string;
     ends: string;
+    [key: string]: any | unknown;
 }
 
-function NewLectureForm({ speakers, rooms }: { rooms: Room[] }) {
+function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[] }) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
     const breadcrumbs: BreadcrumbItem[] = [
@@ -40,7 +42,7 @@ function NewLectureForm({ speakers, rooms }: { rooms: Room[] }) {
         },
     ];
 
-    const [selectedSpeaker, setSelectedSpeaker] = useState();
+    const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker>();
 
     const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
 
@@ -70,7 +72,7 @@ function NewLectureForm({ speakers, rooms }: { rooms: Room[] }) {
                                 <span>{selectedSpeaker.name}</span>
                             </div>
 
-                            <Button variant="outline" className="w-fit" onClick={() => setSelectedSpeaker(null)}>
+                            <Button variant="outline" className="w-fit" onClick={() => setSelectedSpeaker(undefined)}>
                                 Outro Palestrante?
                             </Button>
                         </div>

@@ -28,15 +28,4 @@ export interface SharedData {
     [key: string]: unknown;
 }
 
-export interface User {
-    id: number;
-    name: string;
-    email: string;
-    avatar?: string;
-    email_verified_at: string | null;
-    is_admin: number | boolean;
-    is_unisenac_student: number | boolean;
-    created_at: string;
-    updated_at: string;
-    [key: string]: unknown; // This allows for additional properties...
-}
+
