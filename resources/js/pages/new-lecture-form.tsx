@@ -16,6 +16,7 @@ import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
 import { Speaker } from '@/types/models';
 import { FormEventHandler, useState } from 'react';
+import TimeSelector from '@/components/time-selector';
 
 export interface LectureForm {
     speaker_id: number;
@@ -115,33 +116,40 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                     </div>
 
                     <div>
-                        <div className="grid gap-2 md:grid-cols-3">
-                            <div>
-                                <Label htmlFor="email">Data</Label>
+                        <div className="grid gap-2 grid-cols-8">
+                            <div className='col-span-4'>
+                                <Label htmlFor="data">Data</Label>
                                 <DatePicker onSetData={setData} />
                             </div>
-                            <div>
-                                {/* Step = 1, o motivo do formato ser --:--:-- -> garante que o input aceitará o formato 24h e não dependerá das configurações do navegador */}
+
+                            {/* Das */}
+                            <div className='col-span-2'>
                                 <Label htmlFor="starts">Das</Label>
-                                <Input
-                                    id="from"
-                                    type="time"
-                                    className="mt-1"
-                                    onChange={(e) => setData('starts', e.target.value)}
-                                    required
-                                    placeholder="Das"
-                                />
+
+                                <div className='flex items-center gap-1 pt-1'>
+                                    {/* Horas */}
+                                    <TimeSelector maxNum={24} placeholder='hh' label='Horas' />
+
+                                    <span className='text-xl'>:</span>
+
+                                    {/* Minutos */}
+                                    <TimeSelector step={15} placeholder='mm' label='Minutos' />
+                                </div>
                             </div>
-                            <div>
+
+                            {/* às */}
+                            <div className='col-span-2'>
                                 <Label htmlFor="ends">Às</Label>
-                                <Input
-                                    id="to"
-                                    type="time"
-                                    className="mt-1 block w-full"
-                                    onChange={(e) => setData('ends', e.target.value)}
-                                    required
-                                    placeholder="Às"
-                                />
+
+                                <div className='flex items-center gap-1 pt-1'>
+                                    {/* Horas */}
+                                    <TimeSelector maxNum={24} placeholder='hh' label='Horas' />
+
+                                    <span className='text-xl'>:</span>
+
+                                    {/* Minutos */}
+                                    <TimeSelector step={15} placeholder='mm' label='Minutos' />
+                                </div>
                             </div>
                         </div>
                     </div>
