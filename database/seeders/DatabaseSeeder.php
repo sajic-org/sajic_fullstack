@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Lecture;
 use App\Models\Room;
 use App\Models\Speaker;
 use App\Models\User;
@@ -19,11 +20,8 @@ class DatabaseSeeder extends Seeder
 
         Room::create(['number' => '204', 'capacity' => 45]);
         Room::create(['number' => '303', 'capacity' => 30]);
+        Room::create(['number' => '404', 'capacity' => 202]);
 
-
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        Lecture::factory(25)->create();
     }
 }
