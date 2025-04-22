@@ -16,7 +16,6 @@ class SpeakerFactory extends Factory
      */
     public function definition(): array
     {
-
         return [
             'image' => 'assets/edecio.jpeg',
             'name' => fake()->name(),

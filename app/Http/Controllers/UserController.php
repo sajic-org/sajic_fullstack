@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lecture;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -12,7 +13,7 @@ class UserController extends Controller
 {
     public function my_lectures()
     {
-        return Inertia::render('my-lectures', ['user' => Auth::user()]);
+        return Inertia::render('my-lectures', ['user' => User::whereId(Auth::user()->id)->with('lectures')->get()]);   
     }
 
     public function attend_lecture(Request $request)

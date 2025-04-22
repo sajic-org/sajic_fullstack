@@ -11,7 +11,7 @@ export const LecturesGrid = ({ className, children }: { className?: string; chil
     return <div className={cn('mx-auto my-8 grid grid-cols-1 gap-4 md:max-w-7xl md:grid-cols-3', className)}>{children}</div>;
 };
 
-export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user: User }) => {
+export const LecturesGridItem = ({ className, lecture, user, is_admin }: { className?: string; lecture: Lecture; user: User }) => {
     return (
         <div
             className={cn(
@@ -35,10 +35,10 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                             <CircleX />
                         </Button>
                     ) : (
-                        <ParticipateDialog lecture={lecture} />
+                        user && <ParticipateDialog lecture={lecture} />
                     )}
 
-                    {user.is_admin && (
+                    {user?.is_admin && (
                         <Link href={route('lectures.attendant_table', { lecture: lecture })}>
                             <button className="cursor-pointer rounded-md bg-orange-400 p-2 text-white">
                                 <ListChecks size={18} />
@@ -49,10 +49,10 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
 
                 {!user && (
                     <Link href={route('login')}>
-                        <Button className="flex cursor-pointer items-center gap-2 rounded-md p-2 text-white lg:px-4">
+                        <button className="bg-primary-blue flex cursor-pointer items-center gap-2 rounded-md p-2 text-white lg:px-4">
                             Participar
                             <GraduationCap className="size-5" />
-                        </Button>
+                        </button>
                     </Link>
                 )}
             </div>
