@@ -13,11 +13,21 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-function CheckIn({ lecture, users = [] }: { lecture: Lecture; users?: User[] }) {
-    console.log(lecture, '\n', users);
+function CheckIn({ lecture }: { lecture: Lecture; }) {
+    console.log(lecture);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <div>cuuuuuuuuuuuu</div>
+            <header className='pt-10'>
+                <h1 className='text-2xl font-bold'>
+                    Check In
+                </h1>
+                <p>
+                    Verifique a presença dos inscritos para que possam receber certificados
+                </p>
+                <div>
+                    <img src={lecture.speaker?.image}  />
+                </div>
+            </header>
         </AppLayout>
     );
 }

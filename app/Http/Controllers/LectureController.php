@@ -65,9 +65,11 @@ class LectureController extends Controller
     // GET Check In
     public function attendant_table(Lecture $lecture)
     {
-        // $attendants = User::with('lectures')->whereIn('lectures', $lecture);
+        $lecture->attendants;
+        $lecture->speaker;
 
-        return Inertia::render('check-in', ['lecture'=>$lecture, 'users'=> $lecture->attendants]);
+
+        return Inertia::render('check-in', ['lecture'=>$lecture]);
     }
 
     // realiza o Check In
