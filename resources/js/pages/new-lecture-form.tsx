@@ -9,14 +9,14 @@ import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
 import { Room, RoomDropdown } from '@/components/RoomDropdown';
 import SpeakerSearchInput from '@/components/speaker-search-input';
+import { TimeSelectorGroup } from '@/components/time-selector';
 import { TypeDropdown } from '@/components/TypeDropdown';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
 import { Speaker } from '@/types/models';
-import { FormEventHandler, useState } from 'react';
-import TimeSelector from '@/components/time-selector';
+import { FormEventHandler, useEffect, useState } from 'react';
 
 export interface LectureForm {
     speaker_id: number;
@@ -46,6 +46,10 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
     const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker>();
 
     const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
+
+    useEffect(() => {
+        console.log(data);
+    }, [data]);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -116,41 +120,17 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                     </div>
 
                     <div>
-                        <div className="grid gap-2 grid-cols-8">
-                            <div className='col-span-4'>
+                        <div className="grid grid-cols-8 gap-2">
+                            <div className="col-span-4">
                                 <Label htmlFor="data">Data</Label>
                                 <DatePicker onSetData={setData} />
                             </div>
 
                             {/* Das */}
-                            <div className='col-span-2'>
-                                <Label htmlFor="starts">Das</Label>
-
-                                <div className='flex items-center gap-1 pt-1'>
-                                    {/* Horas */}
-                                    <TimeSelector maxNum={24} placeholder='hh' label='Horas' />
-
-                                    <span className='text-xl'>:</span>
-
-                                    {/* Minutos */}
-                                    <TimeSelector step={15} placeholder='mm' label='Minutos' />
-                                </div>
-                            </div>
+                            <TimeSelectorGroup onSetData={setData} />
 
                             {/* às */}
-                            <div className='col-span-2'>
-                                <Label htmlFor="ends">Às</Label>
-
-                                <div className='flex items-center gap-1 pt-1'>
-                                    {/* Horas */}
-                                    <TimeSelector maxNum={24} placeholder='hh' label='Horas' />
-
-                                    <span className='text-xl'>:</span>
-
-                                    {/* Minutos */}
-                                    <TimeSelector step={15} placeholder='mm' label='Minutos' />
-                                </div>
-                            </div>
+                            <TimeSelectorGroup onSetData={setData} variant="ends" />
                         </div>
                     </div>
 

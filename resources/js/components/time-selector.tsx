@@ -1,56 +1,83 @@
-import { Button } from "@headlessui/react"
-import { Popover, PopoverTrigger } from "./ui/popover"
-import { Clock } from "lucide-react"
-import { useState } from "react"
-import { PopoverContent } from "@radix-ui/react-popover"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select"
+import { Label } from '@radix-ui/react-label';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './ui/select';
 
-interface TimeSelectorProps {
-    step?: number,
-    maxNum?: number,
-    placeholder: string
-    label: string
+export function TimeSelectorGroup({ variant = 'starts', onSetData }: { variant?: string; onSetData: Dispatch<SetStateAction<any>> }) {
+    const [time, setTime] = useState<string[]>(['00', '00']);
+
+    useEffect(() => {
+        onSetData(`${variant}`, `${time[0]}:${time[1]}`);
+    }, [time]);
+    return (
+        <div className="col-span-2">
+            <Label htmlFor="starts">{variant === 'starts' ? 'Das' : 'Às'}</Label>
+
+            <div className="flex items-center gap-1 pt-1">
+                {/* Horas */}
+                <TimeSelector maxNum={24} placeholder="hh" onSetTime={setTime} time={time} />
+
+                <span className="text-xl">:</span>
+
+                {/* Minutos */}
+                <TimeSelector step={15} placeholder="mm" label="Minutos" onSetTime={setTime} time={time} />
+            </div>
+        </div>
+    );
 }
 
-function TimeSelector({ step = 1, maxNum = 60, placeholder, label }: TimeSelectorProps) {
-    const [open, setOpen] = useState(false)
-    const [value, setValue] = useState("")
+interface TimeSelectorProps {
+    step?: number;
+    maxNum?: number;
+    placeholder: string;
+    label?: string;
+    time: string[];
+    onSetTime: Dispatch<SetStateAction<string[]>>;
+}
 
-    const time = genTimeArray(step, maxNum)
+function TimeSelector({ step = 1, maxNum = 60, placeholder, label = 'Horas', onSetTime, time }: TimeSelectorProps) {
+    const timeArr = genTimeArray(step, maxNum);
 
     return (
-        <Select>
+        <Select
+            onValueChange={(v) => {
+                if (label === 'Horas') {
+                    onSetTime([v, time[1]]);
+                } else {
+                    onSetTime([time[0], v]);
+                }
+            }}
+        >
             <SelectTrigger>
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
-            <SelectContent >
+            <SelectContent>
                 <SelectGroup>
                     <SelectLabel>{label}</SelectLabel>
-                    {time.map(
-                        time => <SelectItem value={time}>{time}</SelectItem>)
-                    }
+                    {timeArr.map((time) => (
+                        <SelectItem value={time}>{time}</SelectItem>
+                    ))}
                 </SelectGroup>
             </SelectContent>
         </Select>
-    )
+    );
 }
 
-function genTimeArray(step: number = 1, maxNum: number = 60,) {
-    const time = []
+function genTimeArray(step: number = 1, maxNum: number = 60) {
+    const time = [];
 
     for (let i = 0; i < maxNum; i += step) {
-        time.push(stringfyTime(i))
+        time.push(stringfyTime(i));
     }
 
-    return time
+    return time;
 }
 
 function stringfyTime(time: number) {
     if (time < 10) {
-        return "0" + time.toString()
+        return '0' + time.toString();
     } else {
-        return time.toString()
+        return time.toString();
     }
 }
 
-export default TimeSelector
+export default TimeSelector;
