@@ -1,16 +1,14 @@
 import MyLecturesList from '@/components/my-lectures-list';
 import MyLecturesPerfil from '@/components/my-lectures-perfil';
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem, SharedData } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { BreadcrumbItem } from '@/types';
+import { User } from '@/types/models';
+import { Head } from '@inertiajs/react';
 
-function MyLectures() {
-    const page = usePage<SharedData>();
-    const { auth } = page.props;
-
+function MyLectures({ user }: { user: User }) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
-            title: auth.user.name,
+            title: user.name,
             href: '/settings/profile',
         },
         {
@@ -28,8 +26,8 @@ function MyLectures() {
                     <h2 className="text-light-text">As palestras nas quais você esta inscrito</h2>
                 </div>
                 <div className="grid gap-6 lg:grid-cols-2">
-                    <MyLecturesPerfil user={auth.user} />
-                    <MyLecturesList user={auth.user} />
+                    <MyLecturesPerfil user={user[0]} />
+                    <MyLecturesList lectures={user[0].lectures} />
                 </div>
             </section>
         </AppLayout>
