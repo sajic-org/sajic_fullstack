@@ -9,14 +9,22 @@ import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
 import { Room, RoomDropdown } from '@/components/RoomDropdown';
 import SpeakerSearchInput from '@/components/speaker-search-input';
+<<<<<<< HEAD
 import TimeSelector from '@/components/time-selector';
+=======
+import { TimeSelectorGroup } from '@/components/time-selector';
+>>>>>>> fix/time_selector
 import { TypeDropdown } from '@/components/TypeDropdown';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
 import { Speaker } from '@/types/models';
+<<<<<<< HEAD
 import { FormEventHandler, useState } from 'react';
+=======
+import { FormEventHandler, useEffect, useState } from 'react';
+>>>>>>> fix/time_selector
 
 export interface LectureForm {
     speaker_id: number;
@@ -49,6 +57,10 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
     const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker>();
 
     const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
+
+    useEffect(() => {
+        console.log(data);
+    }, [data]);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -126,6 +138,7 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                             </div>
 
                             {/* Das */}
+<<<<<<< HEAD
                             <div className="col-span-2">
                                 <Label htmlFor="starts">Das</Label>
 
@@ -170,6 +183,12 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                                     <TimeSelector step={15} placeholder="mm" label="Minutos" time={ends} onSetTime={setEnds} variant="min" />
                                 </div>
                             </div>
+=======
+                            <TimeSelectorGroup onSetData={setData} />
+
+                            {/* às */}
+                            <TimeSelectorGroup onSetData={setData} variant="ends" />
+>>>>>>> fix/time_selector
                         </div>
                     </div>
 
