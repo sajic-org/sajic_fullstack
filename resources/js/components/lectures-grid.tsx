@@ -2,7 +2,7 @@ import { cn, unsubcribe } from '@/lib/utils';
 import { User } from '@/types';
 import { Lecture } from '@/types/models';
 import { Link } from '@inertiajs/react';
-import { CircleX, GraduationCap } from 'lucide-react';
+import { CircleX, GraduationCap, ListChecks } from 'lucide-react';
 import ParticipateDialog from './participate-dialog';
 import SpeakerDialog from './speaker-drawer';
 import { Button } from './ui/button';
@@ -28,14 +28,24 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                     />
                 </SpeakerDialog>
 
-                {user && user.lectures.some((userLecture: Lecture) => userLecture.id === lecture.id) ? (
-                    <Button variant="destructive" className="px-6 font-semibold shadow-md" onClick={() => unsubcribe(lecture)}>
-                        Cancelar
-                        <CircleX />
-                    </Button>
-                ) : (
-                    <ParticipateDialog lecture={lecture} />
-                )}
+                <div className="flex flex-col items-end gap-1">
+                    {user && user.lectures.some((userLecture: Lecture) => userLecture.id === lecture.id) ? (
+                        <Button variant="destructive" className="px-6 font-semibold shadow-md" onClick={() => unsubcribe(lecture)}>
+                            Cancelar
+                            <CircleX />
+                        </Button>
+                    ) : (
+                        <ParticipateDialog lecture={lecture} />
+                    )}
+
+                    {user.is_admin && (
+                        <Link href={route('lectures.attendant_table', { lecture: lecture })}>
+                            <button className="cursor-pointer rounded-md bg-orange-400 p-2 text-white">
+                                <ListChecks size={18} />
+                            </button>
+                        </Link>
+                    )}
+                </div>
 
                 {!user && (
                     <Link href={route('login')}>
