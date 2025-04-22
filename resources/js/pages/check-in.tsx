@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import AppLayout from "@/layouts/app-layout";
 import {type BreadcrumbItem} from "@/types"
 
@@ -17,6 +18,19 @@ function CheckIn() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <div>cuuuuuuuuuuuu</div>
         </AppLayout>
+=======
+import { Lecture } from '@/types/models';
+
+function CheckIn({ lecture }: { lecture: Lecture }) {
+    console.log(lecture);
+
+    return (
+        <div>
+            {/* {users.map((u) => {
+                return <p>{u.name}</p>;
+            })} */}
+        </div>
+>>>>>>> 85e2481d9e61e85202771deb29188e85b9ef06e9
     );
 }
 
