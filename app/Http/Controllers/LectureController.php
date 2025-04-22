@@ -67,7 +67,7 @@ class LectureController extends Controller
     {
         // $attendants = User::with('lectures')->whereIn('lectures', $lecture);
 
-        return Inertia::render('check-in', [$lecture]);
+        return Inertia::render('check-in', ['lecture'=>$lecture, 'users'=> $lecture->attendants]);
     }
 
     // realiza o Check In

@@ -1,6 +1,6 @@
-<<<<<<< HEAD
-import AppLayout from "@/layouts/app-layout";
-import {type BreadcrumbItem} from "@/types"
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem } from '@/types';
+import { Lecture, User } from '@/types/models';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -8,29 +8,17 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/',
     },
     {
-        title: "Check in",
-        href: "#"
-    }
+        title: 'Check in',
+        href: '#',
+    },
 ];
 
-function CheckIn() {
+function CheckIn({ lecture, users = [] }: { lecture: Lecture; users?: User[] }) {
+    console.log(lecture, '\n', users);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <div>cuuuuuuuuuuuu</div>
         </AppLayout>
-=======
-import { Lecture } from '@/types/models';
-
-function CheckIn({ lecture }: { lecture: Lecture }) {
-    console.log(lecture);
-
-    return (
-        <div>
-            {/* {users.map((u) => {
-                return <p>{u.name}</p>;
-            })} */}
-        </div>
->>>>>>> 85e2481d9e61e85202771deb29188e85b9ef06e9
     );
 }
 
