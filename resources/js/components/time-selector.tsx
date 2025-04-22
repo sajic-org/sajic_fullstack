@@ -1,56 +1,63 @@
-import { Button } from "@headlessui/react"
-import { Popover, PopoverTrigger } from "./ui/popover"
-import { Clock } from "lucide-react"
-import { useState } from "react"
-import { PopoverContent } from "@radix-ui/react-popover"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select"
+import { Dispatch } from 'react';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './ui/select';
 
 interface TimeSelectorProps {
-    step?: number,
-    maxNum?: number,
-    placeholder: string
-    label: string
+    step?: number;
+    maxNum?: number;
+    minNum?: number;
+    placeholder: string;
+    label: string;
+    variant: string;
+    time: string[];
+    onSetTime: Dispatch.SetStateAction<string[]>;
 }
 
-function TimeSelector({ step = 1, maxNum = 60, placeholder, label }: TimeSelectorProps) {
-    const [open, setOpen] = useState(false)
-    const [value, setValue] = useState("")
-
-    const time = genTimeArray(step, maxNum)
+function TimeSelector({ step = 1, maxNum = 60, minNum = 0, placeholder, label, onSetTime, variant, time }: TimeSelectorProps) {
+    const timeArr = genTimeArray(step, maxNum, minNum);
 
     return (
-        <Select>
+        <Select
+            onValueChange={(value) => {
+                if (variant === 'hour') {
+                    onSetTime([value, time[1]]);
+                } else {
+                    onSetTime([time[0], value]);
+                }
+            }}
+        >
             <SelectTrigger>
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
-            <SelectContent >
+            <SelectContent>
                 <SelectGroup>
                     <SelectLabel>{label}</SelectLabel>
-                    {time.map(
-                        time => <SelectItem value={time}>{time}</SelectItem>)
-                    }
+                    {timeArr.map((time) => (
+                        <SelectItem value={time} key={time}>
+                            {time}
+                        </SelectItem>
+                    ))}
                 </SelectGroup>
             </SelectContent>
         </Select>
-    )
+    );
 }
 
-function genTimeArray(step: number = 1, maxNum: number = 60,) {
-    const time = []
+function genTimeArray(step: number = 1, maxNum: number = 60, minNum = 0) {
+    const time = [];
 
-    for (let i = 0; i < maxNum; i += step) {
-        time.push(stringfyTime(i))
+    for (let i = minNum; i < maxNum; i += step) {
+        time.push(stringfyTime(i));
     }
 
-    return time
+    return time;
 }
 
 function stringfyTime(time: number) {
     if (time < 10) {
-        return "0" + time.toString()
+        return '0' + time.toString();
     } else {
-        return time.toString()
+        return time.toString();
     }
 }
 
-export default TimeSelector
+export default TimeSelector;
