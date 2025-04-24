@@ -5,17 +5,6 @@ import SpeakerDialog from './speaker-drawer';
 import { Button } from './ui/button';
 
 function MyLecturesListItem({ lecture }: { lecture: Lecture }) {
-    // function formatDate(date: string | Date): string {
-    //     if (date instanceof Date) {
-    //         return date.toLocaleDateString('pt-BR', {
-    //             day: '2-digit',
-    //             month: 'long',
-    //             year: 'numeric',
-    //         });
-    //     }
-    //     return date;
-    // }
-
     return (
         <div className="border-border md:mx flex min-h-28 rounded-md border-2 p-2 shadow-md lg:w-full">
             <div className="flex w-full gap-3">
