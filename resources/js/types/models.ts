@@ -7,7 +7,7 @@ export interface Lecture {
     id: number;
     title: string;
     type: LectureType;
-    date: string | Date;
+    date: string;
     starts: string;
     ends: string;
     room_number: string;

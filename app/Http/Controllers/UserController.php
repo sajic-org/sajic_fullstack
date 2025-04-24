@@ -13,7 +13,9 @@ class UserController extends Controller
 {
     public function my_lectures()
     {
-        return Inertia::render('my-lectures', ['user' => User::whereId(Auth::user()->id)->with('lectures')->get()]);   
+        $user = Auth::user()->load(['lectures.speaker.lectures']);
+
+        return Inertia::render('my-lectures', ['user' => $user]);
     }
 
     public function attend_lecture(Request $request)
