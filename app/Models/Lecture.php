@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Lecture extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'title',
         'type',
@@ -34,6 +34,8 @@ class Lecture extends Model
 
     public function attendants(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)
+            ->as("showed_up")
+            ->withPivot('showed_up');
     }
 }

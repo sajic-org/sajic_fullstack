@@ -68,7 +68,6 @@ class LectureController extends Controller
         $lecture->attendants;
         $lecture->speaker;
 
-
         return Inertia::render('check-in', ['lecture'=>$lecture]);
     }
 

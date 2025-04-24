@@ -52,6 +52,7 @@ function CheckIn({ lecture }: { lecture: Lecture; }) {
                 </Button>
             </div>
 
+
         </AppLayout>
     );
 }
