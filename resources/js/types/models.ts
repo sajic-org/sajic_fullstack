@@ -43,6 +43,13 @@ export interface User {
     created_at: string;
     updated_at: string;
     lectures: Lecture[];
+    lecture_user?: LectureUser // Lecture and User pivot table
 
     [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface LectureUser {
+    lecture_id: number,
+    user_id: number,
+    showed_up: number // This is actually a boolean tinyInt
 }

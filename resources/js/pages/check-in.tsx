@@ -1,3 +1,5 @@
+import { checkInColumns, CheckInColumnsType } from '@/components/check-in-columns';
+import CheckInDataTable from '@/components/check-in-data-table';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
@@ -15,7 +17,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 function CheckIn({ lecture }: { lecture: Lecture; }) {
-    console.log(lecture);
+    console.log(lecture)
+
+    const columnData = parseColumnsData(lecture)
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <div className='flex justify-around pt-10 flex-wrap'>
@@ -52,9 +57,32 @@ function CheckIn({ lecture }: { lecture: Lecture; }) {
                 </Button>
             </div>
 
+            <CheckInDataTable columns={checkInColumns} data={columnData} />
 
         </AppLayout>
     );
+}
+
+function parseColumnsData(lecture: Lecture) {
+    if (!lecture.attendants) {
+        return []
+    }
+
+    const columnData: CheckInColumnsType[] = []
+
+    for (let user of lecture.attendants) {
+        if (!user.lecture_user) {
+            return []
+        }
+
+        columnData.push({
+            email: user.email,
+            name: user.name,
+            showed_up: Boolean(user.lecture_user.showed_up)
+        })
+    }
+
+    return columnData
 }
 
 export default CheckIn;

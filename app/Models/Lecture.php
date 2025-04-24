@@ -35,7 +35,7 @@ class Lecture extends Model
     public function attendants(): BelongsToMany
     {
         return $this->belongsToMany(User::class)
-            ->as("showed_up")
+            ->as("lecture_user")
             ->withPivot('showed_up');
     }
 }
