@@ -1,7 +1,8 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Speaker } from '@/types/models';
 import { CircleDashed } from 'lucide-react';
 
-function SpeakerDialog({ children, speaker }) {
+function SpeakerDialog({ children, speaker }: { children: any; speaker: Speaker }) {
     return (
         <Dialog>
             <DialogTrigger asChild>{children}</DialogTrigger>

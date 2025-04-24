@@ -26,8 +26,8 @@ function MyLectures({ user }: { user: User }) {
                     <h2 className="text-light-text">As palestras nas quais você esta inscrito</h2>
                 </div>
                 <div className="grid gap-6 lg:grid-cols-2">
-                    <MyLecturesPerfil user={user[0]} />
-                    <MyLecturesList lectures={user[0].lectures} />
+                    <MyLecturesPerfil user={user} />
+                    <MyLecturesList lectures={user.lectures} />
                 </div>
             </section>
         </AppLayout>

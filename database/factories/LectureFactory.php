@@ -17,13 +17,13 @@ class LectureFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'=>fake()->text(100),
-            'type'=>fake()->randomElement(['Gestão e Mercado', 'Tecnologia']),
-            'date'=>fake()->randomElement(['17/10','18/10','19/10','20/10']),
-            'starts'=>fake()->time('H:i'),
-            'ends'=> fake()->time('H:i'),
-            'speaker_id' => fake()->randomElement([1,2,3,4,5]),
-            'room_number'=> '404',
+            'title' => fake()->text(75),
+            'type' => fake()->randomElement(['Gestão e Mercado', 'Tecnologia']),
+            'date' => fake()->randomElement(['17/10', '18/10', '19/10', '20/10']),
+            'starts' => fake()->time('H:i'),
+            'ends' => fake()->time('H:i'),
+            'speaker_id' => fake()->randomElement([1, 2, 3, 4, 5]),
+            'room_number' => '404',
         ];
     }
 }
