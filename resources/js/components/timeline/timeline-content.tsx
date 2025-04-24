@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 function TimelineContent({
     variant = 'left',
     children,
@@ -7,7 +9,7 @@ function TimelineContent({
 }: {
     variant?: string;
     date: string;
-    children: any;
+    children: ReactNode;
     turno: string;
     lineColor?: string;
 }) {

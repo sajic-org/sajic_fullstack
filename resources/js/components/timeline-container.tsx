@@ -32,7 +32,6 @@ function groupByDayReducer(grouped: LecturesByDay, lecture: Lecture) {
         };
     }
     const hour = Number(lecture.time.slice(0, 2));
-    console.log(hour);
 
     if (hour <= 12) {
         grouped[lecture.day].Manhã.push(lecture);
