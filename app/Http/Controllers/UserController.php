@@ -11,6 +11,11 @@ use Ramsey\Uuid\Type\Integer;
 
 class UserController extends Controller
 {
+
+    public function attendance_list(){
+        return Inertia::render('attendance_list');
+    }
+
     public function my_lectures()
     {
         $user = Auth::user()->load(['lectures.speaker.lectures']);
