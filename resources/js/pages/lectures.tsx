@@ -21,13 +21,13 @@ function Lectures({ lectures, user = undefined }: { lectures: Lecture[]; user?: 
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Palestras" />
 
-            <div className="mt-10 px-4 md:max-w-7xl">
+            <div className="mt-10 px-6 md:max-w-7xl">
                 <h2 className="text-primary-blue text-xl font-semibold">Palestras</h2>
                 <h3 className="text-3xl font-semibold">Confira o que te aguarda no evento</h3>
             </div>
 
             <Deferred data="lectures" fallback={<Spinner />}>
-                <section className="mx-auto w-full space-y-4 px-4 md:max-w-7xl">
+                <section className="mx-auto w-full space-y-4 px-6 md:max-w-7xl">
                     <LecturesGridHeading
                         title="Tecnologia"
                         description="Explore o mercado atual da tecnologia"

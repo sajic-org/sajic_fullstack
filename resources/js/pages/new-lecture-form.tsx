@@ -69,7 +69,7 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Nova Palestra" />
 
-            <div className="mx-auto mb-20 space-y-6 px-4 pt-12 md:w-2/3">
+            <div className="mx-auto mb-20 space-y-6 px-6 pt-12 md:w-2/3">
                 <HeadingSmall title="Nova Palestra" description="Publique aqui novas palestras" />
 
                 <div className="grid gap-2">
