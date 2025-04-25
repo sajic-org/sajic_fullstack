@@ -17,14 +17,21 @@ class LectureController extends Controller
     // Listagem de Palestras
     public function index()
     {
-        $lectures = Lecture::with(['speaker.lectures'])->get();
+        $user = ''; 
 
-        $user = '';
         if (Auth::check()) {
             $user = User::with('lectures')->find(Auth::user());
         }
 
-        return Inertia::render('lectures', ['lectures' => $lectures, 'user' => $user]);
+        function defer_lectures(){
+          return Inertia::defer(function() {
+                $lectures = Lecture::with(['speaker.lectures'])->get();
+                return $lectures;
+                });
+        };
+
+        return Inertia::render('lectures', ['lectures' =>  defer_lectures(), 'user' => $user
+        ]);
     }
 
     // GET do Form de criação de Palestras

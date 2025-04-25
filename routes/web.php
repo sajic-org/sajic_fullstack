@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\UserController;
+use App\Models\Lecture;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -9,7 +10,14 @@ use Inertia\Inertia;
 
 // Home
 Route::get('/', function () {
-    return Inertia::render('home');
+
+    return Inertia::render('home', ['lectures' => Inertia::defer(function() {
+        
+        $lectures = Lecture::with('speaker')->get();
+        
+        return $lectures;
+    })]);
+
 })->name('home');
 
 // Palestras
