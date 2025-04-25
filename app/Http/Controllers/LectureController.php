@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class LectureController extends Controller
@@ -17,20 +16,23 @@ class LectureController extends Controller
     // Listagem de Palestras
     public function index()
     {
-        $user = ''; 
+        $user = '';
 
         if (Auth::check()) {
             $user = User::with('lectures')->find(Auth::user());
         }
 
-        function defer_lectures(){
-          return Inertia::defer(function() {
-                $lectures = Lecture::with(['speaker.lectures'])->get();
-                return $lectures;
-                });
-        };
+        function defer_lectures()
+        {
 
-        return Inertia::render('lectures', ['lectures' =>  defer_lectures(), 'user' => $user
+            return Inertia::defer(function () {
+                $lectures = Lecture::with(['speaker.lectures'])->get();
+
+                return $lectures;
+            });
+        }
+
+        return Inertia::render('lectures', ['lectures' => defer_lectures(), 'user' => $user,
         ]);
     }
 
@@ -44,7 +46,7 @@ class LectureController extends Controller
     public function store(Request $request)
     {
 
-        Log::debug(join(['PALESTRA 🔥🔥🔥: ', $request]));
+        Log::debug(implode(['PALESTRA 🔥🔥🔥: ', $request]));
         // todo
         $request->validate([
             'speaker_id' => 'required',
@@ -75,8 +77,7 @@ class LectureController extends Controller
         $lecture->attendants;
         $lecture->speaker;
 
-
-        return Inertia::render('check-in', ['lecture'=>$lecture]);
+        return Inertia::render('check-in', ['lecture' => $lecture]);
     }
 
     // realiza o Check In

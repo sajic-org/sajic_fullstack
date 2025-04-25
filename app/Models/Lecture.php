@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Lecture extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'title',
         'type',

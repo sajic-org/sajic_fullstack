@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lecture;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use Ramsey\Uuid\Type\Integer;
 
 class UserController extends Controller
 {
-
-    public function attendance_list(){
+    public function attendance_list()
+    {
         return Inertia::render('attendance_list');
     }
 
