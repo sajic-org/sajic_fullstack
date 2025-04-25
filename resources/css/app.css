@@ -118,8 +118,9 @@
     --sidebar-ring: oklch(0.87 0 0);
 }
 
-.posiciona-imagem-footer {
-    background-position: 90% -40%;
+.positions-sphere-in-bg {
+    background-size: 120%;
+    background-position: 100% 40%;
 }
 
 .dark {
