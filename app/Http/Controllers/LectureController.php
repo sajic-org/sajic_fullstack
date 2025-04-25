@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class LectureController extends Controller
@@ -45,17 +46,14 @@ class LectureController extends Controller
     //  POST de criação de Palestras
     public function store(Request $request)
     {
-
-        Log::debug(implode(['PALESTRA 🔥🔥🔥: ', $request]));
-        // todo
         $request->validate([
+            'title' => 'required|max:75|min:10',
             'speaker_id' => 'required',
-            'room_number' => 'required',
-            'type' => 'required',
-            'title' => 'required',
-            'date' => 'required',
-            'starts' => 'required',
-            'ends' => 'required',
+            'room_number' => 'required|min:3',
+            'type' => 'required|in:Tecnologia,Gestão e Mercado',
+            'date' => 'required|min:5|max:5',
+            'starts' => 'required|min:5|max:5',
+            'ends' => 'required|min:5|max:5',
         ]);
 
         Lecture::create([
@@ -103,13 +101,13 @@ class LectureController extends Controller
     public function update(Request $request, Lecture $lecture)
     {
         $validated = $request->validate([
+            'title' => 'required|max:75|min:10',
             'speaker_id' => 'required',
-            'room_number' => 'required',
-            'type' => 'required',
-            'title' => 'required',
-            'date' => 'required',
-            'starts' => 'required',
-            'ends' => 'required',
+            'room_number' => 'required|min:3',
+            'type' => 'required|in:Tecnologia,Gestão e Mercado',
+            'date' => 'required|min:5|max:5',
+            'starts' => 'required|min:5|max:5',
+            'ends' => 'required|min:5|max:5',
         ]);
 
         Lecture::update($validated);
@@ -121,5 +119,7 @@ class LectureController extends Controller
     public function destroy(Lecture $lecture)
     {
         Lecture::destroy($lecture);
+
+        return to_route('home');
     }
 }
