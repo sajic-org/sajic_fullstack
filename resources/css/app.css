@@ -7,8 +7,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
-
 @theme {
     --color-primary-blue: var(--primary-blue);
     --color-light-text: var(--light-text);
@@ -118,6 +116,10 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.87 0 0);
+}
+
+.posiciona-imagem-footer {
+    background-position: 90% -40%;
 }
 
 .dark {
