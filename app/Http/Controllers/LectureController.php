@@ -8,8 +8,6 @@ use App\Models\Speaker;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class LectureController extends Controller
@@ -72,14 +70,9 @@ class LectureController extends Controller
     // GET Check In
     public function attendant_table(Lecture $lecture)
     {
-
-<<<<<<< HEAD
         $lecture->load('attendants', 'speaker');
 
         return Inertia::render('check-in', ['lecture'=>$lecture]);
-=======
-        return Inertia::render('check-in', ['lecture' => $lecture]);
->>>>>>> dev
     }
 
     // realiza o Check In
