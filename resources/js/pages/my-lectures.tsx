@@ -20,7 +20,7 @@ function MyLectures({ user }: { user: User }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Minhas Palestras" />
-            <section className="mx-auto my-10 flex w-full flex-col justify-between gap-20 px-4 md:max-w-7xl">
+            <section className="mx-auto my-10 flex w-full flex-col justify-between gap-20 px-6 md:max-w-7xl">
                 <div>
                     <h1 className="text-2xl font-bold">Minhas Palestras</h1>
                     <h2 className="text-light-text">As palestras nas quais você esta inscrito</h2>

@@ -3,7 +3,7 @@ import { UserInfo } from '@/components/user-info';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 import { User } from '@/types/models';
 import { Link } from '@inertiajs/react';
-import { BookMarked, BookPlus, LogOut, Settings } from 'lucide-react';
+import { BookMarked, BookPlus, ListChecks, LogOut, Settings } from 'lucide-react';
 
 export function UserMenuContent({ user }: { user: User }) {
     const cleanup = useMobileNavigation();
@@ -25,15 +25,23 @@ export function UserMenuContent({ user }: { user: User }) {
                     </Link>
                 </DropdownMenuItem>
 
-                {user.is_admin ? (
+                {user.is_admin && (
                     <DropdownMenuItem asChild>
                         <Link className="block w-full" href={route('lectures.create')} as="button" prefetch onClick={cleanup}>
                             <BookPlus className="mr-2" /> Novas Palestras
                         </Link>
                     </DropdownMenuItem>
-                ) : (
-                    ''
                 )}
+
+                {user.is_admin && (
+                    <DropdownMenuItem asChild>
+                        <Link className="block w-full" href={route('user.attendance_list')} as="button" prefetch onClick={cleanup}>
+                            <ListChecks className="mr-2" /> Presenças
+                        </Link>
+                    </DropdownMenuItem>
+                )}
+
+                <DropdownMenuSeparator />
 
                 <DropdownMenuItem asChild>
                     <Link className="block w-full" href={route('password.edit')} as="button" prefetch onClick={cleanup}>

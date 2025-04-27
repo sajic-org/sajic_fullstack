@@ -1,8 +1,9 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Speaker } from '@/types/models';
 import { CircleDashed } from 'lucide-react';
+import { ReactNode } from 'react';
 
-function SpeakerDialog({ children, speaker }: { children: any; speaker: Speaker }) {
+function SpeakerDialog({ children, speaker }: { children: ReactNode; speaker: Speaker }) {
     return (
         <Dialog>
             <DialogTrigger asChild>{children}</DialogTrigger>
@@ -11,16 +12,16 @@ function SpeakerDialog({ children, speaker }: { children: any; speaker: Speaker 
                     <DialogTitle>
                         <h3 className="text-primary-blue text-xl">{speaker.name}</h3>
                     </DialogTitle>
-                    <div className="grid items-start gap-4 md:grid-cols-2">
+                    <div className="grid items-start gap-4 md:grid-cols-5">
                         <img
                             src={speaker.image}
                             alt={`Foto de ${speaker.name}`}
-                            className="aspect-square w-full rounded-xl object-cover object-center"
+                            className="col-span-2 aspect-square w-full rounded-xl object-cover object-center"
                         />
-                        <DialogDescription className="max-w-full px-4 break-all">{speaker.description}</DialogDescription>
+                        <DialogDescription className="col-span-3 h-full max-w-full px-4 break-all">{speaker.description}</DialogDescription>
                     </div>
                 </DialogHeader>
-                <ul className="px-4 pb-4">
+                <ul className="h-60 overflow-y-scroll px-4 pb-4">
                     <h4 className="text-lg font-bold text-neutral-800">
                         Palestras de <span className="text-primary-blue">{speaker.name}</span>
                     </h4>

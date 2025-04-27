@@ -9,7 +9,7 @@ export function TimeSelectorGroup({ variant = 'starts', onSetData }: { variant?:
         onSetData(`${variant}`, `${time[0]}:${time[1]}`);
     }, [time]);
     return (
-        <div className="col-span-2">
+        <div>
             <Label htmlFor="starts">{variant === 'starts' ? 'Das' : 'Às'}</Label>
 
             <div className="flex items-center gap-1 pt-1">

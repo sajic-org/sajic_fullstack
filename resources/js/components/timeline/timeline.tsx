@@ -1,4 +1,6 @@
-function Timeline({ children, section = 'white', date }: { children: any; section?: string; date: string }) {
+import { ReactNode } from 'react';
+
+function Timeline({ children, section = 'white', date }: { children: ReactNode; section?: string; date: string }) {
     return (
         <div className={` ${section === 'blue' ? 'bg-primary-blue text-white' : 'text-primary-blue'}`}>
             <h2

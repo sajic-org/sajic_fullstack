@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Lecture;
 use App\Models\Room;
 use App\Models\Speaker;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 function TimelineContent({
     variant = 'left',
     children,
@@ -7,7 +9,7 @@ function TimelineContent({
 }: {
     variant?: string;
     date: string;
-    children: any;
+    children: ReactNode;
     turno: string;
     lineColor?: string;
 }) {
@@ -25,7 +27,7 @@ function TimelineContent({
                 <>
                     <li className="col-span-2 py-5">
                         <div className="relative mb-10 text-end">
-                            <div className={`absolute top-4 -right-[22.3px] size-4 rounded-full bg-${lineColor}`}></div>
+                            <div className={`absolute top-4 -right-[22.3px] size-4 rounded-full bg-${lineColor} `}></div>
                             <h3 className="mx-1 mb-2 text-4xl font-bold">
                                 <span className="text-lg font-normal">({turno}) </span> {date}
                             </h3>

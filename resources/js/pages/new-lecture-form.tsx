@@ -16,7 +16,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
 import { Speaker } from '@/types/models';
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FormEventHandler, useState } from 'react';
+import { toast } from 'sonner';
 
 export interface LectureForm {
     speaker_id: number;
@@ -47,17 +48,20 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
 
     const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
 
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
-
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        console.log(data);
-
         post(route('lectures.store'), {
             preserveScroll: true,
+            onSuccess: () => {
+                toast('Inscrição realizada!', {
+                    description: `Palestra "${data.title}" adicionada!`,
+                });
+            },
+            onError: (errors) => {
+                toast.error('Erro ao criar palestra.');
+                console.error(errors);
+            },
         });
     };
 
@@ -65,7 +69,7 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Nova Palestra" />
 
-            <div className="mx-auto mb-20 space-y-6 px-4 pt-12 md:w-2/3">
+            <div className="mx-auto mb-20 space-y-6 px-6 pt-12 md:w-2/3">
                 <HeadingSmall title="Nova Palestra" description="Publique aqui novas palestras" />
 
                 <div className="grid gap-2">
@@ -82,7 +86,10 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                             </Button>
                         </div>
                     ) : (
-                        <SpeakerSearchInput onSetData={setData} onSetSelectedSpeaker={setSelectedSpeaker} speakers={speakers} />
+                        <>
+                            <SpeakerSearchInput onSetData={setData} onSetSelectedSpeaker={setSelectedSpeaker} speakers={speakers} />
+                            <InputError className="mt-2" message={errors.speaker} />
+                        </>
                     )}
                 </div>
 
@@ -95,7 +102,6 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                                 id="title"
                                 className="mt-1 block w-full"
                                 onChange={(e) => setData('title', e.target.value)}
-                                required
                                 placeholder="Título da Palestra"
                             />
 
@@ -108,6 +114,7 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                             <RoomDropdown rooms={rooms} onSetData={setData}>
                                 <SelectValue className="w-full" placeholder="Sala" />
                             </RoomDropdown>
+                            <InputError className="mt-2" message={errors.room_number} />
                         </div>
 
                         <div className="col-span-2 flex flex-col gap-[14px]">
@@ -116,6 +123,7 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                             <TypeDropdown onSetData={setData}>
                                 <SelectValue className="w-full" placeholder="Categoria" />
                             </TypeDropdown>
+                            <InputError className="mt-2" message={errors.type} />
                         </div>
                     </div>
 
@@ -124,13 +132,20 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                             <div className="col-span-4">
                                 <Label htmlFor="data">Data</Label>
                                 <DatePicker onSetData={setData} />
+                                <InputError className="mt-2" message={errors.date} />
                             </div>
 
                             {/* Das */}
-                            <TimeSelectorGroup onSetData={setData} />
+                            <div className="col-span-2">
+                                <TimeSelectorGroup onSetData={setData} />
+                                <InputError className="mt-2" message={errors.starts} />
+                            </div>
 
                             {/* às */}
-                            <TimeSelectorGroup onSetData={setData} variant="ends" />
+                            <div className="col-span-2">
+                                <TimeSelectorGroup onSetData={setData} variant="ends" />
+                                <InputError className="mt-2" message={errors.ends} />
+                            </div>
                         </div>
                     </div>
 
