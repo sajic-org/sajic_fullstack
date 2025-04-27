@@ -17,12 +17,16 @@ class LectureController extends Controller
     // Listagem de Palestras
     public function index()
     {
-        $user= Auth::user()->load(['lectures']);
+        $user='';
+
+        if(Auth::check()){
+            $user= Auth::user()->load(['lectures']);
+        }
 
         function defer_lectures()
         {
                 $lectures = Lecture::with(['speaker.lectures'])->get();
-                
+
                 return $lectures;
         }
 

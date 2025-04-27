@@ -16,7 +16,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-function Lectures({ lectures, user }: { lectures: Lecture[]; user: User }) {
+function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Palestras" />
