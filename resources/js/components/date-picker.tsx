@@ -12,10 +12,14 @@ import { Calendar } from '@/components/ui/calendar';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-import { cn } from '@/lib/utils';
+import { cn, now } from '@/lib/utils';
 
-export function DatePicker({ onSetData }) {
-    const [date, setDate] = React.useState<Date>();
+export function DatePicker({ onSetData }: { onSetData: React.Dispatch<React.SetStateAction<string>> }) {
+    const [date, setDate] = React.useState(now());
+
+    React.useEffect(() => {
+        onSetData('date', format(date, 'dd/MM'));
+    }, [date]);
 
     return (
         <Popover>
