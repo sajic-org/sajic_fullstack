@@ -1,31 +1,35 @@
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Lecture, User } from '@/types/models';
+import { SharedData, type BreadcrumbItem } from '@/types';
+import { Lecture } from '@/types/models';
+import { usePage } from '@inertiajs/react';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Admin',
-        href: '/',
-    },
-    {
-        title: 'Check in',
-        href: '#',
-    },
-];
+function CheckIn({ lecture }: { lecture: Lecture }) {
+    const page = usePage<SharedData>();
+    const { auth } = page.props;
 
-function CheckIn({ lecture }: { lecture: Lecture; }) {
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: 'Palestras',
+            href: '/palestras',
+        },
+        {
+            title: `Admin ${auth.user.name.split(' ', 1)}`,
+            href: route('user.lectures'),
+        },
+        {
+            title: 'Check in',
+            href: '#',
+        },
+    ];
+
     console.log(lecture);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <header className='pt-10'>
-                <h1 className='text-2xl font-bold'>
-                    Check In
-                </h1>
-                <p>
-                    Verifique a presença dos inscritos para que possam receber certificados
-                </p>
+            <header className="pt-10">
+                <h1 className="text-2xl font-bold">Check In</h1>
+                <p>Verifique a presença dos inscritos para que possam receber certificados</p>
                 <div>
-                    <img src={lecture.speaker?.image}  />
+                    <img src={lecture.speaker?.image} />
                 </div>
             </header>
         </AppLayout>
