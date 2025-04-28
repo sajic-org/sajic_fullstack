@@ -1,22 +1,13 @@
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Lecture } from '@/types/models';
 import { InertiaFormProps, useForm } from '@inertiajs/react';
 import checkInColumnsFactory, { CheckInColumnsType, ShowedUpType } from '@/lib/check-in-columns-factory';
 import CheckInDataTable from '@/components/check-in-data-table';
 import Spinner from '@/components/spinner';
+import { SharedData, type BreadcrumbItem } from '@/types';
+import { Lecture } from '@/types/models';
+import { usePage } from '@inertiajs/react';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Admin',
-        href: '/',
-    },
-    {
-        title: 'Check in',
-        href: '#',
-    },
-];
 
 type checkInFormType = {
     checkedUsers: ShowedUpType[];
@@ -29,6 +20,24 @@ interface checkInPageProps {
 }
 
 function CheckIn({ lecture }: checkInPageProps) {
+    const page = usePage<SharedData>();
+    const { auth } = page.props;
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: 'Palestras',
+            href: '/palestras',
+        },
+        {
+            title: `Admin ${auth.user.name.split(' ', 1)}`,
+            href: route('user.lectures'),
+        },
+        {
+            title: 'Check in',
+            href: '#',
+        },
+    ];
+
     const form = useForm<checkInFormType>({ checkedUsers: [] })
 
     const columnData = generateColumnsData(lecture)

@@ -48,7 +48,7 @@ function TimeSelector({ step = 1, maxNum = 60, minNum = 0, placeholder, label = 
                 }
             }}
         >
-            <SelectTrigger>
+            <SelectTrigger className="w-full min-w-0">
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>

@@ -11,7 +11,7 @@ export const LecturesGrid = ({ className, children }: { className?: string; chil
     return <div className={cn('mx-auto my-8 grid grid-cols-1 gap-4 md:max-w-7xl md:grid-cols-3', className)}>{children}</div>;
 };
 
-export const LecturesGridItem = ({ className, lecture, user, is_admin }: { className?: string; lecture: Lecture; user: User }) => {
+export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user: User }) => {
     return (
         <div
             className={cn(
