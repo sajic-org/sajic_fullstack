@@ -78,6 +78,7 @@ class LectureController extends Controller
     // realiza o Check In
     public function checkin(Request $request, Lecture $lecture)
     {
+        dd($request->all());
         $validated = $request->validate([
             'user_ids' => 'array',
             'user_ids.*' => 'exists:users,id',

@@ -1,9 +1,11 @@
-import { checkInColumns, CheckInColumnsType } from '@/components/check-in-columns';
-import CheckInDataTable from '@/components/check-in-data-table';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Lecture } from '@/types/models';
+import { InertiaFormProps, useForm } from '@inertiajs/react';
+import checkInColumnsFactory, { CheckInColumnsType, ShowedUpType } from '@/lib/check-in-columns-factory';
+import CheckInDataTable from '@/components/check-in-data-table';
+import Spinner from '@/components/spinner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -16,22 +18,33 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-function CheckIn({ lecture }: { lecture: Lecture; }) {
-    console.log(lecture)
+type checkInFormType = {
+    checkedUsers: ShowedUpType[];
+};
 
-    const columnData = parseColumnsData(lecture)
+export type checkInFormProps = InertiaFormProps<checkInFormType>
+
+interface checkInPageProps {
+    lecture: Lecture
+}
+
+function CheckIn({ lecture }: checkInPageProps) {
+    const form = useForm<checkInFormType>({ checkedUsers: [] })
+
+    const columnData = generateColumnsData(lecture)
+    const checkInColumns = checkInColumnsFactory(form)
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <div className='flex justify-around pt-10 flex-wrap'>
-                <header>
+            <div className='flex justify-between pt-10 flex-wrap pb-5'>
+                <header className='pb-5 px-10'>
                     <h1 className='text-2xl font-bold'>
                         Check In
                     </h1>
                     <p>
                         Verifique a presença dos inscritos para que possam receber certificados
                     </p>
-                    <div className='flex gap-4 items-center pt-4'>
+                    <div className='flex gap-4 items-center pt-4 flex-wrap'>
                         <img
                             className='w-30 h-30 rounded-2xl'
                             src="/assets/edecio.jpeg"
@@ -51,19 +64,20 @@ function CheckIn({ lecture }: { lecture: Lecture; }) {
                 </header>
 
                 <Button
-                    className="bg-primary-blue flex h-12 w-32 items-center gap-3 rounded-lg px-9 py-3.5 text-lg text-white shadow-lg drop-shadow-md"
+                    disabled={form.processing}
+                    className="pb-5 mx-10 bg-primary-blue flex h-12 w-32 items-center gap-3 rounded-lg px-9 py-3.5 text-lg text-white shadow-lg drop-shadow-md"
+                    onClick={() => form.post(`/palestras/${lecture.id}/check-in`)}
                 >
-                    Salvar
+                    {form.processing ? <Spinner size={8} /> : "Salvar"}
                 </Button>
             </div>
 
             <CheckInDataTable columns={checkInColumns} data={columnData} />
-
         </AppLayout>
     );
 }
 
-function parseColumnsData(lecture: Lecture) {
+function generateColumnsData(lecture: Lecture) {
     if (!lecture.attendants) {
         return []
     }
@@ -78,7 +92,10 @@ function parseColumnsData(lecture: Lecture) {
         columnData.push({
             email: user.email,
             name: user.name,
-            showed_up: Boolean(user.lecture_user.showed_up)
+            showed_up: {
+                presence: Boolean(user.lecture_user.showed_up),
+                userId: user.id
+            }
         })
     }
 
