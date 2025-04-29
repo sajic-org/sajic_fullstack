@@ -4,6 +4,7 @@ import { InertiaFormProps, useForm } from '@inertiajs/react';
 import checkInColumnsFactory, { CheckInColumnsType, ShowedUpType } from '@/lib/check-in-columns-factory';
 import CheckInDataTable from '@/components/check-in-data-table';
 import Spinner from '@/components/spinner';
+import { useState } from 'react';
 import { SharedData, type BreadcrumbItem } from '@/types';
 import { Lecture } from '@/types/models';
 import { usePage } from '@inertiajs/react';
@@ -20,7 +21,6 @@ interface checkInPageProps {
 }
 
 function CheckIn({ lecture }: checkInPageProps) {
-    console.log(lecture)
     const page = usePage<SharedData>();
     const { auth } = page.props;
 
@@ -41,8 +41,9 @@ function CheckIn({ lecture }: checkInPageProps) {
 
     const form = useForm<checkInFormType>({ checkedUsers: [] })
 
-    const columnData = generateColumnsData(lecture)
-    const checkInColumns = checkInColumnsFactory(form)
+    const [columnData, setColumnData] = useState<CheckInColumnsType[]>(generateColumnsData(lecture))
+
+    const checkInColumns = checkInColumnsFactory(form, setColumnData)
 
     console.log(form.data)
 

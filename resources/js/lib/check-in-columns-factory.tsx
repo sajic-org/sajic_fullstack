@@ -1,7 +1,7 @@
 import { createColumnHelper, Row } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Dispatch, SetStateAction } from "react"
 import { checkInFormProps } from "@/pages/check-in"
-import React, { useState } from "react"
 
 export type ShowedUpType = {
     userId: number,
@@ -16,19 +16,18 @@ export type CheckInColumnsType = {
 
 const columnHelper = createColumnHelper<CheckInColumnsType>()
 
-function checkInColumnsFactory(form: checkInFormProps) {
+function checkInColumnsFactory(form: checkInFormProps, setColumnData: Dispatch<SetStateAction<CheckInColumnsType[]>>) {
 
     const checkInColumns = [
         columnHelper.accessor('showed_up.presence', {
             header: 'Presença',
-            cell: ({ row, getValue }) => {
-                const [check, setCheck] = useState<boolean>(getValue())
+            cell: ({ row }) => {
 
                 return (
                     <Checkbox
-                        checked={check}
+                        checked={row.original.showed_up.presence}
                         onCheckedChange={
-                            checked => handleCheck(checked, setCheck, form, row)
+                            checked => handleCheck(checked, row, form, setColumnData)
                         }
                         aria-label="Dê a presença"
                         className="border-black w-5 h-5 data-[state=checked]:bg-green-300/85 data-[state=checked]:text-foreground"
@@ -53,7 +52,7 @@ function checkInColumnsFactory(form: checkInFormProps) {
 }
 
 
-function handleCheck(checkValue: boolean | string, setCheck: React.Dispatch<React.SetStateAction<boolean>>, form: checkInFormProps, row: Row<CheckInColumnsType>) {
+function handleCheck(checkValue: boolean | string, row: Row<CheckInColumnsType>, form: checkInFormProps, setColumnData: Dispatch<SetStateAction<CheckInColumnsType[]>>) {
     const newChecked = !!checkValue
     const userId = row.original.showed_up.userId
 
@@ -74,7 +73,16 @@ function handleCheck(checkValue: boolean | string, setCheck: React.Dispatch<Reac
         form.setData({ checkedUsers: usersInFormArray })
     }
 
-    setCheck(newChecked)
+    setColumnData(old =>
+        old.map(row =>
+            row.showed_up.userId === userId
+                ? {
+                    ...row,
+                    showed_up: { ...row.showed_up, presence: newChecked }
+                }
+                : row
+        )
+    );
 }
 
 function removeUserFromFormArray(userIndex: number, showedUpArray: ShowedUpType[]) {
