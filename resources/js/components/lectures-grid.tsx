@@ -1,5 +1,5 @@
 import { cn, unsubcribe } from '@/lib/utils';
-import { User } from '@/types';
+import { User } from '@/types/models';
 import { Lecture } from '@/types/models';
 import { Link } from '@inertiajs/react';
 import { CircleX, GraduationCap, ListChecks } from 'lucide-react';
