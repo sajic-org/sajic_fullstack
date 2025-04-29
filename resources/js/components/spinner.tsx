@@ -1,5 +1,5 @@
 interface SpinnerProps {
-    size: number | undefined;
+    size?: number;
 }
 
 export default function Spinner({ size = 12 }: SpinnerProps) {
