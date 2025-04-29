@@ -71,7 +71,7 @@ function CheckIn({ lecture, previously_checked }: { lecture: Lecture; previously
                                         type="checkbox"
                                         id={`checkbox-${a.id}`}
                                         onChange={() => handleChecking(a.id)}
-                                        checked={previously_checked.includes(a.id)}
+                                        checked={checked.includes(a.id)}
                                     />
                                 </li>
                             );
