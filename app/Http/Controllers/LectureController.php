@@ -70,10 +70,14 @@ class LectureController extends Controller
     // GET Check In
     public function attendant_table(Lecture $lecture)
     {
-        $lecture->attendants;
-        $lecture->speaker;
-
-        return Inertia::render('check-in', ['lecture' => $lecture]);
+        $lecture->load(['attendants', 'speaker']);
+        
+        $previously_checked = DB::table('lecture_user')
+        ->where('lecture_id', $lecture->id)
+        ->where('showed_up', 1)
+        ->pluck('user_id');
+    
+        return Inertia::render('check-in', ['lecture' => $lecture, 'previously_checked'=>$previously_checked]);
     }
 
     // realiza o Check In
@@ -88,6 +92,11 @@ class LectureController extends Controller
         ->where('lecture_id', $lecture->id)
         ->whereIn('user_id', $validated['user_ids'])
         ->update(['showed_up' => 1]);
+
+        DB::table('lecture_user')
+        ->where('lecture_id', $lecture->id)
+        ->whereNotIn('user_id', $validated['user_ids'])
+        ->update(['showed_up' => 0]);
 
         return to_route('lectures.index');
     }

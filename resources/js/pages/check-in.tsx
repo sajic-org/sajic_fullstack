@@ -5,7 +5,7 @@ import { Lecture, User } from '@/types/models';
 import { useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler, useEffect, useState } from 'react';
 
-function CheckIn({ lecture }: { lecture: Lecture }) {
+function CheckIn({ lecture, previously_checked }: { lecture: Lecture; previously_checked: number[] }) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
 
@@ -24,7 +24,7 @@ function CheckIn({ lecture }: { lecture: Lecture }) {
         },
     ];
 
-    const [checked, setChecked] = useState([]);
+    const [checked, setChecked] = useState([...previously_checked]);
 
     useEffect(() => {
         console.log(checked);
@@ -66,7 +66,13 @@ function CheckIn({ lecture }: { lecture: Lecture }) {
                                 <li className="flex max-w-7xl justify-between" key={`checkbox-${a.id}`}>
                                     <span>{a.name}</span>
                                     <span>{a.email}</span>
-                                    <input type="checkbox" id={`checkbox-${a.id}`} onClick={() => handleChecking(a.id)} />
+
+                                    <input
+                                        type="checkbox"
+                                        id={`checkbox-${a.id}`}
+                                        onChange={() => handleChecking(a.id)}
+                                        checked={previously_checked.includes(a.id)}
+                                    />
                                 </li>
                             );
                         })}
