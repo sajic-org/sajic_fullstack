@@ -24,4 +24,5 @@ Route::get('/presencas', [UserController::class, 'attendance_list'])->name('user
 
 // Check In
 Route::get('/palestras/{lecture}/check-in', [LectureController::class, 'attendant_table'])->name('lectures.attendant_table');
-Route::post('/palestras/{lecture}/check-in', [LectureController::class, 'checkin'])->name('lectures.check-in');
+
+Route::patch('/palestras/{lecture}/check-in', [LectureController::class, 'checkin'])->name('lectures.check-in');

@@ -8,6 +8,7 @@ use App\Models\Speaker;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -83,7 +84,10 @@ class LectureController extends Controller
             'user_ids.*' => 'exists:users,id',
         ]);
 
-        $lecture->users()->whereIn('user_id', $validated['user_ids'])->update(['showed_up' => true]);
+        DB::table('lecture_user')
+        ->where('lecture_id', $lecture->id)
+        ->whereIn('user_id', $validated['user_ids'])
+        ->update(['showed_up' => 1]);
 
         return to_route('lectures.index');
     }
