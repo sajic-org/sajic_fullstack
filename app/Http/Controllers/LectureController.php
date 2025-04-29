@@ -82,7 +82,12 @@ class LectureController extends Controller
             'checkedUsers.*.presence' => 'required|boolean'
         ]);
 
-        LectureAttendance::where
+        foreach ($validated['checkedUsers'] as $entry) {
+            LectureAttendance::where([
+                ['lecture_id', '=', $lecture->id],
+                ['user_id', '=', $entry['userId']]
+            ])->update(['showed_up' => $entry['presence']]);
+        }
 
         return to_route('lectures.index');
     }

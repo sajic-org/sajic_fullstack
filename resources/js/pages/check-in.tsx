@@ -44,6 +44,8 @@ function CheckIn({ lecture }: checkInPageProps) {
     const columnData = generateColumnsData(lecture)
     const checkInColumns = checkInColumnsFactory(form)
 
+    console.log(form.data)
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <div className='flex justify-between pt-10 flex-wrap pb-5'>

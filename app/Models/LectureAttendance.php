@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LectureAttendance extends Model
 {
-    protected $fillable = [
-        "showed_up"
-    ];
+    public $timestamps = false;
 
+    protected $fillable = ['showed_up', 'lecture_id', 'user_id'];
 }

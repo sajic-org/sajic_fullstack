@@ -1,6 +1,7 @@
 import { createColumnHelper, Row } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
 import { checkInFormProps } from "@/pages/check-in"
+import React, { useState } from "react"
 
 export type ShowedUpType = {
     userId: number,
@@ -20,12 +21,14 @@ function checkInColumnsFactory(form: checkInFormProps) {
     const checkInColumns = [
         columnHelper.accessor('showed_up.presence', {
             header: 'Presença',
-            cell: ({ row }) => {
+            cell: ({ row, getValue }) => {
+                const [check, setCheck] = useState<boolean>(getValue())
+
                 return (
                     <Checkbox
-                        checked={row.getIsSelected()}
+                        checked={check}
                         onCheckedChange={
-                            checked => handleCheck(checked, row, form)
+                            checked => handleCheck(checked, setCheck, form, row)
                         }
                         aria-label="Dê a presença"
                         className="border-black w-5 h-5 data-[state=checked]:bg-green-300/85 data-[state=checked]:text-foreground"
@@ -50,7 +53,7 @@ function checkInColumnsFactory(form: checkInFormProps) {
 }
 
 
-function handleCheck(checkValue: boolean | string, row: Row<CheckInColumnsType>, form: checkInFormProps) {
+function handleCheck(checkValue: boolean | string, setCheck: React.Dispatch<React.SetStateAction<boolean>>, form: checkInFormProps, row: Row<CheckInColumnsType>) {
     const newChecked = !!checkValue
     const userId = row.original.showed_up.userId
 
@@ -71,7 +74,7 @@ function handleCheck(checkValue: boolean | string, row: Row<CheckInColumnsType>,
         form.setData({ checkedUsers: usersInFormArray })
     }
 
-    row.toggleSelected(newChecked)
+    setCheck(newChecked)
 }
 
 function removeUserFromFormArray(userIndex: number, showedUpArray: ShowedUpType[]) {
