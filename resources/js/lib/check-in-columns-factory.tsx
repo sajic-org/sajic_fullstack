@@ -76,10 +76,7 @@ function handleCheck(checkValue: boolean | string, row: Row<CheckInColumnsType>,
     setColumnData(old =>
         old.map(row =>
             row.showed_up.userId === userId
-                ? {
-                    ...row,
-                    showed_up: { ...row.showed_up, presence: newChecked }
-                }
+                ? { ...row, showed_up: { ...row.showed_up, presence: newChecked } }
                 : row
         )
     );
