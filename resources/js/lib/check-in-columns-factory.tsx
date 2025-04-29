@@ -28,7 +28,7 @@ function checkInColumnsFactory(form: checkInFormProps) {
                             checked => handleCheck(checked, row, form)
                         }
                         aria-label="Dê a presença"
-                        className="border-black w-5 h-5"
+                        className="border-black w-5 h-5 data-[state=checked]:bg-green-300/85 data-[state=checked]:text-foreground"
                     />
                 )
             },

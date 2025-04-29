@@ -20,6 +20,7 @@ interface checkInPageProps {
 }
 
 function CheckIn({ lecture }: checkInPageProps) {
+    console.log(lecture)
     const page = usePage<SharedData>();
     const { auth } = page.props;
 
@@ -94,7 +95,7 @@ function generateColumnsData(lecture: Lecture) {
     const columnData: CheckInColumnsType[] = []
 
     for (let user of lecture.attendants) {
-        if (!user.lecture_user) {
+        if (!user.lecture_attendances) {
             return []
         }
 
@@ -102,7 +103,7 @@ function generateColumnsData(lecture: Lecture) {
             email: user.email,
             name: user.name,
             showed_up: {
-                presence: Boolean(user.lecture_user.showed_up),
+                presence: Boolean(user.lecture_attendances.showed_up),
                 userId: user.id
             }
         })

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lecture;
+use App\Models\LectureAttendance;
 use App\Models\Room;
 use App\Models\Speaker;
 use App\Models\User;
@@ -72,16 +73,16 @@ class LectureController extends Controller
         return Inertia::render('check-in', ['lecture'=>$lecture]);
     }
 
-    // realiza o Check In
+    // POST realiza o Check In
     public function checkin(Request $request, Lecture $lecture)
     {
-        dd($request->all());
         $validated = $request->validate([
-            'user_ids' => 'array',
-            'user_ids.*' => 'exists:users,id',
+            'checkedUsers' => 'required|array',
+            'checkedUsers.*.userId' => 'required|integer|exists:users,id',
+            'checkedUsers.*.presence' => 'required|boolean'
         ]);
 
-        $lecture->users()->whereIn('user_id', $validated['user_ids'])->update(['showed_up' => true]);
+        LectureAttendance::where
 
         return to_route('lectures.index');
     }
