@@ -4,6 +4,7 @@ import { Head, useForm, usePage } from '@inertiajs/react';
 
 import { Transition } from '@headlessui/react';
 
+import AddSpeakerDialog from '@/components/add-speaker-dialog';
 import { DatePicker } from '@/components/date-picker';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
@@ -16,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
 import { Speaker } from '@/types/models';
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FormEventHandler, useState } from 'react';
 import { toast } from 'sonner';
 
 export interface LectureForm {
@@ -30,9 +31,11 @@ export interface LectureForm {
     [key: string]: any | unknown;
 }
 
-function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[] }) {
+function NewLectureForm({ speakers, rooms, createdSpeaker }: { speakers: Speaker[]; rooms: Room[]; createdSpeaker?: Speaker }) {
     const page = usePage<SharedData>();
+    console.log(page.props);
     const { auth } = page.props;
+
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: `Admin ${auth.user.name.split(' ', 1)}`,
@@ -47,7 +50,6 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
     const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker>();
 
     const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
-
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -73,6 +75,7 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
             <div className="mx-auto mb-20 space-y-6 px-6 pt-12 md:w-2/3">
                 <HeadingSmall title="Nova Palestra" description="Publique aqui novas palestras" />
 
+
                 <div className="grid gap-2">
                     <Label htmlFor="title">Palestrante</Label>
                     {selectedSpeaker ? (
@@ -88,7 +91,9 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                         </div>
                     ) : (
                         <>
-                            <SpeakerSearchInput onSetData={setData} onSetSelectedSpeaker={setSelectedSpeaker} speakers={speakers} />
+                            <SpeakerSearchInput onSetData={setData} onSetSelectedSpeaker={setSelectedSpeaker} speakers={speakers}>
+                                <AddSpeakerDialog createdSpeaker={createdSpeaker} onSetSelectedSpeaker={setSelectedSpeaker} speakers={speakers}/>
+                            </SpeakerSearchInput>
                             <InputError className="mt-2" message={errors.speaker} />
                         </>
                     )}

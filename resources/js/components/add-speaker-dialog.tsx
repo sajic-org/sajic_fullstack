@@ -2,19 +2,31 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useForm } from '@inertiajs/react';
+import { Speaker } from '@/types/models';
+import { useForm, usePage } from '@inertiajs/react';
 import { PlusIcon, UploadIcon } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useEffect } from 'react';
 import InputError from './input-error';
 import { DialogTrigger } from './ui/dialog';
 import { Textarea } from './ui/textarea';
 
-function AddSpeakerDialog() {
+function AddSpeakerDialog({ speakers, onSetSelectedSpeaker }: { createdSpeaker?: Speaker }) {
     interface SpeakerForm {
         image: string;
         name: string;
         description: string;
     }
+    const { flash } = usePage().props;
+
+    if (flash?.newSpeaker) {
+        console.log('New Speaker:', flash?.newSpeaker);
+    }
+
+    useEffect(() => {
+        if (flash?.newSpeaker) {
+            onSetSelectedSpeaker(flash.newSpeaker);
+        }
+    }, [flash.newSpeaker]);
 
     const { data, setData, post, errors } = useForm<Required<SpeakerForm>>();
 
@@ -23,6 +35,12 @@ function AddSpeakerDialog() {
 
         post(route('speakers.store', data), {
             preserveScroll: true,
+            onSuccess: () => {
+                console.log('Flash:', flash.newSpeaker);
+                if (flash.newSpeaker) {
+                    onSetSelectedSpeaker(flash.newSpeaker);
+                }
+            },
         });
     };
 
@@ -83,13 +101,16 @@ function AddSpeakerDialog() {
                         </div>
                     </div>
                     <DialogFooter>
-                        {errors.image || errors.name || errors.description ? (
+                        {/* {errors.image || errors.name || errors.description ? (
                             <Button className="bg-gray-600 hover:bg-gray-600">Salvar</Button>
                         ) : (
                             <DialogClose type="submit">
                                 <Button>Salvar</Button>
                             </DialogClose>
-                        )}
+                        )} */}
+                        <DialogClose type="submit">
+                            <Button>Salvar</Button>
+                        </DialogClose>
                     </DialogFooter>
                 </form>
             </DialogContent>

@@ -2,18 +2,19 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { LectureForm } from '@/pages/new-lecture-form';
 import { Speaker } from '@/types/models';
 import { InertiaFormProps } from '@inertiajs/react';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import AddSpeakerDialog from './add-speaker-dialog';
+import { Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react';
 import { Input } from './ui/input';
 
 function SpeakerSearchInput({
     onSetData,
     speakers,
     onSetSelectedSpeaker,
+    children,
 }: {
     onSetData: InertiaFormProps<LectureForm>['setData'];
     speakers: Speaker[];
     onSetSelectedSpeaker: Dispatch<SetStateAction<Speaker | undefined>>;
+    children: ReactNode;
 }) {
     const [query, setQuery] = useState('');
     const [filteredSpeakers, setFilteredSpeakers] = useState<Speaker[]>([]);
@@ -50,8 +51,7 @@ function SpeakerSearchInput({
                             </AlertDescription>
                         );
                     })}
-
-                    <AddSpeakerDialog />
+                    {children}
                 </Alert>
             )}
         </div>
