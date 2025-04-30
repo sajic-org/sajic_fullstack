@@ -1,9 +1,13 @@
-export default function Spinner() {
+interface SpinnerProps {
+    size?: number;
+}
+
+export default function Spinner({ size = 12 }: SpinnerProps) {
     return (
         <div role="status" className="mx-auto my-48">
             <svg
                 aria-hidden="true"
-                className="inline size-12 animate-spin fill-orange-600 text-gray-200 dark:text-gray-600"
+                className={`inline size-${size} animate-spin fill-orange-600 text-gray-200 dark:text-gray-600`}
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

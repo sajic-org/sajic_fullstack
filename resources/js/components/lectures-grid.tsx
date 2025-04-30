@@ -1,5 +1,5 @@
 import { cn, unsubcribe } from '@/lib/utils';
-import { User } from '@/types';
+import { User } from '@/types/models';
 import { Lecture } from '@/types/models';
 import { Link } from '@inertiajs/react';
 import { CircleX, GraduationCap, ListChecks } from 'lucide-react';
@@ -22,8 +22,8 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
             <div className="flex items-start justify-between gap-8 transition duration-200 group-hover/bento:translate-x-2">
                 <SpeakerDialog speaker={lecture.speaker}>
                     <img
-                        src={lecture.speaker.image}
-                        alt={lecture.speaker.name}
+                        src={lecture.speaker?.image}
+                        alt={lecture.speaker?.name}
                         className="aspect-square w-28 cursor-pointer rounded-xl object-cover"
                     />
                 </SpeakerDialog>
@@ -60,7 +60,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
             <div className="transition duration-200 group-hover/bento:translate-x-2 dark:text-neutral-200">
                 <div className="mt-2 text-lg font-bold">{lecture.title}</div>
                 <div className="font-normal">
-                    com <span className="text-primary-blue font-medium capitalize">{lecture.speaker.name}</span>
+                    com <span className="text-primary-blue font-medium capitalize">{lecture.speaker?.name}</span>
                 </div>
                 <div className="flex items-center justify-between">
                     <span>Sala {lecture.room_number}</span>

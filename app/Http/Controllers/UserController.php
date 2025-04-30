@@ -24,7 +24,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $user->lectures()->attach($request->id);
-        
+
         return back();
     }
 

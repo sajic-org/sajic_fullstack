@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lecture;
+use App\Models\LectureAttendance;
 use App\Models\Room;
 use App\Models\Speaker;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class LectureController extends Controller
@@ -70,33 +68,26 @@ class LectureController extends Controller
     // GET Check In
     public function attendant_table(Lecture $lecture)
     {
-        $lecture->load(['attendants', 'speaker']);
-        
-        $previously_checked = DB::table('lecture_user')
-        ->where('lecture_id', $lecture->id)
-        ->where('showed_up', 1)
-        ->pluck('user_id');
-    
-        return Inertia::render('check-in', ['lecture' => $lecture, 'previously_checked'=>$previously_checked]);
+        $lecture->load('attendants', 'speaker');
+
+        return Inertia::render('check-in', ['lecture'=>$lecture]);
     }
 
-    // realiza o Check In
+    // POST realiza o Check In
     public function checkin(Request $request, Lecture $lecture)
     {
         $validated = $request->validate([
-            'user_ids' => 'array',
-            'user_ids.*' => 'exists:users,id',
+            'checkedUsers' => 'required|array',
+            'checkedUsers.*.userId' => 'required|integer|exists:users,id',
+            'checkedUsers.*.presence' => 'required|boolean'
         ]);
 
-        DB::table('lecture_user')
-        ->where('lecture_id', $lecture->id)
-        ->whereIn('user_id', $validated['user_ids'])
-        ->update(['showed_up' => 1]);
-
-        DB::table('lecture_user')
-        ->where('lecture_id', $lecture->id)
-        ->whereNotIn('user_id', $validated['user_ids'])
-        ->update(['showed_up' => 0]);
+        foreach ($validated['checkedUsers'] as $entry) {
+            LectureAttendance::where([
+                ['lecture_id', '=', $lecture->id],
+                ['user_id', '=', $entry['userId']]
+            ])->update(['showed_up' => $entry['presence']]);
+        }
 
         return to_route('lectures.index');
     }
