@@ -72,6 +72,21 @@ function CheckInDataTable({ columns, data }: DataTableProps) {
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
+                                    console.log(header.id)
+
+                                    if (header.id != filterColumn && header.id != "showed_up_presence"){
+                                        return (
+                                            <TableHead key={header.id} className="max-md:hidden">
+                                                {header.isPlaceholder
+                                                    ? null
+                                                    : flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )}
+                                            </TableHead>
+                                        )
+                                    }
+
                                     return (
                                         <TableHead key={header.id}>
                                             {header.isPlaceholder
@@ -94,11 +109,26 @@ function CheckInDataTable({ columns, data }: DataTableProps) {
                                     data-state={row.getIsSelected() && "selected"}
                                     className={`${i % 2 == 0 && "bg-primary-blue/15 hover:bg-primary-blue/25"} data-[state=selected]:bg-green-100/50 data-[state=selected]:hover:bg-green-100`}
                                 >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} >
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </TableCell>
-                                    ))}
+                                    {row.getVisibleCells().map((cell) => {
+
+                                        const cellName = cell.column.id;
+
+                                        // Hide column not selected on smaller screens
+                                        if (cellName != filterColumn && cellName != "showed_up_presence") {
+                                            return (
+                                                <TableCell key={cell.id} className="max-md:hidden">
+                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                </TableCell>
+                                            )
+                                        }
+
+                                        return (
+                                            <TableCell key={cell.id} >
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </TableCell>
+                                        )
+                                    }
+                                    )}
                                 </TableRow>
                             ))
                         ) : (

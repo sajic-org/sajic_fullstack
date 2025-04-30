@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
-import { InertiaFormProps, useForm, usePage } from '@inertiajs/react';
+import { Head, InertiaFormProps, useForm, usePage } from '@inertiajs/react';
 import checkInColumnsFactory, { CheckInColumnsType, ShowedUpType } from '@/lib/check-in-columns-factory';
 import CheckInDataTable from '@/components/check-in-data-table';
 import Spinner from '@/components/spinner';
@@ -43,6 +43,7 @@ function CheckIn({ lecture }: checkInPageProps) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title='Check-in'/>
             <div className='flex justify-between pt-10 flex-wrap pb-5'>
                 <header className='pb-5 px-10'>
                     <h1 className='text-2xl font-bold'>
