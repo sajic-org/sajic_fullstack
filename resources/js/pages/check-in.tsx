@@ -73,7 +73,7 @@ function CheckIn({ lecture }: checkInPageProps) {
                 <Button
                     disabled={form.processing}
                     className="pb-5 mx-10 bg-primary-blue flex h-12 w-32 items-center gap-3 rounded-lg px-9 py-3.5 text-lg text-white shadow-lg drop-shadow-md"
-                    onClick={() => form.post(`/palestras/${lecture.id}/check-in`)}
+                    onClick={() => form.patch(`/palestras/${lecture.id}/check-in`)}
                 >
                     {form.processing ? <Spinner size={8} /> : "Salvar"}
                 </Button>
