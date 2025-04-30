@@ -82,11 +82,26 @@ class LectureController extends Controller
             'checkedUsers.*.presence' => 'required|boolean'
         ]);
 
-        foreach ($validated['checkedUsers'] as $entry) {
-            LectureAttendance::where([
-                ['lecture_id', '=', $lecture->id],
-                ['user_id', '=', $entry['userId']]
-            ])->update(['showed_up' => $entry['presence']]);
+        $userIdsByPresence = [
+            true => [],
+            false => [],
+        ];
+
+        // Group userIds by presence
+        foreach ($validated['checkedUsers'] as $user){
+            $userIdsByPresence[$user["presence"]][] = $user["userId"];
+        }
+
+        if (!empty($userIdsByPresence[true])) {
+            LectureAttendance::where('lecture_id', $lecture->id)
+                ->whereIn('user_id', $userIdsByPresence[true])
+                ->update(['showed_up' => true]);
+        }
+
+        if (!empty($userIdsByPresence[false])) {
+            LectureAttendance::where('lecture_id', $lecture->id)
+                ->whereIn('user_id', $userIdsByPresence[false])
+                ->update(['showed_up' => false]);
         }
 
         return to_route('lectures.index');
