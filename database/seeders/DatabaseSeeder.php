@@ -17,11 +17,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Speaker::factory(5)->create();
-        
+
         Room::create(['number' => '204', 'capacity' => 45]);
         Room::create(['number' => '303', 'capacity' => 30]);
         Room::create(['number' => '404', 'capacity' => 202]);
-        
+
         Lecture::factory(25)->create();
 
         $users = User::factory(20)->create();

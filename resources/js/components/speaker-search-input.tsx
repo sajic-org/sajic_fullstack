@@ -37,6 +37,11 @@ function SpeakerSearchInput({
 
             {query && (
                 <Alert className="absolute left-8 mt-2 max-w-md sm:min-w-[100px]">
+                    {filteredSpeakers.length === 0 && (
+                        <AlertDescription className="my-2 flex cursor-pointer items-center gap-2 pl-1 text-base font-medium">
+                            Nenhum palestrante encontrado
+                        </AlertDescription>
+                    )}
                     {filteredSpeakers.map((s) => {
                         return (
                             <AlertDescription

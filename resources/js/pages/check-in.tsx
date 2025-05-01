@@ -9,9 +9,7 @@ import checkInColumnsFactory, { CheckInColumnsType, ShowedUpType } from '@/lib/c
 import { SharedData, type BreadcrumbItem } from '@/types';
 import { Lecture } from '@/types/models';
 
-import { InertiaFormProps, useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-
 
 type checkInFormType = {
     checkedUsers: ShowedUpType[];
@@ -42,36 +40,25 @@ function CheckIn({ lecture }: checkInPageProps) {
         },
     ];
 
-    const form = useForm<checkInFormType>({ checkedUsers: [] })
+    const form = useForm<checkInFormType>({ checkedUsers: [] });
 
-    const [columnData, setColumnData] = useState<CheckInColumnsType[]>(generateColumnsData(lecture))
-    const checkInColumns = checkInColumnsFactory(form, setColumnData)
+    const [columnData, setColumnData] = useState<CheckInColumnsType[]>(generateColumnsData(lecture));
+    const checkInColumns = checkInColumnsFactory(form, setColumnData);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title='Check-in'/>
-            <div className='flex justify-between pt-10 flex-wrap pb-5'>
-                <header className='pb-5 px-10'>
-                    <h1 className='text-2xl font-bold'>
-                        Check In
-                    </h1>
-                    <p>
-                        Verifique a presença dos inscritos para que possam receber certificados
-                    </p>
-                    <div className='flex gap-4 items-center pt-4 flex-wrap'>
-                        <img
-                            className='w-30 h-30 rounded-2xl'
-                            src="/assets/edecio.jpeg"
-                        />
+            <Head title="Check-in" />
+            <div className="flex flex-wrap justify-between pt-10 pb-5">
+                <header className="px-10 pb-5">
+                    <h1 className="text-2xl font-bold">Check In</h1>
+                    <p>Verifique a presença dos inscritos para que possam receber certificados</p>
+                    <div className="flex flex-wrap items-center gap-4 pt-4">
+                        <img className="h-30 w-30 rounded-2xl" src="/assets/edecio.jpeg" />
 
                         <div>
-                            <h2 className='text-lg font-semibold'>
-                                {lecture.title}
-                            </h2>
-                            <p>com {" "}
-                                <span className='text-primary-blue'>
-                                    {lecture.speaker?.name}
-                                </span>
+                            <h2 className="text-lg font-semibold">{lecture.title}</h2>
+                            <p>
+                                com <span className="text-primary-blue">{lecture.speaker?.name}</span>
                             </p>
                         </div>
                     </div>
@@ -79,15 +66,14 @@ function CheckIn({ lecture }: checkInPageProps) {
 
                 <Button
                     disabled={form.processing}
-                    className="pb-5 mx-10 bg-primary-blue flex h-12 w-32 items-center gap-3 rounded-lg px-9 py-3.5 text-lg text-white shadow-lg drop-shadow-md"
+                    className="bg-primary-blue mx-10 flex h-12 w-32 items-center gap-3 rounded-lg px-9 py-3.5 pb-5 text-lg text-white shadow-lg drop-shadow-md"
                     onClick={() => form.patch(`/palestras/${lecture.id}/check-in`)}
                 >
-                    {form.processing ? <Spinner size={8} /> : "Salvar"}
+                    {form.processing ? <Spinner size={8} /> : 'Salvar'}
                 </Button>
             </div>
 
             <CheckInDataTable columns={checkInColumns} data={columnData} />
-
         </AppLayout>
     );
 }

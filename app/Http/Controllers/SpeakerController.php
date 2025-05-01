@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Speaker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Inertia\Inertia;
 
 class SpeakerController extends Controller
 {

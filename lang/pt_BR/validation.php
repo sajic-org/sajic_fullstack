@@ -244,7 +244,7 @@ return [
         'restored_at' => 'restaurado em',
         'result_text_under_image' => 'texto do resultado sob a imagem',
         'role' => 'função',
-        'room_number'=>'sala',
+        'room_number' => 'sala',
         'rule' => 'regra',
         'rules' => 'regras',
         'second' => 'segundo',

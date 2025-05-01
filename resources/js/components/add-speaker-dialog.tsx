@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { LectureForm } from '@/pages/new-lecture-form';
 import { Speaker } from '@/types/models';
 import { InertiaFormProps, useForm, usePage } from '@inertiajs/react';
 import { PlusIcon, UploadIcon } from 'lucide-react';
@@ -9,7 +10,6 @@ import { Dispatch, FormEventHandler, SetStateAction, useEffect } from 'react';
 import InputError from './input-error';
 import { DialogTrigger } from './ui/dialog';
 import { Textarea } from './ui/textarea';
-import { LectureForm } from '@/pages/new-lecture-form';
 
 function AddSpeakerDialog({
     onSetSelectedSpeaker,
@@ -40,6 +40,11 @@ function AddSpeakerDialog({
 
         post(route('speakers.store', data), {
             preserveScroll: true,
+            onSuccess: () => {
+                if (Object.keys(errors).length === 0) {
+                    document.querySelector('[data-dialog-close]')?.click();
+                }
+            },
         });
     };
 
@@ -70,7 +75,7 @@ function AddSpeakerDialog({
                                     id="image"
                                     name="image"
                                     required
-                                    onChange={(e) => setData('image', e.target.files[0])}
+                                    onChange={(e) => setData('image', e.target.files[0] || null)}
                                     className="absolute h-full w-full cursor-pointer opacity-0"
                                 />
                             </div>
@@ -100,16 +105,7 @@ function AddSpeakerDialog({
                         </div>
                     </div>
                     <DialogFooter>
-                        {/* {errors.image || errors.name || errors.description ? (
-                            <Button className="bg-gray-600 hover:bg-gray-600">Salvar</Button>
-                        ) : (
-                            <DialogClose type="submit">
-                                <Button>Salvar</Button>
-                            </DialogClose>
-                        )} */}
-                        <DialogClose type="submit">
-                            <Button>Salvar</Button>
-                        </DialogClose>
+                        <Button type="submit">Salvar</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

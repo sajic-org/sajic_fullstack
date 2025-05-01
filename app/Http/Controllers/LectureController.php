@@ -6,28 +6,26 @@ use App\Models\Lecture;
 use App\Models\LectureAttendance;
 use App\Models\Room;
 use App\Models\Speaker;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class LectureController extends Controller
 {
     // Listagem de Palestras
     public function index()
     {
-        $user='';
+        $user = '';
 
-        if(Auth::check()){
-            $user= Auth::user()->load(['lectures']);
+        if (Auth::check()) {
+            $user = Auth::user()->load(['lectures']);
         }
 
         function defer_lectures()
         {
-                $lectures = Lecture::with(['speaker.lectures'])->get();
+            $lectures = Lecture::with(['speaker.lectures'])->get();
 
-                return $lectures;
+            return $lectures;
         }
 
         return Inertia::render('lectures', ['lectures' => defer_lectures(), 'user' => $user,
@@ -72,7 +70,7 @@ class LectureController extends Controller
     {
         $lecture->load('attendants', 'speaker');
 
-        return Inertia::render('check-in', ['lecture'=>$lecture]);
+        return Inertia::render('check-in', ['lecture' => $lecture]);
     }
 
     // POST realiza o Check In
@@ -81,7 +79,7 @@ class LectureController extends Controller
         $validated = $request->validate([
             'checkedUsers' => 'required|array',
             'checkedUsers.*.userId' => 'required|integer|exists:users,id',
-            'checkedUsers.*.presence' => 'required|boolean'
+            'checkedUsers.*.presence' => 'required|boolean',
         ]);
 
         $userIdsByPresence = [
@@ -90,17 +88,17 @@ class LectureController extends Controller
         ];
 
         // Group userIds by presence
-        foreach ($validated['checkedUsers'] as $user){
-            $userIdsByPresence[$user["presence"]][] = $user["userId"];
+        foreach ($validated['checkedUsers'] as $user) {
+            $userIdsByPresence[$user['presence']][] = $user['userId'];
         }
 
-        if (!empty($userIdsByPresence[true])) {
+        if (! empty($userIdsByPresence[true])) {
             LectureAttendance::where('lecture_id', $lecture->id)
                 ->whereIn('user_id', $userIdsByPresence[true])
                 ->update(['showed_up' => true]);
         }
 
-        if (!empty($userIdsByPresence[false])) {
+        if (! empty($userIdsByPresence[false])) {
             LectureAttendance::where('lecture_id', $lecture->id)
                 ->whereIn('user_id', $userIdsByPresence[false])
                 ->update(['showed_up' => false]);
