@@ -1,21 +1,26 @@
-import { Button } from '@/components/ui/button';
-import AppLayout from '@/layouts/app-layout';
-import { Head, InertiaFormProps, useForm, usePage } from '@inertiajs/react';
-import checkInColumnsFactory, { CheckInColumnsType, ShowedUpType } from '@/lib/check-in-columns-factory';
 import CheckInDataTable from '@/components/check-in-data-table';
 import Spinner from '@/components/spinner';
-import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import AppLayout from '@/layouts/app-layout';
+
+import { Head, InertiaFormProps, useForm, usePage } from '@inertiajs/react';
+
+import checkInColumnsFactory, { CheckInColumnsType, ShowedUpType } from '@/lib/check-in-columns-factory';
 import { SharedData, type BreadcrumbItem } from '@/types';
 import { Lecture } from '@/types/models';
+
+import { InertiaFormProps, useForm, usePage } from '@inertiajs/react';
+import { useState } from 'react';
+
 
 type checkInFormType = {
     checkedUsers: ShowedUpType[];
 };
 
-export type checkInFormProps = InertiaFormProps<checkInFormType>
+export type checkInFormProps = InertiaFormProps<checkInFormType>;
 
 interface checkInPageProps {
-    lecture: Lecture
+    lecture: Lecture;
 }
 
 function CheckIn({ lecture }: checkInPageProps) {
@@ -36,6 +41,7 @@ function CheckIn({ lecture }: checkInPageProps) {
             href: '#',
         },
     ];
+
     const form = useForm<checkInFormType>({ checkedUsers: [] })
 
     const [columnData, setColumnData] = useState<CheckInColumnsType[]>(generateColumnsData(lecture))
@@ -81,20 +87,21 @@ function CheckIn({ lecture }: checkInPageProps) {
             </div>
 
             <CheckInDataTable columns={checkInColumns} data={columnData} />
+
         </AppLayout>
     );
 }
 
 function generateColumnsData(lecture: Lecture) {
     if (!lecture.attendants) {
-        return []
+        return [];
     }
 
-    const columnData: CheckInColumnsType[] = []
+    const columnData: CheckInColumnsType[] = [];
 
     for (let user of lecture.attendants) {
         if (!user.lecture_attendances) {
-            return []
+            return [];
         }
 
         columnData.push({
@@ -102,12 +109,12 @@ function generateColumnsData(lecture: Lecture) {
             name: user.name,
             showed_up: {
                 presence: Boolean(user.lecture_attendances.showed_up),
-                userId: user.id
-            }
-        })
+                userId: user.id,
+            },
+        });
     }
 
-    return columnData
+    return columnData;
 }
 
 export default CheckIn;

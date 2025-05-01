@@ -4,6 +4,7 @@ import { Head, useForm, usePage } from '@inertiajs/react';
 
 import { Transition } from '@headlessui/react';
 
+import AddSpeakerDialog from '@/components/add-speaker-dialog';
 import { DatePicker } from '@/components/date-picker';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
@@ -16,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
 import { Speaker } from '@/types/models';
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FormEventHandler, useState } from 'react';
 import { toast } from 'sonner';
 
 export interface LectureForm {
@@ -33,6 +34,7 @@ export interface LectureForm {
 function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[] }) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
+
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: `Admin ${auth.user.name.split(' ', 1)}`,
@@ -48,9 +50,9 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
 
     const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
 
-
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+        console.log(data);
 
         post(route('lectures.store'), {
             preserveScroll: true,
@@ -78,7 +80,7 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                     {selectedSpeaker ? (
                         <div className="flex items-center justify-between gap-5">
                             <div className="mt-2 flex items-center gap-4 font-light">
-                                <img src={selectedSpeaker.image} alt={selectedSpeaker.name} className="size-10 rounded-full" />
+                                <img src={selectedSpeaker.image} alt={selectedSpeaker.name} className="size-10 rounded-full object-cover shadow-md" />
                                 <span>{selectedSpeaker.name}</span>
                             </div>
 
@@ -88,7 +90,9 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                         </div>
                     ) : (
                         <>
-                            <SpeakerSearchInput onSetData={setData} onSetSelectedSpeaker={setSelectedSpeaker} speakers={speakers} />
+                            <SpeakerSearchInput onSetData={setData} onSetSelectedSpeaker={setSelectedSpeaker} speakers={speakers}>
+                                <AddSpeakerDialog onSetSelectedSpeaker={setSelectedSpeaker} onSetData={setData} />
+                            </SpeakerSearchInput>
                             <InputError className="mt-2" message={errors.speaker} />
                         </>
                     )}

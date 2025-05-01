@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class LectureController extends Controller
 {
@@ -34,8 +35,9 @@ class LectureController extends Controller
     }
 
     // GET do Form de criação de Palestras
-    public function create()
+    public function create(bool $speakerJustCreated = false)
     {
+
         return Inertia::render('new-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::get()]);
     }
 
