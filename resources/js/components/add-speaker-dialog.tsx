@@ -3,27 +3,32 @@ import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogT
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Speaker } from '@/types/models';
-import { useForm, usePage } from '@inertiajs/react';
+import { InertiaFormProps, useForm, usePage } from '@inertiajs/react';
 import { PlusIcon, UploadIcon } from 'lucide-react';
-import { FormEventHandler, useEffect } from 'react';
+import { Dispatch, FormEventHandler, SetStateAction, useEffect } from 'react';
 import InputError from './input-error';
 import { DialogTrigger } from './ui/dialog';
 import { Textarea } from './ui/textarea';
+import { LectureForm } from '@/pages/new-lecture-form';
 
-function AddSpeakerDialog({ speakers, onSetSelectedSpeaker }: { createdSpeaker?: Speaker }) {
+function AddSpeakerDialog({
+    onSetSelectedSpeaker,
+    onSetData,
+}: {
+    onSetSelectedSpeaker: Dispatch<SetStateAction<Speaker | undefined>>;
+    onSetData: InertiaFormProps<LectureForm>['setData'];
+}) {
     interface SpeakerForm {
         image: string;
         name: string;
         description: string;
     }
-    const { flash } = usePage().props;
 
-    if (flash?.newSpeaker) {
-        console.log('New Speaker:', flash?.newSpeaker);
-    }
+    const { flash } = usePage().props;
 
     useEffect(() => {
         if (flash?.newSpeaker) {
+            onSetData('speaker_id', flash.newSpeaker.id);
             onSetSelectedSpeaker(flash.newSpeaker);
         }
     }, [flash.newSpeaker]);
@@ -35,12 +40,6 @@ function AddSpeakerDialog({ speakers, onSetSelectedSpeaker }: { createdSpeaker?:
 
         post(route('speakers.store', data), {
             preserveScroll: true,
-            onSuccess: () => {
-                console.log('Flash:', flash.newSpeaker);
-                if (flash.newSpeaker) {
-                    onSetSelectedSpeaker(flash.newSpeaker);
-                }
-            },
         });
     };
 

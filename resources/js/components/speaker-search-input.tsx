@@ -47,7 +47,7 @@ function SpeakerSearchInput({
                                     onSetSelectedSpeaker(s);
                                 }}
                             >
-                                <img src={s.image} className="size-7 rounded-full" /> {s.name}
+                                <img src={s.image} className="size-7 rounded-full object-cover" /> {s.name}
                             </AlertDescription>
                         );
                     })}

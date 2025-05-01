@@ -31,9 +31,8 @@ export interface LectureForm {
     [key: string]: any | unknown;
 }
 
-function NewLectureForm({ speakers, rooms, createdSpeaker }: { speakers: Speaker[]; rooms: Room[]; createdSpeaker?: Speaker }) {
+function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[] }) {
     const page = usePage<SharedData>();
-    console.log(page.props);
     const { auth } = page.props;
 
     const breadcrumbs: BreadcrumbItem[] = [
@@ -53,6 +52,7 @@ function NewLectureForm({ speakers, rooms, createdSpeaker }: { speakers: Speaker
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+        console.log(data);
 
         post(route('lectures.store'), {
             preserveScroll: true,
@@ -75,13 +75,12 @@ function NewLectureForm({ speakers, rooms, createdSpeaker }: { speakers: Speaker
             <div className="mx-auto mb-20 space-y-6 px-6 pt-12 md:w-2/3">
                 <HeadingSmall title="Nova Palestra" description="Publique aqui novas palestras" />
 
-
                 <div className="grid gap-2">
                     <Label htmlFor="title">Palestrante</Label>
                     {selectedSpeaker ? (
                         <div className="flex items-center justify-between gap-5">
                             <div className="mt-2 flex items-center gap-4 font-light">
-                                <img src={selectedSpeaker.image} alt={selectedSpeaker.name} className="size-10 rounded-full" />
+                                <img src={selectedSpeaker.image} alt={selectedSpeaker.name} className="size-10 rounded-full object-cover shadow-md" />
                                 <span>{selectedSpeaker.name}</span>
                             </div>
 
@@ -92,7 +91,7 @@ function NewLectureForm({ speakers, rooms, createdSpeaker }: { speakers: Speaker
                     ) : (
                         <>
                             <SpeakerSearchInput onSetData={setData} onSetSelectedSpeaker={setSelectedSpeaker} speakers={speakers}>
-                                <AddSpeakerDialog createdSpeaker={createdSpeaker} onSetSelectedSpeaker={setSelectedSpeaker} speakers={speakers}/>
+                                <AddSpeakerDialog onSetSelectedSpeaker={setSelectedSpeaker} onSetData={setData} />
                             </SpeakerSearchInput>
                             <InputError className="mt-2" message={errors.speaker} />
                         </>
