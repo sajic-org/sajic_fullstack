@@ -19,33 +19,36 @@ const columnHelper = createColumnHelper<CheckInColumnsType>()
 function checkInColumnsFactory(form: checkInFormProps, setColumnData: Dispatch<SetStateAction<CheckInColumnsType[]>>) {
 
     const checkInColumns = [
+
+        columnHelper.accessor('name', {
+            header: () => <div className="pl-5">Nome</div>,
+            cell: ({ row }) => <div className="pl-5">{row.getValue("name")}</div>,
+        }),
+
+        columnHelper.accessor('email', {
+            header: () => <div className="pl-5">E-mail</div>,
+            cell: ({ row }) => <div className="pl-5">{row.getValue("email")}</div>,
+        }),
+
         columnHelper.accessor('showed_up.presence', {
-            header: 'Presença',
+            header: () => <div className="text-right md:pr-[50%]">Presença</div>,
             cell: ({ row }) => {
 
                 return (
-                    <Checkbox
-                        checked={row.original.showed_up.presence}
-                        onCheckedChange={
-                            checked => handleCheck(checked, row, form, setColumnData)
-                        }
-                        aria-label="Dê a presença"
-                        className="border-black w-5 h-5 data-[state=checked]:bg-green-300/85 data-[state=checked]:text-foreground"
-                    />
+                    <div className="flex justify-end md:pr-[50%] md:mr-6 mr-7">
+                        <Checkbox
+                            checked={row.original.showed_up.presence}
+                            onCheckedChange={
+                                checked => handleCheck(checked, row, form, setColumnData)
+                            }
+                            aria-label="Dê a presença"
+                            className="border-black w-5 h-5 data-[state=checked]:bg-green-300/85 data-[state=checked]:text-foreground"
+                        />
+                    </div>
                 )
             },
             enableSorting: false,
         }),
-
-        columnHelper.accessor('name', {
-            header: () => <div className="text-right">Nome</div>,
-            cell: ({ row }) => <div className="text-right">{row.getValue("name")}</div>,
-        }),
-
-        columnHelper.accessor('email', {
-            header: () => <div className="text-right">E-mail</div>,
-            cell: ({ row }) => <div className="text-right">{row.getValue("email")}</div>,
-        })
     ]
 
     return checkInColumns
