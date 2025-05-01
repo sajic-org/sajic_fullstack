@@ -42,7 +42,7 @@ function Footer() {
                             </ul>
                         </div>
                     </div>
-                    <h4 className="cursor-pointer text-lg font-semibold text-white">#TURMADOCOSQUINHA</h4>
+                    <h4 className="cursor-pointer text-lg font-semibold text-white">#TROPADOCOSQUINHA</h4>
 
                     <div className="space-y-6 text-center md:text-right">
                         <nav className="flex flex-col gap-1">

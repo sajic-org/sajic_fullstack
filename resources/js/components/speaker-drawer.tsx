@@ -9,9 +9,7 @@ function SpeakerDialog({ children, speaker }: { children: ReactNode; speaker: Sp
             <DialogTrigger asChild>{children}</DialogTrigger>
             <DialogContent className="sm:max-w-[425px] md:max-w-3xl">
                 <DialogHeader className="p-4">
-                    <DialogTitle>
-                        <h3 className="text-primary-blue text-xl">{speaker?.name}</h3>
-                    </DialogTitle>
+                    <DialogTitle className="text-primary-blue text-xl">{speaker?.name}</DialogTitle>
                     <div className="grid items-start gap-4 md:grid-cols-5">
                         <img
                             src={speaker?.image}
