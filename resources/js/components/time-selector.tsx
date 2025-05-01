@@ -55,7 +55,9 @@ function TimeSelector({ step = 1, maxNum = 60, minNum = 0, placeholder, label = 
                 <SelectGroup>
                     <SelectLabel>{label}</SelectLabel>
                     {timeArr.map((time) => (
-                        <SelectItem value={time}>{time}</SelectItem>
+                        <SelectItem value={time} key={time}>
+                            {time}
+                        </SelectItem>
                     ))}
                 </SelectGroup>
             </SelectContent>

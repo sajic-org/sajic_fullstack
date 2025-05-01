@@ -20,12 +20,10 @@ export function RoomDropdown({ children, rooms, onSetData }: { children: React.R
                     <SelectLabel>Salas</SelectLabel>
                     {rooms.map((room: Room) => {
                         return (
-                            <>
-                                <SelectItem value={room.number} key={room.number} className="flex justify-between">
-                                    {room.number}
-                                    <p className="text-xs font-medium">cap.: 35</p>
-                                </SelectItem>
-                            </>
+                            <SelectItem value={room.number} key={room.number} className="flex justify-between">
+                                {room.number}
+                                <p className="text-xs font-medium">cap.: 35</p>
+                            </SelectItem>
                         );
                     })}
                 </SelectGroup>
