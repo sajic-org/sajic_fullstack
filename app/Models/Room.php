@@ -12,6 +12,10 @@ class Room extends Model
         'capacity',
     ];
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'number';
+
     public function lectures(): HasMany
     {
         return $this->hasMany(Lecture::class);
