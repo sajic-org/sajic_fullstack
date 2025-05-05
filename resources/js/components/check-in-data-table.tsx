@@ -1,33 +1,19 @@
-import {
-    ColumnDef,
-    flexRender,
-    getCoreRowModel,
-    useReactTable,
-    ColumnFiltersState,
-    getFilteredRowModel,
-} from "@tanstack/react-table"
+import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
 
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import { CheckInColumnsType } from "@/lib/check-in-columns-factory"
-import { Input } from "./ui/input"
-import { useState } from "react"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { CheckInColumnsType } from '@/lib/check-in-columns-factory';
+import { useState } from 'react';
+import { Input } from './ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 interface DataTableProps {
-    columns: ColumnDef<CheckInColumnsType, any>[]
-    data: CheckInColumnsType[]
+    columns: ColumnDef<CheckInColumnsType, any>[];
+    data: CheckInColumnsType[];
 }
 
 function CheckInDataTable({ columns, data }: DataTableProps) {
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-    const [filterColumn, setFilterColumn] = useState("name")
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [filterColumn, setFilterColumn] = useState('name');
 
     const table = useReactTable({
         data,
@@ -38,24 +24,19 @@ function CheckInDataTable({ columns, data }: DataTableProps) {
 
         state: {
             columnFilters,
-        }
-    })
+        },
+    });
 
     return (
         <div className="mx-2">
-            <div className="flex items-center md:justify-end justify-center py-4">
+            <div className="flex items-center justify-center py-4 md:justify-end">
                 <Input
                     placeholder="Filtrar por..."
-                    value={(table.getColumn(filterColumn)?.getFilterValue() as string)}
-                    onChange={(e) =>
-                        table.getColumn(filterColumn)?.setFilterValue(e.target.value)
-                    }
+                    value={table.getColumn(filterColumn)?.getFilterValue() as string}
+                    onChange={(e) => table.getColumn(filterColumn)?.setFilterValue(e.target.value)}
                     className="w-60 rounded-r-none"
                 />
-                <Select
-                    value={filterColumn}
-                    onValueChange={(filter) => setFilterColumn(filter)}
-                >
+                <Select value={filterColumn} onValueChange={(filter) => setFilterColumn(filter)}>
                     <SelectTrigger className="rounded-l-none border-l-0">
                         <SelectValue />
                     </SelectTrigger>
@@ -72,31 +53,21 @@ function CheckInDataTable({ columns, data }: DataTableProps) {
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
-                                    console.log(header.id)
+                                    console.log(header.id);
 
-                                    if (header.id != filterColumn && header.id != "showed_up_presence"){
+                                    if (header.id != filterColumn && header.id != 'showed_up_presence') {
                                         return (
                                             <TableHead key={header.id} className="max-md:hidden">
-                                                {header.isPlaceholder
-                                                    ? null
-                                                    : flexRender(
-                                                        header.column.columnDef.header,
-                                                        header.getContext()
-                                                    )}
+                                                {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                                             </TableHead>
-                                        )
+                                        );
                                     }
 
                                     return (
                                         <TableHead key={header.id}>
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
+                                            {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                                         </TableHead>
-                                    )
+                                    );
                                 })}
                             </TableRow>
                         ))}
@@ -106,29 +77,23 @@ function CheckInDataTable({ columns, data }: DataTableProps) {
                             table.getRowModel().rows.map((row, i) => (
                                 <TableRow
                                     key={row.id}
-                                    data-state={row.getIsSelected() && "selected"}
-                                    className={`${i % 2 == 0 && "bg-primary-blue/15 hover:bg-primary-blue/25"} data-[state=selected]:bg-green-100/50 data-[state=selected]:hover:bg-green-100`}
+                                    data-state={row.getIsSelected() && 'selected'}
+                                    className={`${i % 2 == 0 && 'bg-primary-blue/15 hover:bg-primary-blue/25'} data-[state=selected]:bg-green-100/50 data-[state=selected]:hover:bg-green-100`}
                                 >
                                     {row.getVisibleCells().map((cell) => {
-
                                         const cellName = cell.column.id;
 
                                         // Hide column not selected on smaller screens
-                                        if (cellName != filterColumn && cellName != "showed_up_presence") {
+                                        if (cellName != filterColumn && cellName != 'showed_up_presence') {
                                             return (
                                                 <TableCell key={cell.id} className="max-md:hidden">
                                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </TableCell>
-                                            )
+                                            );
                                         }
 
-                                        return (
-                                            <TableCell key={cell.id} >
-                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                            </TableCell>
-                                        )
-                                    }
-                                    )}
+                                        return <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>;
+                                    })}
                                 </TableRow>
                             ))
                         ) : (
@@ -142,7 +107,7 @@ function CheckInDataTable({ columns, data }: DataTableProps) {
                 </Table>
             </div>
         </div>
-    )
+    );
 }
 
-export default CheckInDataTable
+export default CheckInDataTable;

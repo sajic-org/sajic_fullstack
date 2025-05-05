@@ -28,5 +28,3 @@ export interface SharedData {
     auth: Auth;
     [key: string]: unknown;
 }
-
-
