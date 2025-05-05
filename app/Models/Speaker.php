@@ -14,6 +14,6 @@ class Speaker extends Model
 
     public function lectures(): HasMany
     {
-        return  $this->hasMany(Lecture::class);
+        return $this->hasMany(Lecture::class);
     }
 }

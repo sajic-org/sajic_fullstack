@@ -12,8 +12,6 @@ class Room extends Model
         'capacity',
     ];
 
-
-
     public function lectures(): HasMany
     {
         return $this->hasMany(Lecture::class);

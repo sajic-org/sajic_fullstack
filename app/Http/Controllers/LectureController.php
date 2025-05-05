@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lecture;
+use App\Models\LectureAttendance;
 use App\Models\Room;
 use App\Models\Speaker;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class LectureController extends Controller
@@ -17,36 +15,41 @@ class LectureController extends Controller
     // Listagem de Palestras
     public function index()
     {
-        $lectures = Lecture::with(['speaker.lectures'])->get();
-
         $user = '';
+
         if (Auth::check()) {
-            $user = User::with('lectures')->find(Auth::user());
+            $user = Auth::user()->load(['lectures']);
         }
 
-        return Inertia::render('lectures', ['lectures' => $lectures, 'user' => $user]);
+        function defer_lectures()
+        {
+            $lectures = Lecture::with(['speaker.lectures'])->get();
+
+            return $lectures;
+        }
+
+        return Inertia::render('lectures', ['lectures' => defer_lectures(), 'user' => $user,
+        ]);
     }
 
     // GET do Form de criação de Palestras
-    public function create()
+    public function create(bool $speakerJustCreated = false)
     {
+
         return Inertia::render('new-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::get()]);
     }
 
     //  POST de criação de Palestras
     public function store(Request $request)
     {
-
-        Log::debug(join(['PALESTRA 🔥🔥🔥: ', $request]));
-        // todo
         $request->validate([
+            'title' => 'required|max:75|min:10',
             'speaker_id' => 'required',
-            'room_number' => 'required',
-            'type' => 'required',
-            'title' => 'required',
-            'date' => 'required',
-            'starts' => 'required',
-            'ends' => 'required',
+            'room_number' => 'required|min:3',
+            'type' => 'required|in:Tecnologia,Gestão e Mercado',
+            'date' => 'required|min:5|max:5',
+            'starts' => 'required|min:5|max:5',
+            'ends' => 'required|min:5|max:5',
         ]);
 
         Lecture::create([
@@ -65,20 +68,41 @@ class LectureController extends Controller
     // GET Check In
     public function attendant_table(Lecture $lecture)
     {
-        $attendants = User::with('lectures')->whereIn('lectures', $lecture);
+        $lecture->load('attendants', 'speaker');
 
-        return Inertia::render('check-in', [$lecture, 'users' => $attendants]);
+        return Inertia::render('check-in', ['lecture' => $lecture]);
     }
 
-    // realiza o Check In
+    // POST realiza o Check In
     public function checkin(Request $request, Lecture $lecture)
     {
         $validated = $request->validate([
-            'user_ids' => 'array',
-            'user_ids.*' => 'exists:users,id',
+            'checkedUsers' => 'required|array',
+            'checkedUsers.*.userId' => 'required|integer|exists:users,id',
+            'checkedUsers.*.presence' => 'required|boolean',
         ]);
 
-        $lecture->users()->whereIn('user_id', $validated['user_ids'])->update(['showed_up' => true]);
+        $userIdsByPresence = [
+            true => [],
+            false => [],
+        ];
+
+        // Group userIds by presence
+        foreach ($validated['checkedUsers'] as $user) {
+            $userIdsByPresence[$user['presence']][] = $user['userId'];
+        }
+
+        if (! empty($userIdsByPresence[true])) {
+            LectureAttendance::where('lecture_id', $lecture->id)
+                ->whereIn('user_id', $userIdsByPresence[true])
+                ->update(['showed_up' => true]);
+        }
+
+        if (! empty($userIdsByPresence[false])) {
+            LectureAttendance::where('lecture_id', $lecture->id)
+                ->whereIn('user_id', $userIdsByPresence[false])
+                ->update(['showed_up' => false]);
+        }
 
         return to_route('lectures.index');
     }
@@ -93,13 +117,13 @@ class LectureController extends Controller
     public function update(Request $request, Lecture $lecture)
     {
         $validated = $request->validate([
+            'title' => 'required|max:75|min:10',
             'speaker_id' => 'required',
-            'room_number' => 'required',
-            'type' => 'required',
-            'title' => 'required',
-            'date' => 'required',
-            'starts' => 'required',
-            'ends' => 'required',
+            'room_number' => 'required|min:3',
+            'type' => 'required|in:Tecnologia,Gestão e Mercado',
+            'date' => 'required|min:5|max:5',
+            'starts' => 'required|min:5|max:5',
+            'ends' => 'required|min:5|max:5',
         ]);
 
         Lecture::update($validated);
@@ -111,5 +135,7 @@ class LectureController extends Controller
     public function destroy(Lecture $lecture)
     {
         Lecture::destroy($lecture);
+
+        return to_route('home');
     }
 }

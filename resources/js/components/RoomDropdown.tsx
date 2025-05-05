@@ -7,7 +7,7 @@ export interface Room {
     capacity: number;
 }
 
-export function RoomDropdown({ children, rooms, onSetData }: { children: any; rooms: Room[]; onSetData: any }) {
+export function RoomDropdown({ children, rooms, onSetData }: { children: React.ReactNode; rooms: Room[]; onSetData: any }) {
     return (
         <Select
             onValueChange={(value) => {
@@ -20,12 +20,10 @@ export function RoomDropdown({ children, rooms, onSetData }: { children: any; ro
                     <SelectLabel>Salas</SelectLabel>
                     {rooms.map((room: Room) => {
                         return (
-                            <>
-                                <SelectItem value={room.number} key={room.number} className="flex justify-between">
-                                    {room.number}
-                                    <p className="text-xs font-medium">cap.: 35</p>
-                                </SelectItem>
-                            </>
+                            <SelectItem value={room.number} key={room.number} className="flex justify-between">
+                                {room.number}
+                                <p className="text-xs font-medium">cap.: 35</p>
+                            </SelectItem>
                         );
                     })}
                 </SelectGroup>

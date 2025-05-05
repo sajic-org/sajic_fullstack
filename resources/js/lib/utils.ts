@@ -1,3 +1,4 @@
+import { Lecture } from '@/types/models';
 import { router } from '@inertiajs/react';
 import { type ClassValue, clsx } from 'clsx';
 import { toast } from 'sonner';
@@ -11,7 +12,7 @@ export function now() {
     return Date.now();
 }
 
-export function subscribe(lecture) {
+export function subscribe(lecture: Lecture) {
     router.post(
         route('user.attend-lecture'),
         { id: lecture.id },
@@ -23,7 +24,7 @@ export function subscribe(lecture) {
                     description: `Você agora está inscrito na palestra "${lecture.title}"`,
                     action: {
                         label: 'Cancelar',
-                        onClick: () => unsubcribe(lecture.id),
+                        onClick: () => unsubcribe(lecture),
                     },
                 });
             },
@@ -35,7 +36,7 @@ export function subscribe(lecture) {
     );
 }
 
-export function unsubcribe(lecture) {
+export function unsubcribe(lecture: Lecture) {
     router.post(
         route('user.leave-lecture'),
         { id: lecture.id },

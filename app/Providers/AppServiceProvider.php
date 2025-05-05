@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -24,5 +25,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('is-admin', function (): bool {
             return Auth::user()->is_admin === 1;
         });
+
+        Model::preventLazyLoading();
     }
 }
