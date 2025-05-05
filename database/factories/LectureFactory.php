@@ -19,7 +19,7 @@ class LectureFactory extends Factory
         return [
             'title' => fake()->text(75),
             'type' => fake()->randomElement(['Gestão e Mercado', 'Tecnologia']),
-            'date' => fake()->randomElement(['17/10', '18/10', '19/10', '20/10']),
+            'date' => fake()->randomElement(['2025-10-17', '2025-10-18', '2025-10-19', '2025-10-20']),
             'starts' => fake()->time('H:i'),
             'ends' => fake()->time('H:i'),
             'speaker_id' => fake()->randomElement([1, 2, 3, 4, 5]),
