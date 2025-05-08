@@ -16,15 +16,15 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                 <aside className="w-full max-w-xl lg:w-48">
                     <nav className="flex flex-col space-y-1 space-x-0">
                         <Button
-                            key="/settings/password"
+                            key="/configuracoes"
                             size="sm"
                             variant="ghost"
                             asChild
                             className={cn('w-full justify-start', {
-                                'bg-muted': currentPath === '/settings/password',
+                                'bg-muted': currentPath === '/configuracoes',
                             })}
                         >
-                            <Link href="/settings/password" prefetch>
+                            <Link href="/configuracoes" prefetch>
                                 Senha
                             </Link>
                         </Button>

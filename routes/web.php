@@ -17,11 +17,13 @@ Route::get('/', function () {
 
         return $lectures;
     })]);
-
 })->name('home');
 
 // Palestras
 Route::get('/palestras', [LectureController::class, 'index'])->name('lectures.index');
+
+
+
 
 // Minhas Palestras
 // adicionar 'verified'
@@ -43,6 +45,7 @@ Route::prefix('minhas-palestras')->middleware(['auth'])->group(function () {
 });
 
 // Rota p os guri criar admin rapido dps de limpar o db
+// REMOVER
 Route::get('/criar-admin', function () {
 
     $user = User::create([
@@ -57,5 +60,5 @@ Route::get('/criar-admin', function () {
     return to_route('home');
 });
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';
