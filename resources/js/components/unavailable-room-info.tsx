@@ -1,6 +1,8 @@
-export default function UnavailableRoomInfo({ className }) {
+import { cn } from "@/lib/utils";
+
+export default function UnavailableRoomInfo({ className }: { className?: string }) {
     return (
-        <div className={`z-50 rounded-md bg-gray-900 p-4 font-medium text-white ${className} absolute top-12 left-48`}>
+        <div className={cn('absolute top-12 left-48 z-50 rounded-md bg-gray-900 p-4 font-medium text-white', className)}>
             <p>A sala 201 está sendo utilizada nesse horario por:</p>
             <ul className="mt-1 space-y-2">
                 <li>

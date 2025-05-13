@@ -110,14 +110,18 @@ function SelectItem({
       )}
       {...props}
     >
-      <span className="absolute right-2  size-3.5 items-center justify-center">
+      <span className="absolute right-2 flex w-fit size-3.5 items-center justify-center">
         <SelectPrimitive.ItemIndicator>
           <CheckIcon className="size-4" />
         </SelectPrimitive.ItemIndicator>
       </span>
-      <div className="w-full pr-6.5">
-        {children}
-        </div>
+      <div className="flex flex-1 pr-7">
+      <SelectPrimitive.ItemText asChild>
+        <div className="w-full">
+          {children}
+          </div>
+        </SelectPrimitive.ItemText>
+      </div>
     </SelectPrimitive.Item>
   )
 }

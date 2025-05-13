@@ -32,7 +32,7 @@ export function RoomDropdown({ children, rooms, onSetData }: { children: React.R
                         return (
                             <div>
                                 <SelectItem value={room.number} key={room.number}>
-                                    <div className="flex items-center justify-between">
+                                    <div className="flex w-full items-center justify-between">
                                         <div className="flex items-end gap-2">
                                             {room.number}
                                             <p className="text-xs font-medium">cap.: {room.capacity}</p>
