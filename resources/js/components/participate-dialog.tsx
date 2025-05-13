@@ -6,9 +6,9 @@ import { Button } from './ui/button';
 function ParticipateDialog({ lecture }) {
     return (
         <Dialog>
-            <DialogTrigger className="bg-primary-blue flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 font-medium text-white max-sm:text-lg sm:gap-2">
+            <DialogTrigger className="bg-primary-blue flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 font-medium text-white sm:gap-2">
                 Participar
-                <GraduationCap className="size-6 sm:size-5" />
+                <GraduationCap className="size-5" />
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>

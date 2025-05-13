@@ -58,7 +58,7 @@ const PastEditions = () => {
 
     return (
         <section className="py-30">
-            <div className="container mx-auto px-6 md:max-w-7xl">
+            <div className="container mx-auto px-4 sm:px-6 md:max-w-7xl">
                 <div className="mb-8 flex items-end justify-between md:mb-14 lg:mb-16">
                     <div className="flex flex-col gap-4">
                         <h2 className="text-4xl font-semibold">Eventos Passados</h2>

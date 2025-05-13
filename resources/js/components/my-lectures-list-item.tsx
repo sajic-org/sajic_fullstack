@@ -9,7 +9,7 @@ function MyLecturesListItem({ lecture }: { lecture: Lecture }) {
         <div className="border-border md:mx flex min-h-28 rounded-md border-2 p-2 shadow-md lg:w-full">
             <div className="flex w-full gap-3">
                 <SpeakerDialog speaker={lecture.speaker}>
-                    <img src={lecture.speaker?.image} alt="" className="my-auto h-20 w-20 rounded-md object-cover" />
+                    <img src={lecture.speaker?.image} alt="" className="my-auto h-20 w-20 cursor-pointer rounded-md object-cover" />
                 </SpeakerDialog>
                 <div className="my-auto text-nowrap">
                     <p className="text-primary-blue text-sm font-medium">{lecture.speaker?.name}</p>

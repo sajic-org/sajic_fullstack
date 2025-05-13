@@ -40,7 +40,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                     {user?.is_admin && (
                         <Link href={route('lectures.attendant_table', { lecture: lecture })}>
                             <button className="cursor-pointer rounded-md bg-orange-400 p-2 text-white">
-                                <ListChecks className="size-6 sm:size-5" />
+                                <ListChecks className="size-5.5" />
                             </button>
                         </Link>
                     )}
@@ -50,7 +50,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                     <Link href={route('login')}>
                         <button className="bg-primary-blue flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 font-medium text-white max-sm:text-lg sm:gap-2">
                             Participar
-                            <GraduationCap className="size-6 sm:size-5" />
+                            <GraduationCap className="size-5.5" />
                         </button>
                     </Link>
                 )}

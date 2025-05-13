@@ -4,7 +4,7 @@ import { MousePointerClick } from 'lucide-react';
 function Hero() {
     return (
         <section className="h-screen bg-[url('/assets/hero_bg_plexus.webp')] bg-contain bg-right bg-no-repeat">
-            <div className="mx-auto mt-36 px-6 md:max-w-7xl">
+            <div className="mx-auto mt-36 px-4 sm:px-6 md:max-w-7xl">
                 <div className="md:w-3/5 dark:text-white">
                     <h1 className="text-4xl font-semibold">Sajic 5ª Edição | outubro de 2025</h1>
                     <p className="mt-5 text-justify text-xl">

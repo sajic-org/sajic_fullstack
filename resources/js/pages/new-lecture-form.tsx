@@ -72,7 +72,7 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Nova Palestra" />
 
-            <div className="mx-auto mb-20 space-y-6 px-6 pt-12 md:w-2/3">
+            <div className="mx-auto mb-20 space-y-6 px-4 pt-12 sm:px-6 md:w-2/3">
                 <HeadingSmall title="Nova Palestra" description="Publique aqui novas palestras" />
 
                 <div className="grid gap-2">
@@ -113,7 +113,7 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                             <InputError className="mt-2" message={errors.title} />
                         </div>
 
-                        <div className="col-span-2 flex flex-col gap-[14px]">
+                        <div className="relative col-span-2 flex flex-col gap-[14px]" id="portal-root">
                             <Label>Sala</Label>
 
                             <RoomDropdown rooms={rooms} onSetData={setData}>

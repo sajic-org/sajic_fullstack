@@ -4,7 +4,7 @@ import { BadgePlus } from 'lucide-react';
 function SecondHero() {
     return (
         <section className="bg-primary-blue text-white">
-            <div className="mx-auto flex flex-col justify-center gap-6 px-6 py-30 md:max-w-7xl lg:flex-row lg:justify-between">
+            <div className="mx-auto flex flex-col justify-center gap-6 px-4 py-30 sm:px-6 md:max-w-7xl lg:flex-row lg:justify-between">
                 {/* image */}
                 <Link
                     href="/palestras"

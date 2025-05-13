@@ -20,17 +20,17 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Palestras" />
 
-            <div className="mt-10 px-6 md:max-w-7xl">
+            <div className="mt-10 px-4 sm:px-6 md:max-w-7xl">
                 <h2 className="text-primary-blue text-xl font-semibold">Palestras</h2>
                 <h3 className="text-3xl font-semibold">Confira o que te aguarda no evento</h3>
             </div>
 
-            <section className="mx-auto w-full space-y-4 px-6 md:max-w-7xl">
+            <section className="xs:px-4 mx-auto w-full space-y-4 px-2 sm:px-6 md:max-w-7xl">
                 <LecturesGridHeading
                     title="Tecnologia"
                     description="Explore o mercado atual da tecnologia"
                     image="https://phoenixnap.com/glossary/wp-content/uploads/2022/07/what-is-a-data-center.jpg"
-                    className={'bg-primary-blue mt-8 aspect-[3/2] text-white md:max-w-lg'}
+                    className={'bg-primary-blue mt-8 aspect-[3/2] w-full text-white'}
                 />
 
                 <LecturesGrid>
