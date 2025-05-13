@@ -31,14 +31,15 @@ export function RoomDropdown({ children, rooms, onSetData }: { children: React.R
                     {rooms.map((room: Room) => {
                         return (
                             <div>
-                                <SelectItem value={room.number} key={room.number} className="flex justify-between">
-                                    <div className="flex w-full gap-2">
-                                        {room.number}
-                                        <p className="text-xs font-medium">cap.: {room.capacity}</p>
-                                    </div>
-                                    <div>
+                                <SelectItem value={room.number} key={room.number}>
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-end gap-2">
+                                            {room.number}
+                                            <p className="text-xs font-medium">cap.: {room.capacity}</p>
+                                        </div>
                                         <Info
                                             strokeWidth={2.5}
+                                            size={4}
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 setShowInfo(true);
