@@ -117,7 +117,7 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                             <Label>Sala</Label>
 
                             <RoomDropdown rooms={rooms} onSetData={setData}>
-                                <SelectValue className="w-full" placeholder="Sala" />
+                                <SelectValue className="flex w-full justify-between bg-amber-200" placeholder="Sala" />
                             </RoomDropdown>
                             <InputError className="mt-2" message={errors.room_number} />
                         </div>
