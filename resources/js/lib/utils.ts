@@ -27,7 +27,7 @@ export function isRoomAvailable({ room, date, starts, ends }: { room: Room; date
 }
 
 export function lecturesConflicting({ room, date, starts, ends }: { room: Room; date: string; starts: string; ends: string }): Lecture[] {
-    const sameDateLectures = room.lectures.filter((lecture) => lecture.date === date);
+    const sameDateLectures = room.lectures!.filter((lecture) => lecture.date === date);
 
     const arr = [];
     for (const lecture of sameDateLectures) {

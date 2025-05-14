@@ -112,8 +112,11 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                             <InputError className="mt-2" message={errors.title} />
                         </div>
 
-                        <div className="relative col-span-2 flex flex-col gap-[14px]" id="portal-root">
-                            <Label>Sala</Label>
+                        <div className="relative col-span-2 flex flex-col gap-[14px]">
+                            <div className="flex gap-2">
+                                <Label>Sala</Label>
+                                <div id="portal-root"></div>
+                            </div>
 
                             <RoomDropdown rooms={rooms} onSetData={setData} data={data}>
                                 <SelectValue className="flex w-full justify-between" placeholder="Sala" />
