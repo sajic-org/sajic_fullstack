@@ -1,7 +1,7 @@
 'use client';
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger } from '@/components/ui/select';
-import { isRoomAvailable } from '@/lib/utils';
+import { isRoomAvailable, lecturesConflicting } from '@/lib/utils';
 import { Info } from 'lucide-react';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -17,19 +17,27 @@ export function RoomDropdown({ children, rooms, onSetData, data }: { children: R
     const [isAvailable, setIsAvailable] = useState<boolean>(true);
     const portalRoot = document.body;
 
+    function onSetRoom(number) {
+        if (data.date && data.starts && data.ends) {
+            const room = rooms.filter((r) => r.number == number)[0];
+
+            console.log(room);
+            const check = isRoomAvailable({
+                room: room,
+                date: data.date,
+                starts: data.starts,
+                ends: data.ends,
+            });
+
+            setIsAvailable(check);
+        }
+    }
+
     return (
         <Select
             onValueChange={(value) => {
                 onSetData('room_number', value);
-                if (data.date && data.starts && data.ends) {
-                    const check = isRoomAvailable(
-                        rooms.filter((r) => r.number == value),
-                        data.date,
-                        data.starts,
-                        data.ends,
-                    );
-                    setIsAvailable(check);
-                }
+                onSetRoom(value);
             }}
         >
             <SelectTrigger className="w-full">{children}</SelectTrigger>
@@ -56,7 +64,16 @@ export function RoomDropdown({ children, rooms, onSetData, data }: { children: R
                                 </SelectItem>
                                 {portalRoot &&
                                     createPortal(
-                                        <UnavailableRoomInfo room={room} className={showInfo == room.number ? 'block' : 'hidden'} />,
+                                        <UnavailableRoomInfo
+                                            room={room}
+                                            conflicts={lecturesConflicting({
+                                                room: room,
+                                                date: data.date,
+                                                starts: data.starts,
+                                                ends: data.ends,
+                                            })}
+                                            className={showInfo == room.number ? 'block' : 'hidden'}
+                                        />,
                                         portalRoot,
                                     )}
                             </div>

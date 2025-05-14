@@ -1,4 +1,4 @@
-import { Lecture } from '@/types/models';
+import { Lecture, Room } from '@/types/models';
 import { router } from '@inertiajs/react';
 import { type ClassValue, clsx } from 'clsx';
 import { toast } from 'sonner';
@@ -12,16 +12,31 @@ export function now() {
     return Date.now();
 }
 
-export function isRoomAvailable(room, date, starts, ends): {} {
-    const sameDateLectures = room.lectures.filter((lecture) => lecture.date === date);
+export function isRoomAvailable({ room, date, starts, ends }: { room: Room; date: string; starts: string; ends: string }): boolean {
+    if (room.lectures) {
+        const sameDateLectures = room.lectures.filter((lecture) => lecture.date === date);
 
-    for (const lecture of sameDateLectures) {
-        if (starts < lecture.ends && lecture.starts < ends) {
-            return false;
+        for (const lecture of sameDateLectures) {
+            if (starts < lecture.ends && lecture.starts < ends) {
+                return false;
+            }
         }
     }
 
     return true;
+}
+
+export function lecturesConflicting({ room, date, starts, ends }: { room: Room; date: string; starts: string; ends: string }): Lecture[] {
+    const sameDateLectures = room.lectures.filter((lecture) => lecture.date === date);
+
+    const arr = [];
+    for (const lecture of sameDateLectures) {
+        if (starts < lecture.ends && lecture.starts < ends) {
+            arr.push(lecture);
+        }
+    }
+
+    return arr;
 }
 
 export function subscribe(lecture: Lecture) {

@@ -1,17 +1,17 @@
 import { cn } from '@/lib/utils';
+import { Lecture } from '@/types/models';
 import { Room } from './RoomDropdown';
 
-export default function UnavailableRoomInfo({ className, room }: { className?: string; room: Room }) {
+export default function UnavailableRoomInfo({ className, conflicts, room }: { className?: string; conflicts: Lecture[]; room: Room }) {
     return (
         <div className={cn('absolute right-5 bottom-5 z-50 min-w-xs rounded-md bg-black/90 p-4 font-medium text-white', className)}>
             <p>A sala {room.number} está sendo utilizada nesse horario por:</p>
             <ul className="mt-1 space-y-2">
-                <li>
-                    - Rosquinha Caseira, <br /> das 16:15 às 17:00
-                </li>
-                <li className="text-nowrap">
-                    - Rosquinha Caseira, <br /> das 17:00 às 17:30
-                </li>
+                {conflicts.map((lecture) => (
+                    <li>
+                        - {lecture.title}, <br /> das {lecture.starts} às {lecture.ends}
+                    </li>
+                ))}
             </ul>
         </div>
     );
