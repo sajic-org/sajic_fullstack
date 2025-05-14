@@ -1,6 +1,7 @@
 'use client';
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger } from '@/components/ui/select';
+import { isRoomAvailable } from '@/lib/utils';
 import { Info } from 'lucide-react';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -11,14 +12,24 @@ export interface Room {
     capacity: number;
 }
 
-export function RoomDropdown({ children, rooms, onSetData }: { children: React.ReactNode; rooms: Room[]; onSetData: any }) {
+export function RoomDropdown({ children, rooms, onSetData, data }: { children: React.ReactNode; rooms: Room[]; onSetData: any; data }) {
     const [showInfo, setShowInfo] = useState<string>();
+    const [isAvailable, setIsAvailable] = useState<boolean>(true);
     const portalRoot = document.body;
 
     return (
         <Select
             onValueChange={(value) => {
                 onSetData('room_number', value);
+                if (data.date && data.starts && data.ends) {
+                    const check = isRoomAvailable(
+                        rooms.filter((r) => r.number == value),
+                        data.date,
+                        data.starts,
+                        data.ends,
+                    );
+                    setIsAvailable(check);
+                }
             }}
         >
             <SelectTrigger className="w-full">{children}</SelectTrigger>
@@ -39,7 +50,7 @@ export function RoomDropdown({ children, rooms, onSetData }: { children: React.R
                                             onMouseLeave={() => setShowInfo('')}
                                             className="pointer-events-auto"
                                         >
-                                            <Info strokeWidth={2.5} size={20} />
+                                            {!isAvailable && <Info strokeWidth={2.5} size={20} />}
                                         </div>
                                     </div>
                                 </SelectItem>

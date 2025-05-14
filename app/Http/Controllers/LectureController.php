@@ -35,8 +35,7 @@ class LectureController extends Controller
     // GET do Form de criação de Palestras
     public function create(bool $speakerJustCreated = false)
     {
-
-        return Inertia::render('new-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::get()]);
+        return Inertia::render('new-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get()]);
     }
 
     //  POST de criação de Palestras

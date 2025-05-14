@@ -12,6 +12,18 @@ export function now() {
     return Date.now();
 }
 
+export function isRoomAvailable(room, date, starts, ends): {} {
+    const sameDateLectures = room.lectures.filter((lecture) => lecture.date === date);
+
+    for (const lecture of sameDateLectures) {
+        if (starts < lecture.ends && lecture.starts < ends) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 export function subscribe(lecture: Lecture) {
     router.post(
         route('user.attend-lecture'),

@@ -52,7 +52,6 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        console.log(data);
 
         post(route('lectures.store'), {
             preserveScroll: true,
@@ -116,8 +115,8 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                         <div className="relative col-span-2 flex flex-col gap-[14px]" id="portal-root">
                             <Label>Sala</Label>
 
-                            <RoomDropdown rooms={rooms} onSetData={setData}>
-                                <SelectValue className="flex w-full justify-between bg-amber-200" placeholder="Sala" />
+                            <RoomDropdown rooms={rooms} onSetData={setData} data={data}>
+                                <SelectValue className="flex w-full justify-between" placeholder="Sala" />
                             </RoomDropdown>
                             <InputError className="mt-2" message={errors.room_number} />
                         </div>
