@@ -1,7 +1,7 @@
 import { cn, unsubcribe } from '@/lib/utils';
 import { Lecture, User } from '@/types/models';
 import { Link } from '@inertiajs/react';
-import { CircleX, GraduationCap, ListChecks } from 'lucide-react';
+import { CircleX, GraduationCap, ListChecks, SquarePen } from 'lucide-react';
 import ParticipateDialog from './participate-dialog';
 import SpeakerDialog from './speaker-drawer';
 import { Button } from './ui/button';
@@ -38,11 +38,19 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                     )}
 
                     {user?.is_admin && (
-                        <Link href={route('lectures.attendant_table', { lecture: lecture })}>
-                            <button className="cursor-pointer rounded-md bg-orange-400 p-2 text-white">
-                                <ListChecks className="size-5.5" />
-                            </button>
-                        </Link>
+                        <div className="flex gap-1">
+                            <Link href={route('lectures.edit', { lecture: lecture })}>
+                                <button className="size-10 cursor-pointer rounded-md bg-orange-400 text-white">
+                                    <SquarePen className="m-auto size-5" />
+                                </button>
+                            </Link>
+
+                            <Link href={route('lectures.attendant_table', { lecture: lecture })}>
+                                <button className="size-10 cursor-pointer rounded-md bg-orange-400 text-white">
+                                    <ListChecks className="m-auto size-5.5" />
+                                </button>
+                            </Link>
+                        </div>
                     )}
                 </div>
 

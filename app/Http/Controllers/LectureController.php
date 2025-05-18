@@ -28,7 +28,9 @@ class LectureController extends Controller
             return $lectures;
         }
 
-        return Inertia::render('lectures', ['lectures' => defer_lectures(), 'user' => $user,
+        return Inertia::render('lectures', [
+            'lectures' => defer_lectures(),
+            'user' => $user,
         ]);
     }
 
@@ -109,7 +111,7 @@ class LectureController extends Controller
     // GET do Form de Edição de Palestra
     public function edit(Lecture $lecture)
     {
-        return Inertia::render('edit-lecture-form', $lecture);
+        return Inertia::render('edit-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get()]);
     }
 
     // PATCH da edição de Palestra
