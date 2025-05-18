@@ -30,7 +30,7 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
                     title="Tecnologia"
                     description="Explore o mercado atual da tecnologia"
                     image="https://phoenixnap.com/glossary/wp-content/uploads/2022/07/what-is-a-data-center.jpg"
-                    className={'bg-primary-blue mt-8 aspect-[3/2] w-full text-white'}
+                    className={'bg-primary-blue mt-8 aspect-[3/2] text-white md:max-w-lg'}
                 />
 
                 <LecturesGrid>
