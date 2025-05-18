@@ -2,7 +2,15 @@ import { Label } from '@radix-ui/react-label';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './ui/select';
 
-export function TimeSelectorGroup({ variant = 'starts', onSetData }: { variant?: string; onSetData: Dispatch<SetStateAction<any>> }) {
+export function TimeSelectorGroup({
+    variant = 'starts',
+    onSetData,
+    defaultValue,
+}: {
+    defaultValue?: string;
+    variant?: string;
+    onSetData: Dispatch<SetStateAction<any>>;
+}) {
     const [time, setTime] = useState<string[]>(['00', '00']);
 
     useEffect(() => {
@@ -14,18 +22,19 @@ export function TimeSelectorGroup({ variant = 'starts', onSetData }: { variant?:
 
             <div className="flex items-center gap-1 pt-1">
                 {/* Horas */}
-                <TimeSelector maxNum={22} placeholder="hh" onSetTime={setTime} time={time} minNum={8} />
+                <TimeSelector maxNum={22} placeholder="hh" onSetTime={setTime} time={time} minNum={8} defaultValue={defaultValue?.split(':')[0]} />
 
                 <span className="text-xl">:</span>
 
                 {/* Minutos */}
-                <TimeSelector step={15} placeholder="mm" label="Minutos" onSetTime={setTime} time={time} />
+                <TimeSelector step={15} placeholder="mm" label="Minutos" onSetTime={setTime} time={time} defaultValue={defaultValue?.split(':')[1]} />
             </div>
         </div>
     );
 }
 
 interface TimeSelectorProps {
+    defaultValue?: string;
     step?: number;
     maxNum?: number;
     minNum?: number;
@@ -35,11 +44,12 @@ interface TimeSelectorProps {
     onSetTime: Dispatch<SetStateAction<string[]>>;
 }
 
-function TimeSelector({ step = 1, maxNum = 60, minNum = 0, placeholder, label = 'Horas', onSetTime, time }: TimeSelectorProps) {
+function TimeSelector({ step = 1, maxNum = 60, minNum = 0, placeholder, label = 'Horas', onSetTime, time, defaultValue }: TimeSelectorProps) {
     const timeArr = genTimeArray(step, maxNum, minNum);
 
     return (
         <Select
+            defaultValue={defaultValue}
             onValueChange={(v) => {
                 if (label === 'Horas') {
                     onSetTime([v, time[1]]);

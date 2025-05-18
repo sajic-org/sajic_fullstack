@@ -111,7 +111,7 @@ class LectureController extends Controller
     // GET do Form de Edição de Palestra
     public function edit(Lecture $lecture)
     {
-        return Inertia::render('edit-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get()]);
+        return Inertia::render('edit-lecture-form', ['lecture' => $lecture, 'speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get()]);
     }
 
     // PATCH da edição de Palestra
@@ -127,9 +127,9 @@ class LectureController extends Controller
             'ends' => 'required|min:5|max:5',
         ]);
 
-        Lecture::update($validated);
+        Lecture::whereId($lecture->id)->update($validated);
 
-        return to_route('lectures.create');
+        return to_route('lectures.index');
     }
 
     // Deleta Palestra

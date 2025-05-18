@@ -127,7 +127,7 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                         <div className="col-span-2 flex flex-col gap-[14px]">
                             <Label>Tipo</Label>
 
-                            <TypeDropdown onSetData={setData}>
+                            <TypeDropdown onSetData={setData} defaultValue={data.type}>
                                 <SelectValue className="w-full" placeholder="Categoria" />
                             </TypeDropdown>
                             <InputError className="mt-2" message={errors.type} />

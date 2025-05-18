@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
 import { Speaker } from '@/types/models';
-import { FormEventHandler, useState } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 export interface LectureForm {
@@ -25,13 +25,19 @@ export interface LectureForm {
     room_number: string;
     title: string;
     type: string;
-    date: Date;
+    date: string | Date;
     starts: string;
     ends: string;
     [key: string]: any | unknown;
 }
 
-function EditLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[] }) {
+export interface Lecture extends LectureForm {
+    id: number;
+    created_at: string;
+    updated_at: string;
+}
+
+function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speakers: Speaker[]; rooms: Room[] }) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
 
@@ -41,27 +47,45 @@ function EditLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room
             href: route('user.lectures'),
         },
         {
-            title: 'Nova Palestra',
-            href: '/nova-palestra',
+            title: 'Editar Palestra',
+            href: route('lectures.edit', { id: lecture.id }),
         },
     ];
 
-    const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker>();
+    const currentSpeaker = speakers.find((speaker) => speaker.id === lecture.speaker_id);
+    const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | undefined>(currentSpeaker);
 
-    const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>();
+    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>({
+        speaker_id: lecture.speaker_id,
+        room_number: lecture.room_number,
+        title: lecture.title,
+        type: lecture.type,
+        date: lecture.date,
+        starts: lecture.starts,
+        ends: lecture.ends,
+    });
+
+    useEffect(() => {
+        if (data.speaker_id) {
+            const speaker = speakers.find((s) => s.id === data.speaker_id);
+            if (speaker && (!selectedSpeaker || selectedSpeaker.id !== speaker.id)) {
+                setSelectedSpeaker(speaker);
+            }
+        }
+    }, [data.speaker_id, speakers, selectedSpeaker]);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('lectures.store'), {
+        patch(route('lectures.update', { id: lecture.id }), {
             preserveScroll: true,
             onSuccess: () => {
-                toast('Inscrição realizada!', {
-                    description: `Palestra "${data.title}" adicionada!`,
+                toast('Palestra atualizada!', {
+                    description: `Palestra "${data.title}" foi atualizada com sucesso!`,
                 });
             },
             onError: (errors) => {
-                toast.error('Erro ao criar palestra.');
+                toast.error('Erro ao atualizar palestra.');
                 console.error(errors);
             },
         });
@@ -69,10 +93,10 @@ function EditLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Nova Palestra" />
+            <Head title="Editar Palestra" />
 
             <div className="mx-auto mb-20 space-y-6 px-4 pt-12 sm:px-6 md:w-2/3">
-                <HeadingSmall title="Nova Palestra" description="Publique aqui novas palestras" />
+                <HeadingSmall title="Editar Palestra" description="Atualize os detalhes da palestra" />
 
                 <div className="grid gap-2">
                     <Label htmlFor="title">Palestrante</Label>
@@ -105,6 +129,7 @@ function EditLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room
                             <Input
                                 id="title"
                                 className="mt-1 block w-full"
+                                value={data.title || ''}
                                 onChange={(e) => setData('title', e.target.value)}
                                 placeholder="Título da Palestra"
                             />
@@ -127,7 +152,7 @@ function EditLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room
                         <div className="col-span-2 flex flex-col gap-[14px]">
                             <Label>Tipo</Label>
 
-                            <TypeDropdown onSetData={setData}>
+                            <TypeDropdown onSetData={setData} defaultValue={data.type}>
                                 <SelectValue className="w-full" placeholder="Categoria" />
                             </TypeDropdown>
                             <InputError className="mt-2" message={errors.type} />
@@ -138,26 +163,26 @@ function EditLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room
                         <div className="grid grid-cols-8 gap-2">
                             <div className="col-span-4">
                                 <Label htmlFor="data">Data</Label>
-                                <DatePicker onSetData={setData} />
+                                <DatePicker onSetData={setData} defaultDate={lecture.date} />
                                 <InputError className="mt-2" message={errors.date} />
                             </div>
 
                             {/* Das */}
                             <div className="col-span-2">
-                                <TimeSelectorGroup onSetData={setData} />
+                                <TimeSelectorGroup onSetData={setData} defaultValue={data.starts} />
                                 <InputError className="mt-2" message={errors.starts} />
                             </div>
 
                             {/* às */}
                             <div className="col-span-2">
-                                <TimeSelectorGroup onSetData={setData} variant="ends" />
+                                <TimeSelectorGroup onSetData={setData} variant="ends" defaultValue={data.ends} />
                                 <InputError className="mt-2" message={errors.ends} />
                             </div>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <Button disabled={processing}>Publicar</Button>
+                        <Button disabled={processing}>Atualizar</Button>
 
                         <Transition
                             show={recentlySuccessful}
@@ -166,7 +191,7 @@ function EditLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room
                             leave="transition ease-in-out"
                             leaveTo="opacity-0"
                         >
-                            <p className="text-sm text-neutral-600">Publicado</p>
+                            <p className="text-sm text-neutral-600">Atualizado</p>
                         </Transition>
                     </div>
                 </form>

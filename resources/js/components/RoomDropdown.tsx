@@ -12,23 +12,29 @@ export interface Room {
     capacity: number;
 }
 
-export function RoomDropdown({ children, rooms, onSetData, data }: { children: React.ReactNode; rooms: Room[]; onSetData: any }) {
+export function RoomDropdown({ children, rooms, onSetData, data }: { children: React.ReactNode; rooms: Room[]; onSetData: any; data: any }) {
     const [showInfo, setShowInfo] = useState<string>();
     const [isAvailable, setIsAvailable] = useState<boolean>(true);
-    const portalRoot = document.getElementById('portal-root');
+    const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
 
-    function onSetRoom(number) {
+    useEffect(() => {
+        setPortalRoot(document.getElementById('portal-root'));
+    }, []);
+
+    function onSetRoom(number: string) {
         if (data.date && data.starts && data.ends) {
-            const room = rooms.filter((r) => r.number == number)[0];
+            const room = rooms.find((r) => r.number === number);
 
-            const check = isRoomAvailable({
-                room: room,
-                date: data.date,
-                starts: data.starts,
-                ends: data.ends,
-            });
+            if (room) {
+                const check = isRoomAvailable({
+                    room: room,
+                    date: data.date,
+                    starts: data.starts,
+                    ends: data.ends,
+                });
 
-            setIsAvailable(check);
+                setIsAvailable(check);
+            }
         }
     }
 
@@ -40,6 +46,7 @@ export function RoomDropdown({ children, rooms, onSetData, data }: { children: R
 
     return (
         <Select
+            defaultValue={data.room_number}
             onValueChange={(value) => {
                 onSetData('room_number', value);
                 onSetRoom(value);
@@ -49,20 +56,18 @@ export function RoomDropdown({ children, rooms, onSetData, data }: { children: R
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Salas</SelectLabel>
-                    {rooms.map((room: Room) => {
-                        return (
-                            <div>
-                                <SelectItem value={room.number} key={room.number}>
-                                    <div className="pointer-events-none flex w-full items-center justify-between">
-                                        <div className="pointer-events-auto mr-2 flex items-center gap-1">
-                                            {room.number}
-                                            <p className="text-xs font-medium">cap.: {room.capacity}</p>
-                                        </div>
+                    {rooms.map((room: Room) => (
+                        <div key={room.number}>
+                            <SelectItem value={room.number}>
+                                <div className="pointer-events-none flex w-full items-center justify-between">
+                                    <div className="pointer-events-auto mr-2 flex items-center gap-1">
+                                        {room.number}
+                                        <p className="text-xs font-medium">cap.: {room.capacity}</p>
                                     </div>
-                                </SelectItem>
-                            </div>
-                        );
-                    })}
+                                </div>
+                            </SelectItem>
+                        </div>
+                    ))}
 
                     {!isAvailable &&
                         portalRoot &&
@@ -83,12 +88,12 @@ export function RoomDropdown({ children, rooms, onSetData, data }: { children: R
                             <UnavailableRoomWarning
                                 room={data.room_number}
                                 conflicts={lecturesConflicting({
-                                    room: rooms.filter((r) => r.number == data.room_number)[0],
+                                    room: rooms.find((r) => r.number === data.room_number),
                                     date: data.date,
                                     starts: data.starts,
                                     ends: data.ends,
                                 })}
-                                className={showInfo == data.room_number ? 'block' : 'hidden'}
+                                className={showInfo === data.room_number ? 'block' : 'hidden'}
                             />,
                             portalRoot,
                         )}
