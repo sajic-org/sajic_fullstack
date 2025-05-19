@@ -88,7 +88,6 @@ class LectureController extends Controller
             false => [],
         ];
 
-        // Group userIds by presence
         foreach ($validated['checkedUsers'] as $user) {
             $userIdsByPresence[$user['presence']][] = $user['userId'];
         }

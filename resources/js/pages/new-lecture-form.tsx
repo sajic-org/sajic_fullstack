@@ -25,7 +25,7 @@ export interface LectureForm {
     room_number: string;
     title: string;
     type: string;
-    date: Date;
+    date: Date | string;
     starts: string;
     ends: string;
     [key: string]: any | unknown;
@@ -83,7 +83,13 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                                 <span>{selectedSpeaker.name}</span>
                             </div>
 
-                            <Button variant="outline" className="w-fit" onClick={() => setSelectedSpeaker(undefined)}>
+                            <Button
+                                variant="outline"
+                                className="w-fit"
+                                onClick={() => {
+                                    setSelectedSpeaker(undefined);
+                                }}
+                            >
                                 Outro Palestrante?
                             </Button>
                         </div>

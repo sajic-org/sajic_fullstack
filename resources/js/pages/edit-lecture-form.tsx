@@ -55,7 +55,7 @@ function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speak
     const currentSpeaker = speakers.find((speaker) => speaker.id === lecture.speaker_id);
     const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | undefined>(currentSpeaker);
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>({
+    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<LectureForm>({
         speaker_id: lecture.speaker_id,
         room_number: lecture.room_number,
         title: lecture.title,
@@ -128,7 +128,14 @@ function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speak
                                 <span>{selectedSpeaker.name}</span>
                             </div>
 
-                            <Button variant="outline" className="w-fit" onClick={() => setSelectedSpeaker(undefined)}>
+                            <Button
+                                variant="outline"
+                                className="w-fit"
+                                onClick={() => {
+                                    setSelectedSpeaker(undefined);
+                                    setData('speaker_id', null);
+                                }}
+                            >
                                 Outro Palestrante?
                             </Button>
                         </div>
