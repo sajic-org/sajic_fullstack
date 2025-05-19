@@ -45,7 +45,7 @@ class SpeakerController extends Controller
 
         Speaker::whereId($speaker->id)->update(['name' => $validated['name'], 'description' => $validated['description'],]);
 
-        return back()->with('newSpeaker', $speaker);;
+        return back();
     }
 
     public function destroy(Speaker $speaker)
