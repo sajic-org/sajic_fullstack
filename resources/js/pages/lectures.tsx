@@ -1,5 +1,6 @@
 import { LecturesGrid, LecturesGridItem } from '@/components/lectures-grid';
 import LecturesGridHeading from '@/components/lectures-grid-heading';
+import MapView from '@/components/Map';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Lecture, User } from '@/types/models';
@@ -50,6 +51,14 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
                         ?.filter((lecture) => lecture.type === 'Gestão e Mercado')
                         .map((item, i) => <LecturesGridItem key={i} lecture={item} user={user} className="md:col-span-1" />)}
                 </LecturesGrid>
+            </section>
+            <section className='flex flex-col gap-6 p-5'>
+                <div className='text-center mt-12'>
+                    <h1 className='text-black text-2xl font-bold'>Nosso Campus</h1>
+                    <h2 className='text-gray-500'>As palestar ocorrerão no nosso Centro Universitario UniSenac</h2>
+                    <h2 className='text-gray-500'>R. Gonçalves Chaves, 602</h2>
+                </div>
+                <MapView />
             </section>
         </AppLayout>
     );
