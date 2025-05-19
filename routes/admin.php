@@ -13,6 +13,7 @@ Route::post('/nova-palestra', [LectureController::class, 'store'])->name('lectur
 
 Route::get('/palestrantes', [SpeakerController::class, 'index'])->name('speakers.index');
 Route::post('/palestrantes/novo', [SpeakerController::class, 'store'])->name('speakers.store');
+Route::patch('/palestrantes/{speaker}/edit', [SpeakerController::class, 'update'])->name('speakers.update');
 
 // Edição e Remoção de Palestras
 Route::get('/palestras/{lecture}/edit', [LectureController::class, 'edit'])->name('lectures.edit');
