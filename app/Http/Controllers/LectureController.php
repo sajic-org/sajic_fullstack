@@ -129,14 +129,14 @@ class LectureController extends Controller
 
         Lecture::whereId($lecture->id)->update($validated);
 
-        return to_route('lectures.index');
+        return back();
     }
 
     // Deleta Palestra
     public function destroy(Lecture $lecture)
     {
-        Lecture::destroy($lecture);
+        Lecture::destroy($lecture->id);
 
-        return to_route('home');
+        return to_route('lectures.index');
     }
 }

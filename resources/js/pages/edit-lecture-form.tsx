@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem, SharedData } from '@/types';
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head, router, useForm, usePage } from '@inertiajs/react';
 
 import { Transition } from '@headlessui/react';
 
@@ -91,12 +91,33 @@ function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speak
         });
     };
 
+    const onDelete = () => {
+        router.delete(route('lectures.destroy', { lecture: lecture }), {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast('Palestra removida!', {
+                    description: `A palestra "${data.title}" foi removida com sucesso`,
+                });
+            },
+            onError: (errors) => {
+                toast.error('Erro ao remover a palestra');
+                console.error(errors);
+            },
+        });
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Editar Palestra" />
 
             <div className="mx-auto mb-20 space-y-6 px-4 pt-12 sm:px-6 md:w-2/3">
-                <HeadingSmall title="Editar Palestra" description="Atualize os detalhes da palestra" />
+                <div className="flex justify-between">
+                    <HeadingSmall title="Editar Palestra" description="Atualize os detalhes da palestra" />
+
+                    <button className="cursor-pointer underline" onClick={onDelete}>
+                        Excluir Palestra
+                    </button>
+                </div>
 
                 <div className="grid gap-2">
                     <Label htmlFor="title">Palestrante</Label>
