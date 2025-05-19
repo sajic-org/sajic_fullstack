@@ -50,7 +50,7 @@ class SpeakerController extends Controller
 
     public function destroy(Speaker $speaker)
     {
-        Speaker::destroy($speaker);
-        return to_route('lectures.index');
+        Speaker::destroy($speaker->id);
+        return back();
     }
 }

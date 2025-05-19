@@ -8,6 +8,7 @@ import { InertiaFormProps, useForm, usePage } from '@inertiajs/react';
 import { SquarePen } from 'lucide-react';
 import { Dispatch, FormEventHandler, SetStateAction, useEffect } from 'react';
 import { toast } from 'sonner';
+import ConfirmSpeakerDeletionAlert from './confirm-speaker-deletion-alert';
 import InputError from './input-error';
 import { DialogTrigger } from './ui/dialog';
 import { Textarea } from './ui/textarea';
@@ -105,6 +106,7 @@ export default function EditSpeakerDialog({
                         </div>
                     </div>
                     <DialogFooter>
+                        <ConfirmSpeakerDeletionAlert speaker={speaker} />
                         <Button type="submit">Salvar</Button>
                     </DialogFooter>
                 </form>

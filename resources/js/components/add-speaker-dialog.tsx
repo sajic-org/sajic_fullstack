@@ -50,7 +50,7 @@ function AddSpeakerDialog({
                 });
             },
             onError: (errors) => {
-                toast.error('Erro ao adicionado palestrante.');
+                toast.error('Erro ao adicionar palestrante.');
                 console.error(errors);
             },
         });
