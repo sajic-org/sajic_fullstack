@@ -16,7 +16,7 @@ function Footer() {
                             <ul className="mt-2 flex gap-2">
                                 <DevCard
                                     name="Gabriel Amaral"
-                                    link="https://github.com/amaralTheSage"
+                                    link="https://www.linkedin.com/in/amaralthesage"
                                     img="https://avatars.githubusercontent.com/u/140647677?v=4"
                                 />
                                 <DevCard
