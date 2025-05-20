@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @mixin IdeHelperRoom
+ */
 class Room extends Model
 {
     protected $fillable = [
@@ -12,7 +15,9 @@ class Room extends Model
         'capacity',
     ];
 
-
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $primaryKey = 'number';
 
     public function lectures(): HasMany
     {

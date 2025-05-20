@@ -2,9 +2,9 @@
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger } from '@/components/ui/select';
 
-export function TypeDropdown({ children, onSetData }) {
+export function TypeDropdown({ children, onSetData, defaultValue }: { defaultValue?: string }) {
     return (
-        <Select onValueChange={(value) => onSetData('type', value)}>
+        <Select defaultValue={defaultValue} onValueChange={(value) => onSetData('type', value)}>
             <SelectTrigger className="w-full">{children}</SelectTrigger>
             <SelectContent>
                 <SelectGroup>

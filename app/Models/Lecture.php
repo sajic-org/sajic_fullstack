@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * @mixin IdeHelperLecture
+ */
 class Lecture extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'title',
         'type',
@@ -31,6 +37,8 @@ class Lecture extends Model
 
     public function attendants(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, LectureAttendance::class)
+            ->as('lecture_attendances')
+            ->withPivot('showed_up');
     }
 }

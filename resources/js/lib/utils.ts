@@ -1,3 +1,4 @@
+import { Lecture, Room } from '@/types/models';
 import { router } from '@inertiajs/react';
 import { type ClassValue, clsx } from 'clsx';
 import { toast } from 'sonner';
@@ -11,7 +12,34 @@ export function now() {
     return Date.now();
 }
 
-export function subscribe(lecture) {
+export function isRoomAvailable({ room, date, starts, ends }: { room: Room; date: string; starts: string; ends: string }): boolean {
+    if (room.lectures) {
+        const sameDateLectures = room.lectures.filter((lecture) => lecture.date === date);
+
+        for (const lecture of sameDateLectures) {
+            if (starts < lecture.ends && lecture.starts < ends) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+export function lecturesConflicting({ room, date, starts, ends }: { room: Room; date: string; starts: string; ends: string }): Lecture[] {
+    const sameDateLectures = room.lectures!.filter((lecture) => lecture.date === date);
+
+    const arr = [];
+    for (const lecture of sameDateLectures) {
+        if (starts < lecture.ends && lecture.starts < ends) {
+            arr.push(lecture);
+        }
+    }
+
+    return arr;
+}
+
+export function subscribe(lecture: Lecture) {
     router.post(
         route('user.attend-lecture'),
         { id: lecture.id },
@@ -23,7 +51,7 @@ export function subscribe(lecture) {
                     description: `Você agora está inscrito na palestra "${lecture.title}"`,
                     action: {
                         label: 'Cancelar',
-                        onClick: () => unsubcribe(lecture.id),
+                        onClick: () => unsubcribe(lecture),
                     },
                 });
             },
@@ -35,7 +63,7 @@ export function subscribe(lecture) {
     );
 }
 
-export function unsubcribe(lecture) {
+export function unsubcribe(lecture: Lecture) {
     router.post(
         route('user.leave-lecture'),
         { id: lecture.id },

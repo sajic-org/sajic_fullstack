@@ -11,6 +11,7 @@ function LecturesGridHeading({
     title: string | React.ReactNode;
     description: string | React.ReactNode;
     image: string;
+    icon?: any;
 }) {
     return (
         <div

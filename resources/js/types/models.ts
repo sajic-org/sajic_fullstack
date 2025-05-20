@@ -4,17 +4,21 @@ enum LectureType {
 }
 
 export interface Lecture {
+    id: number;
     title: string;
     type: LectureType;
-    date: string | Date;
+    date: string;
     starts: string;
     ends: string;
-    is_active?: boolean | number;
-    speaker_id: number;
     room_number: string;
+    is_active?: boolean | number;
+    speaker_id?: number;
+    speaker?: Speaker;
+    attendants?: User[];
 }
 
 export interface Speaker {
+    id: number;
     name: string;
     description: string;
     image: string;
@@ -22,7 +26,30 @@ export interface Speaker {
 }
 
 export interface Room {
+    id: number;
     number: string;
     capacity: number;
     lectures?: Lecture[];
+}
+
+export interface User {
+    id: number;
+    name: string;
+    email: string;
+    avatar?: string;
+    email_verified_at: string | null;
+    is_admin: number | boolean;
+    is_unisenac_student: number | boolean;
+    created_at: string;
+    updated_at: string;
+    lectures: Lecture[];
+    lecture_attendances?: LectureAttendances; // Lecture and User pivot table
+
+    [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface LectureAttendances {
+    lecture_id: number;
+    user_id: number;
+    showed_up: number; // This is actually a boolean tinyInt
 }

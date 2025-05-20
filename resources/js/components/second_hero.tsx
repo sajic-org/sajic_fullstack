@@ -4,10 +4,10 @@ import { BadgePlus } from 'lucide-react';
 function SecondHero() {
     return (
         <section className="bg-primary-blue text-white">
-            <div className="mx-auto flex justify-between gap-6 px-4 py-30 md:max-w-7xl">
+            <div className="mx-auto flex flex-col justify-center gap-6 px-4 py-30 sm:px-6 md:max-w-7xl lg:flex-row lg:justify-between">
                 {/* image */}
                 <Link
-                    href="/palestrantes"
+                    href="/palestras"
                     className="group relative flex min-h-[350px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl duration-1000"
                 >
                     <div className="absolute inset-0 h-full items-center justify-center bg-[url('/assets/palestrante_thumb.png')] bg-cover bg-center bg-no-repeat filter duration-1000 group-hover:blur-[1px] hover:brightness-90"></div>

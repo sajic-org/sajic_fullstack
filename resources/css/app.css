@@ -118,6 +118,11 @@
     --sidebar-ring: oklch(0.87 0 0);
 }
 
+.positions-sphere-in-bg {
+    background-size: 120%;
+    background-position: 100% 40%;
+}
+
 .dark {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);

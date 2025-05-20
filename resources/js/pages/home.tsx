@@ -1,10 +1,11 @@
 import Hero from '@/components/hero';
 import { PastEditions } from '@/components/past-editions';
 import SecondHero from '@/components/second_hero';
+import Spinner from '@/components/spinner';
 import TimelineContainer from '@/components/timeline-container';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Deferred, Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,7 +22,10 @@ export default function Home() {
             <SecondHero />
 
             <PastEditions />
-            <TimelineContainer timelineData={timeLineMockData} />
+
+            <Deferred data="lectures" fallback={<Spinner />}>
+                <TimelineContainer timelineData={timeLineMockData} />
+            </Deferred>
         </AppLayout>
     );
 }

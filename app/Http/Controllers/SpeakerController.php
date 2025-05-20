@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Speaker;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Inertia\Inertia;
 
 class SpeakerController extends Controller
 {
@@ -29,17 +27,30 @@ class SpeakerController extends Controller
 
         $assetPath = asset(Storage::url('public/' . $imagePath));
 
-        Speaker::create([
+        $speaker = Speaker::create([
             'image' => $assetPath,
             'name' => $request['name'],
             'description' => $request['description'],
         ]);
+
+        return back()->with('newSpeaker', $speaker);
+    }
+
+    public function update(Speaker $speaker, Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'min:8|max:30',
+            'description' => 'min:150|max:1500',
+        ]);
+
+        Speaker::whereId($speaker->id)->update(['name' => $validated['name'], 'description' => $validated['description'],]);
 
         return back();
     }
 
     public function destroy(Speaker $speaker)
     {
-        Speaker::destroy($speaker);
+        Speaker::destroy($speaker->id);
+        return back();
     }
 }

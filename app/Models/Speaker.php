@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @mixin IdeHelperSpeaker
+ */
 class Speaker extends Model
 {
     use HasFactory;
@@ -14,6 +17,6 @@ class Speaker extends Model
 
     public function lectures(): HasMany
     {
-        return  $this->hasMany(Lecture::class);
+        return $this->hasMany(Lecture::class);
     }
 }

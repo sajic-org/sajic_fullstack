@@ -3,9 +3,9 @@ import { MousePointerClick } from 'lucide-react';
 
 function Hero() {
     return (
-        <section className="h-screen w-screen bg-[url('/assets/homepage_hero_light.webp')] bg-cover bg-center bg-no-repeat">
-            <div className="mx-auto mt-36 px-4 md:max-w-7xl">
-                <div className="md:w-2/3 dark:text-white">
+        <section className="h-screen bg-[url('/assets/hero_bg_plexus.webp')] bg-contain bg-right bg-no-repeat">
+            <div className="mx-auto mt-36 px-4 sm:px-6 md:max-w-7xl">
+                <div className="md:w-3/5 dark:text-white">
                     <h1 className="text-4xl font-semibold">Sajic 5ª Edição | outubro de 2025</h1>
                     <p className="mt-5 text-justify text-xl">
                         A Semana Acadêmica do UniSenac é um evento que oferece uma série de atividades acadêmicas, culturais e profissionais, voltadas
@@ -17,7 +17,7 @@ function Hero() {
                     <Link
                         prefetch="mount"
                         href="/palestras"
-                        className="bg-primary-blue mt-8 flex h-fit w-fit items-center gap-3 rounded-lg px-9 py-3.5 text-xl text-white shadow-lg drop-shadow-md hover:bg-orange-500"
+                        className="bg-primary-blue mt-8 flex h-fit w-fit items-center gap-3 rounded-lg px-9 py-3.5 text-xl text-white shadow-lg drop-shadow-md"
                     >
                         Veja nossas palestras
                         <MousePointerClick size={23} className="mt-px" />

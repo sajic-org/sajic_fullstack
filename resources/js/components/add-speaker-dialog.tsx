@@ -1,20 +1,38 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useForm } from '@inertiajs/react';
+import { LectureForm } from '@/pages/new-lecture-form';
+import { Speaker } from '@/types/models';
+import { InertiaFormProps, useForm, usePage } from '@inertiajs/react';
 import { PlusIcon, UploadIcon } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { Dispatch, FormEventHandler, SetStateAction, useEffect } from 'react';
+import { toast } from 'sonner';
 import InputError from './input-error';
 import { DialogTrigger } from './ui/dialog';
 import { Textarea } from './ui/textarea';
 
-function AddSpeakerDialog() {
+function AddSpeakerDialog({
+    onSetSelectedSpeaker,
+    onSetData,
+}: {
+    onSetSelectedSpeaker: Dispatch<SetStateAction<Speaker | undefined>>;
+    onSetData: InertiaFormProps<LectureForm>['setData'];
+}) {
     interface SpeakerForm {
         image: string;
         name: string;
         description: string;
     }
+
+    const { flash } = usePage().props;
+
+    useEffect(() => {
+        if (flash?.newSpeaker) {
+            onSetData('speaker_id', flash.newSpeaker.id);
+            onSetSelectedSpeaker(flash.newSpeaker);
+        }
+    }, [flash.newSpeaker]);
 
     const { data, setData, post, errors } = useForm<Required<SpeakerForm>>();
 
@@ -23,6 +41,18 @@ function AddSpeakerDialog() {
 
         post(route('speakers.store', data), {
             preserveScroll: true,
+            onSuccess: () => {
+                if (Object.keys(errors).length === 0) {
+                    document.querySelector('[data-dialog-close]')?.click();
+                }
+                toast('Palestrante adicionado!', {
+                    description: `Palestrante ${data.name} foi adicionado com sucesso!`,
+                });
+            },
+            onError: (errors) => {
+                toast.error('Erro ao adicionar palestrante.');
+                console.error(errors);
+            },
         });
     };
 
@@ -53,7 +83,7 @@ function AddSpeakerDialog() {
                                     id="image"
                                     name="image"
                                     required
-                                    onChange={(e) => setData('image', e.target.files[0])}
+                                    onChange={(e) => setData('image', e.target.files[0] || null)}
                                     className="absolute h-full w-full cursor-pointer opacity-0"
                                 />
                             </div>
@@ -83,13 +113,7 @@ function AddSpeakerDialog() {
                         </div>
                     </div>
                     <DialogFooter>
-                        {errors.image || errors.name || errors.description ? (
-                            <Button className="bg-gray-600 hover:bg-gray-600">Salvar</Button>
-                        ) : (
-                            <DialogClose type="submit">
-                                <Button>Salvar</Button>
-                            </DialogClose>
-                        )}
+                        <Button type="submit">Salvar</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

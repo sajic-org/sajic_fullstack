@@ -1,20 +1,34 @@
 'use client';
 
-import { format } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
-import * as React from 'react';
-
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn, now } from '@/lib/utils';
+import { format, parse } from 'date-fns';
+import { Calendar as CalendarIcon } from 'lucide-react';
+import * as React from 'react';
 
-export function DatePicker({ onSetData }) {
-    const [date, setDate] = React.useState(now());
+export function DatePicker({ onSetData, defaultDate }: { onSetData: (key: string, value: string) => void; defaultDate?: string | Date }) {
+    const getInitialDate = () => {
+        if (!defaultDate) return now();
+
+        if (typeof defaultDate === 'string') {
+            try {
+                return parse(defaultDate, 'dd/MM', new Date());
+            } catch (e) {
+                console.error('Error parsing date:', e);
+                return now();
+            }
+        }
+
+        return defaultDate;
+    };
+
+    const [date, setDate] = React.useState<Date>(getInitialDate());
 
     React.useEffect(() => {
         onSetData('date', format(date, 'dd/MM'));
-    }, [date]);
+    }, [date, onSetData]);
 
     return (
         <Popover>
@@ -24,8 +38,9 @@ export function DatePicker({ onSetData }) {
                     {date ? format(date, 'dd/MM') : <span>Selecionar a data</span>}
                 </Button>
             </PopoverTrigger>
+
             <PopoverContent className="w-auto p-0">
-                <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+                <Calendar mode="single" selected={date} onSelect={(newDate) => setDate(newDate || now())} initialFocus />
             </PopoverContent>
         </Popover>
     );
