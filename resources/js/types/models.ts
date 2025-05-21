@@ -51,5 +51,11 @@ export interface User {
 export interface LectureAttendances {
     lecture_id: number;
     user_id: number;
-    showed_up: number; // This is actually a boolean tinyInt
+    showed_up: boolean | number; // This is actually a boolean tinyInt
+}
+
+export interface LecturePresence {
+    name: string;
+    date: string;
+    lecture_count: number;
 }
