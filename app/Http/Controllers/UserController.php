@@ -2,23 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Lecture;
+use App\Models\LectureAttendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class UserController extends Controller
 {
     public function attendance_list()
     {
-        $users = User::join('lecture_user', 'users.id', '=', 'lecture_user.user_id')
-            ->join('lectures', 'lectures.id', '=', 'lecture_user.lecture_id')
-            ->where('lecture_user.showed_up', true)
-            ->orderBy('lectures.date', 'desc')
-            ->orderBy('users.name')
+        $attendants = LectureAttendance::whereShowedUp(false)
+            ->join("lectures", "lecture_attendances.lecture_id", "=", "lectures.id")
+            ->join("users", "lecture_attendances.user_id", "=", "users.id")
+            ->where("users.is_unisenac_student", true)
+            ->select(
+                "users.name",
+                "lectures.date",
+                DB::raw("count(lectures.id) as lecture_count")
+            )
+            ->groupBy("users.name", "lectures.date")
+            ->orderBy("users.name", "desc")
             ->get();
 
-        return Inertia::render('attendance_list', ['attendees' => $users]);
+        return Inertia::render('attendance_list', ['attendees' => $attendants]);
     }
 
     public function my_lectures()
