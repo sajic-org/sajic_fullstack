@@ -71,10 +71,10 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Nova Palestra" />
 
-            <div className="mx-auto mb-20 space-y-6 px-4 pt-12 sm:px-6 md:w-2/3">
+            <div className="mx-auto mb-20 w-full space-y-4 px-4 pt-12 sm:px-6 md:w-9/12 lg:w-2/3">
                 <HeadingSmall title="Nova Palestra" description="Publique aqui novas palestras" />
 
-                <div className="grid gap-2">
+                <div className="mt-7 grid gap-2">
                     <Label htmlFor="title">Palestrante</Label>
                     {selectedSpeaker ? (
                         <div className="flex items-center justify-between gap-5">
@@ -103,9 +103,9 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                     )}
                 </div>
 
-                <form onSubmit={submit} className="space-y-6">
-                    <div className="grid grid-cols-8 gap-2">
-                        <div className="col-span-4">
+                <form onSubmit={submit}>
+                    <div className="grid grid-cols-8 space-y-4 space-x-2">
+                        <div className="col-span-8 sm:col-span-4">
                             <Label htmlFor="title">Título</Label>
 
                             <Input
@@ -118,7 +118,7 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                             <InputError className="mt-2" message={errors.title} />
                         </div>
 
-                        <div className="relative col-span-2 flex flex-col gap-[14px]">
+                        <div className="relative col-span-4 flex flex-col gap-[14px] sm:col-span-2">
                             <div className="flex gap-2">
                                 <Label>Sala</Label>
                                 <div id="portal-root"></div>
@@ -130,7 +130,7 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                             <InputError className="mt-2" message={errors.room_number} />
                         </div>
 
-                        <div className="col-span-2 flex flex-col gap-[14px]">
+                        <div className="col-span-4 flex flex-col gap-[14px] sm:col-span-2">
                             <Label>Tipo</Label>
 
                             <TypeDropdown onSetData={setData} defaultValue={data.type}>
@@ -140,30 +140,32 @@ function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[
                         </div>
                     </div>
 
-                    <div>
-                        <div className="grid grid-cols-8 gap-2">
-                            <div className="col-span-4">
-                                <Label htmlFor="data">Data</Label>
-                                <DatePicker onSetData={setData} />
-                                <InputError className="mt-2" message={errors.date} />
-                            </div>
+                    <div className="grid grid-cols-2 space-y-4 space-x-2">
+                        <div className="col-span-2 md:col-span-1">
+                            <Label htmlFor="data">Data</Label>
+                            <DatePicker onSetData={setData} />
+                            <InputError className="mt-2" message={errors.date} />
+                        </div>
 
+                        <div className="col-span-2 flex flex-wrap gap-2 sm:flex-nowrap md:col-span-1">
                             {/* Das */}
-                            <div className="col-span-2">
+                            <div className="w-full sm:w-1/2">
                                 <TimeSelectorGroup onSetData={setData} />
                                 <InputError className="mt-2" message={errors.starts} />
                             </div>
 
                             {/* às */}
-                            <div className="col-span-2">
+                            <div className="w-full sm:w-1/2">
                                 <TimeSelectorGroup onSetData={setData} variant="ends" />
                                 <InputError className="mt-2" message={errors.ends} />
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-4">
-                        <Button disabled={processing}>Publicar</Button>
+                    <div className="mt-7 ml-auto flex w-fit items-center gap-4">
+                        <Button disabled={processing} className="px-8 py-5 text-base font-semibold">
+                            Publicar
+                        </Button>
 
                         <Transition
                             show={recentlySuccessful}

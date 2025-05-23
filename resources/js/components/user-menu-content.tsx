@@ -19,14 +19,14 @@ export function UserMenuContent({ user }: { user: User }) {
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild className="max-md:hidden">
                     <Link className="block w-full" href={route('user.lectures')} as="button" prefetch onClick={cleanup}>
                         <BookMarked className="mr-2" /> Minhas Palestras
                     </Link>
                 </DropdownMenuItem>
 
                 {user.is_admin && (
-                    <DropdownMenuItem asChild>
+                    <DropdownMenuItem asChild className="max-md:hidden">
                         <Link className="block w-full" href={route('lectures.create')} as="button" prefetch onClick={cleanup}>
                             <BookPlus className="mr-2" /> Novas Palestras
                         </Link>
@@ -34,16 +34,16 @@ export function UserMenuContent({ user }: { user: User }) {
                 )}
 
                 {user.is_admin && (
-                    <DropdownMenuItem asChild>
+                    <DropdownMenuItem asChild className="max-md:hidden">
                         <Link className="block w-full" href={route('user.attendance_list')} as="button" prefetch onClick={cleanup}>
                             <ListChecks className="mr-2" /> Presenças
                         </Link>
                     </DropdownMenuItem>
                 )}
 
-                <DropdownMenuSeparator />
+                <DropdownMenuSeparator className="max-md:hidden" />
 
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild className="max-md:hidden">
                     <Link className="block w-full" href={route('password.edit')} as="button" prefetch onClick={cleanup}>
                         <Settings className="mr-2" />
                         Configurações
@@ -51,7 +51,7 @@ export function UserMenuContent({ user }: { user: User }) {
                 </DropdownMenuItem>
             </DropdownMenuGroup>
 
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator className="max-md:hidden" />
 
             <DropdownMenuItem asChild>
                 <Link className="block w-full" method="post" href={route('logout')} as="button" onClick={cleanup}>
