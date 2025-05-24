@@ -66,7 +66,7 @@ function MobileSidebarMenu() {
                                 <BookMarked className="mr-2" size={20} />
                             </Link>
 
-                            {auth.user.is_admin && (
+                            {auth.user?.is_admin && (
                                 <>
                                     <Link
                                         className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex w-full items-center justify-end gap-3 rounded-md p-2 text-sm font-medium transition-colors"
