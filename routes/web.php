@@ -10,13 +10,7 @@ use Inertia\Inertia;
 
 // Home
 Route::get('/', function () {
-
-    return Inertia::render('home', ['lectures' => Inertia::defer(function () {
-
-        $lectures = Lecture::with('speaker')->get();
-
-        return $lectures;
-    })]);
+    return Inertia::render('home', ['lectures' =>Lecture::with('speaker')->get()]);
 })->name('home');
 
 // Palestras
