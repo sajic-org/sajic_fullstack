@@ -3,7 +3,7 @@ import { MousePointerClick } from 'lucide-react';
 
 function Hero() {
     return (
-        <section className="h-screen bg-[url('/assets/hero_bg_plexus.webp')] bg-contain bg-right bg-no-repeat">
+        <section className="min-h-screen bg-[url('/assets/hero_bg_plexus.webp')] bg-cover bg-right bg-no-repeat md:bg-contain">
             <div className="mx-auto mt-36 px-4 sm:px-6 md:max-w-7xl">
                 <div className="md:w-3/5 dark:text-white">
                     <h1 className="text-4xl font-semibold">Sajic 5ª Edição | outubro de 2025</h1>
@@ -17,7 +17,7 @@ function Hero() {
                     <Link
                         prefetch="mount"
                         href="/palestras"
-                        className="bg-primary-blue mt-8 flex h-fit w-fit items-center gap-3 rounded-lg px-9 py-3.5 text-xl text-white shadow-lg drop-shadow-md"
+                        className="bg-primary-blue mt-8 flex h-fit w-fit items-center gap-3 rounded-lg px-3 py-3.5 text-xl text-white shadow-lg drop-shadow-md max-sm:mb-8 max-[30rem]:mx-auto sm:px-9"
                     >
                         Veja nossas palestras
                         <MousePointerClick size={23} className="mt-px" />
