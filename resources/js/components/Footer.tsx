@@ -25,9 +25,9 @@ function Footer() {
                                     img="https://avatars.githubusercontent.com/u/98642728?v=4"
                                 />{' '}
                                 <DevCard
-                                    name="Marcelo Oscarberry"
-                                    link="https://github.com/Marce1in"
-                                    img="https://avatars.githubusercontent.com/u/98642728?v=4"
+                                    name="Natan Pederzolli"
+                                    link="https://github.com/Sasutan"
+                                    img="https://avatars.githubusercontent.com/u/103868377?v=4"
                                 />{' '}
                                 <DevCard
                                     name="Marcelo Oscarberry"
