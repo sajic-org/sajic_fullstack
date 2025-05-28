@@ -9,6 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    enviroment: production
     steps:
       - name: Deploy in ec2
         uses: appleboy/ssh-action@v1
