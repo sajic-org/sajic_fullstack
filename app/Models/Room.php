@@ -16,7 +16,9 @@ class Room extends Model
     ];
 
     public $incrementing = false;
+
     protected $keyType = 'string';
+
     protected $primaryKey = 'number';
 
     public function lectures(): HasMany

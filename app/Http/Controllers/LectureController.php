@@ -24,8 +24,8 @@ class LectureController extends Controller
 
         $lectures = Lecture::with(['speaker.lectures', 'room'])->get();
 
-        foreach($lectures as $l){
-            $l['n_attendees'] = DB::table('lecture_attendances')->where("lecture_id", $l->id)->count();
+        foreach ($lectures as $l) {
+            $l['n_attendees'] = DB::table('lecture_attendances')->where('lecture_id', $l->id)->count();
         }
 
         return Inertia::render('lectures', [
@@ -140,8 +140,9 @@ class LectureController extends Controller
     }
 
     // Abre e fecha inscrições
-    public function reopen_enrollment(Lecture $lecture){
-        $lecture->is_open_for_enrollment = !$lecture->is_open_for_enrollment;
+    public function reopen_enrollment(Lecture $lecture)
+    {
+        $lecture->is_open_for_enrollment = ! $lecture->is_open_for_enrollment;
         $lecture->save();
 
         return back();

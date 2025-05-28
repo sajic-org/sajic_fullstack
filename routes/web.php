@@ -10,14 +10,11 @@ use Inertia\Inertia;
 
 // Home
 Route::get('/', function () {
-    return Inertia::render('home', ['lectures' =>Lecture::with('speaker')->get()]);
+    return Inertia::render('home', ['lectures' => Lecture::with('speaker')->get()]);
 })->name('home');
 
 // Palestras
 Route::get('/palestras', [LectureController::class, 'index'])->name('lectures.index');
-
-
-
 
 // Minhas Palestras
 // adicionar 'verified'
@@ -54,5 +51,5 @@ Route::get('/criar-admin', function () {
     return to_route('home');
 });
 
-require __DIR__ . '/settings.php';
-require __DIR__ . '/auth.php';
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';
