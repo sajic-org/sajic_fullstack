@@ -16,7 +16,7 @@ function Footer() {
                             <ul className="mt-2 flex gap-2">
                                 <DevCard
                                     name="Gabriel Amaral"
-                                    link="https://github.com/amaralTheSage"
+                                    link="https://www.linkedin.com/in/amaralthesage"
                                     img="https://avatars.githubusercontent.com/u/140647677?v=4"
                                 />
                                 <DevCard
@@ -25,14 +25,14 @@ function Footer() {
                                     img="https://avatars.githubusercontent.com/u/98642728?v=4"
                                 />{' '}
                                 <DevCard
-                                    name="Marcelo Oscarberry"
-                                    link="https://github.com/Marce1in"
-                                    img="https://avatars.githubusercontent.com/u/98642728?v=4"
+                                    name="Natan Pederzolli"
+                                    link="https://github.com/Sasutan"
+                                    img="https://avatars.githubusercontent.com/u/103868377?v=4"
                                 />{' '}
                                 <DevCard
-                                    name="Marcelo Oscarberry"
-                                    link="https://github.com/Marce1in"
-                                    img="https://avatars.githubusercontent.com/u/98642728?v=4"
+                                    name="João Matuszevski"
+                                    link="https://github.com/JoaoOLMdev"
+                                    img="https://avatars.githubusercontent.com/u/144689188?s=96&v=4"
                                 />{' '}
                                 <DevCard
                                     name="Marcelo Oscarberry"

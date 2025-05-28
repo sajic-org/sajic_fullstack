@@ -1,14 +1,32 @@
 import { cn, unsubcribe } from '@/lib/utils';
 import { Lecture, User } from '@/types/models';
 import { Link } from '@inertiajs/react';
-import { CircleX, GraduationCap, ListChecks, SquarePen } from 'lucide-react';
+import { CircleOff, CircleX, GraduationCap, ListChecks, SquarePen } from 'lucide-react';
 import ParticipateDialog from './participate-dialog';
 import SpeakerDialog from './speaker-drawer';
-import { Button } from './ui/button';
 
 export const LecturesGrid = ({ className, children }: { className?: string; children?: React.ReactNode }) => {
     return <div className={cn('mx-auto my-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:max-w-7xl lg:grid-cols-3', className)}>{children}</div>;
 };
+
+export function ButtonBasedOnAvailability({ isFull, lecture }: { isFull: boolean; lecture: Lecture }) {
+    return (
+        <>
+            {isFull ? (
+                <button className="text-light-text mb-1 flex cursor-pointer items-center rounded-md bg-gray-300 px-4 py-2.5 font-medium sm:gap-2">
+                    Esgotado <CircleOff className="size-5" />
+                </button>
+            ) : (
+                <ParticipateDialog lecture={lecture}>
+                    <button className="bg-primary-blue flex cursor-pointer items-center gap-3 rounded-md px-4 py-2.5 font-medium text-white sm:gap-2">
+                        Participar
+                        <GraduationCap className="size-5.5" />
+                    </button>
+                </ParticipateDialog>
+            )}
+        </>
+    );
+}
 
 export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user: User | undefined }) => {
     return (
@@ -18,23 +36,26 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                 className,
             )}
         >
-            <div className="flex items-start justify-between gap-8 transition duration-200 group-hover/bento:translate-x-2">
+            <div className="flex items-start justify-between transition duration-200 group-hover/bento:translate-x-2">
                 <SpeakerDialog speaker={lecture.speaker}>
                     <img
                         src={lecture.speaker?.image}
                         alt={lecture.speaker?.name}
-                        className="aspect-square w-40 cursor-pointer rounded-xl object-cover sm:w-28"
+                        className="aspect-square w-40 max-w-2/5 cursor-pointer rounded-xl object-cover sm:max-w-28"
                     />
                 </SpeakerDialog>
 
                 <div className="flex flex-col items-end gap-1">
                     {user && user.lectures.some((userLecture: Lecture) => userLecture.id === lecture.id) ? (
-                        <Button variant="destructive" className="px-6 font-semibold shadow-md" onClick={() => unsubcribe(lecture)}>
+                        <button
+                            className="text-md flex cursor-pointer items-center gap-3 rounded-md bg-red-600 px-4.5 py-2.5 font-semibold text-white sm:gap-2"
+                            onClick={() => unsubcribe(lecture)}
+                        >
                             Cancelar
-                            <CircleX />
-                        </Button>
+                            <CircleX className="size-5.5" />
+                        </button>
                     ) : (
-                        user && <ParticipateDialog lecture={lecture} />
+                        user && <ButtonBasedOnAvailability isFull={true} lecture={lecture} />
                     )}
 
                     {user?.is_admin && (
@@ -56,7 +77,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
 
                 {!user && (
                     <Link href={route('login')}>
-                        <button className="bg-primary-blue flex cursor-pointer items-center gap-3 rounded-md px-4 py-2 font-medium text-white max-sm:text-lg sm:gap-2">
+                        <button className="bg-primary-blue flex cursor-pointer items-center gap-3 rounded-md px-4 py-2.5 font-medium text-white shadow-md sm:gap-2">
                             Participar
                             <GraduationCap className="size-5.5" />
                         </button>

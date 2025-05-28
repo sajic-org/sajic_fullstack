@@ -14,6 +14,7 @@ type RegisterForm = {
     email: string;
     password: string;
     password_confirmation: string;
+    is_unisenac_student: boolean;
 };
 
 export default function Register() {
@@ -22,6 +23,7 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
+        is_unisenac_student: false,
     });
 
     const submit: FormEventHandler = (e) => {
@@ -99,6 +101,18 @@ export default function Register() {
                             placeholder="Confirmar Senha"
                         />
                         <InputError message={errors.password_confirmation} />
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <Input
+                            id="alunoUnisenac"
+                            type="checkbox"
+                            checked={data.is_unisenac_student}
+                            onChange={(e) => setData('is_unisenac_student', e.target.checked)}
+                            disabled={processing}
+                            className='max-w-4'
+                        />
+                        <Label htmlFor="alunoUnisenac">Aluno UniSenac?</Label>
                     </div>
 
                     <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
