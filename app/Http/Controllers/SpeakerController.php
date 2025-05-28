@@ -25,7 +25,7 @@ class SpeakerController extends Controller
 
         $imagePath = Storage::disk('public')->putFile('speakers', $request->image);
 
-        $assetPath = asset(Storage::url('public/' . $imagePath));
+        $assetPath = asset(Storage::url('public/'.$imagePath));
 
         $speaker = Speaker::create([
             'image' => $assetPath,
@@ -43,7 +43,7 @@ class SpeakerController extends Controller
             'description' => 'min:150|max:1500',
         ]);
 
-        Speaker::whereId($speaker->id)->update(['name' => $validated['name'], 'description' => $validated['description'],]);
+        Speaker::whereId($speaker->id)->update(['name' => $validated['name'], 'description' => $validated['description']]);
 
         return back();
     }
@@ -51,6 +51,7 @@ class SpeakerController extends Controller
     public function destroy(Speaker $speaker)
     {
         Speaker::destroy($speaker->id);
+
         return back();
     }
 }
