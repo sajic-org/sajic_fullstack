@@ -1,7 +1,6 @@
 name: deploy dev branch
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - dev
