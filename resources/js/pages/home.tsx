@@ -14,7 +14,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Home() {
+export default function Home({ lectures }: { lectures: Lecture[] }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Home" />

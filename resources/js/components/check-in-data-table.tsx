@@ -28,7 +28,7 @@ function CheckInDataTable({ columns, data }: DataTableProps) {
     });
 
     return (
-        <div className="mx-2">
+        <div className="px-4 sm:px-6 md:max-w-7xl">
             <div className="flex items-center justify-center py-4 md:justify-end">
                 <Input
                     placeholder="Filtrar por..."

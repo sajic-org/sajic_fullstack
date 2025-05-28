@@ -1,3 +1,4 @@
+import { Banner } from '@/components/banner';
 import { LecturesGrid, LecturesGridItem } from '@/components/lectures-grid';
 import LecturesGridHeading from '@/components/lectures-grid-heading';
 import MapView from '@/components/Map';
@@ -20,6 +21,12 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Palestras" />
+            <Banner
+                description="caso, no momento da palestra, as salas ainda tenham espaço, os organizadores poderão permitir que você se inscreva e participe."
+                linkText=""
+                linkUrl=""
+                title="Palestras Esgotadas:"
+            />
 
             <div className="mt-10 px-4 sm:px-6 md:max-w-7xl">
                 <h2 className="text-primary-blue text-xl font-semibold">Palestras</h2>
@@ -52,11 +59,11 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
                         .map((item, i) => <LecturesGridItem key={i} lecture={item} user={user} className="md:col-span-1" />)}
                 </LecturesGrid>
             </section>
-            <section className='flex flex-col gap-6 p-5'>
-                <div className='text-center mt-12'>
-                    <h1 className='text-black text-2xl font-bold'>Nosso Campus</h1>
-                    <h2 className='text-gray-500'>As palestar ocorrerão no nosso Centro Universitario UniSenac</h2>
-                    <h2 className='text-gray-500'>R. Gonçalves Chaves, 602</h2>
+            <section className="flex flex-col gap-6 p-5">
+                <div className="mt-12 text-center">
+                    <h1 className="text-2xl font-bold text-black">Nosso Campus</h1>
+                    <h2 className="text-gray-500">As palestar ocorrerão no nosso Centro Universitario UniSenac</h2>
+                    <h2 className="text-gray-500">R. Gonçalves Chaves, 602</h2>
                 </div>
                 <MapView />
             </section>

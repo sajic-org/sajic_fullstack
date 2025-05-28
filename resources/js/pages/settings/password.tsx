@@ -54,6 +54,17 @@ export default function Password() {
 
             <SettingsLayout>
                 <div className="space-y-6">
+                <div className="flex items-center gap-2">
+                        <Input
+                            id="alunoUnisenac"
+                            type="checkbox"
+                            checked={data.is_unisenac_student}
+                            onChange={(e) => setData('is_unisenac_student', e.target.checked)}
+                            disabled={processing}
+                            className='max-w-4'
+                        />
+                        <Label htmlFor="alunoUnisenac">Aluno UniSenac?</Label>
+                    </div>
                     <HeadingSmall
                         title="Atualizar Senha"
                         description="Certifique-se que sua conta esta usando uma senha longa e aleatória para manter-se seguro"
