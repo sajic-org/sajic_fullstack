@@ -9,11 +9,11 @@ export const LecturesGrid = ({ className, children }: { className?: string; chil
     return <div className={cn('mx-auto my-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:max-w-7xl lg:grid-cols-3', className)}>{children}</div>;
 };
 
-export function ButtonBasedOnAvailability({ isFull, lecture }: { isFull: boolean; lecture: Lecture }) {
+export function ButtonBasedOnAvailability({ isFull, lecture, user }: { isFull: boolean; lecture: Lecture; user: User }) {
     return (
         <>
             {!isFull || lecture.is_open_for_enrollment ? (
-                <ParticipateDialog lecture={lecture}>
+                <ParticipateDialog lecture={lecture} user={user}>
                     <button className="bg-primary-blue flex cursor-pointer items-center gap-3 rounded-md px-4 py-2.5 font-medium text-white sm:gap-2">
                         Participar
                         <GraduationCap className="size-5.5" />
@@ -28,7 +28,7 @@ export function ButtonBasedOnAvailability({ isFull, lecture }: { isFull: boolean
     );
 }
 
-export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user: User | undefined }) => {
+export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user?: User }) => {
     return (
         <div
             className={cn(
@@ -55,7 +55,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                             <CircleX className="size-5.5" />
                         </button>
                     ) : (
-                        user && <ButtonBasedOnAvailability isFull={lecture.n_attendees >= lecture.room?.capacity} lecture={lecture} />
+                        user && <ButtonBasedOnAvailability isFull={lecture.n_attendees >= lecture.room?.capacity} lecture={lecture} user={user} />
                     )}
 
                     {user?.is_admin && (
