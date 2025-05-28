@@ -9,7 +9,7 @@ git pull origin dev
 
 php artisan optimize:clear
 
-composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
 npm ci
 
