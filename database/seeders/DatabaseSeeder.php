@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
         Room::create(['number' => '208', 'capacity' => 50]);
         Room::create(['number' => '209', 'capacity' => 12]);
         Room::create(['number' => '210', 'capacity' => 25]);
+        Room::create(['number' => 'teste', 'capacity' => 1]);
 
         Lecture::factory(25)->create();
 

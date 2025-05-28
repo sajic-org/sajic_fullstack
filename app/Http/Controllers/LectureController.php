@@ -140,9 +140,9 @@ class LectureController extends Controller
     }
 
     // Abre e fecha inscrições
-    public function reopen_enrollement(Lecture $lecture){
-        // funcao mal nomeada, ela não só reabre as inscrições mas pode fechá-las também.
-        $lecture::update(['is_open_for_enrollment'=> !$lecture->is_open_for_enrollment]);
+    public function reopen_enrollment(Lecture $lecture){
+        $lecture->is_open_for_enrollment = !$lecture->is_open_for_enrollment;
+        $lecture->save();
 
         return back();
     }

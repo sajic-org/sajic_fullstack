@@ -2,7 +2,6 @@ import { cn, unsubcribe } from '@/lib/utils';
 import { Lecture, User } from '@/types/models';
 import { Link } from '@inertiajs/react';
 import { CircleOff, CircleX, GraduationCap, ListChecks, SquarePen } from 'lucide-react';
-import { useState } from 'react';
 import ParticipateDialog from './participate-dialog';
 import SpeakerDialog from './speaker-drawer';
 
@@ -13,25 +12,23 @@ export const LecturesGrid = ({ className, children }: { className?: string; chil
 export function ButtonBasedOnAvailability({ isFull, lecture }: { isFull: boolean; lecture: Lecture }) {
     return (
         <>
-            {isFull ? (
-                <button className="text-light-text mb-1 flex cursor-pointer items-center rounded-md bg-gray-300 px-4 py-2.5 font-medium sm:gap-2">
-                    Esgotado <CircleOff className="size-5" />
-                </button>
-            ) : (
+            {!isFull || lecture.is_open_for_enrollment ? (
                 <ParticipateDialog lecture={lecture}>
                     <button className="bg-primary-blue flex cursor-pointer items-center gap-3 rounded-md px-4 py-2.5 font-medium text-white sm:gap-2">
                         Participar
                         <GraduationCap className="size-5.5" />
                     </button>
                 </ParticipateDialog>
+            ) : (
+                <button className="text-light-text mb-1 flex cursor-pointer items-center rounded-md bg-gray-300 px-4 py-2.5 font-medium sm:gap-2">
+                    Esgotado <CircleOff className="size-5" />
+                </button>
             )}
         </>
     );
 }
 
 export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user: User | undefined }) => {
-    const [maxAttendance, setMaxAttendance] = useState(lecture.room?.capacity);
-
     return (
         <div
             className={cn(
@@ -58,7 +55,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                             <CircleX className="size-5.5" />
                         </button>
                     ) : (
-                        user && <ButtonBasedOnAvailability isFull={lecture.n_attendees >= maxAttendance} lecture={lecture} />
+                        user && <ButtonBasedOnAvailability isFull={lecture.n_attendees >= lecture.room?.capacity} lecture={lecture} />
                     )}
 
                     {user?.is_admin && (

@@ -10,6 +10,7 @@ import { SharedData, type BreadcrumbItem } from '@/types';
 import { Lecture } from '@/types/models';
 
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 type checkInFormType = {
     checkedUsers: ShowedUpType[];
@@ -19,6 +20,25 @@ export type checkInFormProps = InertiaFormProps<checkInFormType>;
 
 interface checkInPageProps {
     lecture: Lecture;
+}
+
+function openAndCloseEnrollment(lecture: Lecture) {
+    router.patch(
+        route('lectures.reopen_enrollment', { lecture: lecture }),
+        { lecture: lecture },
+        {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast(`Inscrições ${lecture.is_open_for_enrollment ? 'fechadas' : 'reabertas'}`, {
+                    description: `Inscrições para a palestra ${lecture.title} ${lecture.is_open_for_enrollment ? 'fechadas' : 'reabertas'} com sucesso.`,
+                });
+            },
+            onError: (errors) => {
+                toast.error(`Erro ao ${lecture.is_open_for_enrollment ? 'fechar' : 'reabrir'} inscrições.`);
+                console.error(errors);
+            },
+        },
+    );
 }
 
 function CheckIn({ lecture }: checkInPageProps) {
@@ -64,15 +84,13 @@ function CheckIn({ lecture }: checkInPageProps) {
                     </div>
                 </div>
 
-                <div>
-                    <Button
-                        variant="link"
-                        onClick={() => {
-                            router.patch(route('lectures.reopen_enrollment', { lecture: lecture }));
-                        }}
-                    >
-                        Reabrir Inscrições
-                    </Button>
+                <div className="flex items-baseline gap-3">
+                    <div>
+                        <span className="text-xs font-semibold">(caso as vagas esgotarem)</span>
+                        <Button variant="link" onClick={() => openAndCloseEnrollment(lecture)} className="w-fit px-1">
+                            {lecture.is_open_for_enrollment ? 'Fechar Inscrições' : 'Reabrir Inscrições'}
+                        </Button>
+                    </div>
 
                     <Button
                         disabled={form.processing}
