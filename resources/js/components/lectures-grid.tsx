@@ -10,6 +10,7 @@ export const LecturesGrid = ({ className, children }: { className?: string; chil
 };
 
 export function ButtonBasedOnAvailability({ isFull, lecture }: { isFull: boolean; lecture: Lecture }) {
+    isFull = false
     return (
         <>
             {isFull ? (
