@@ -9,9 +9,11 @@ git pull origin dev
 
 php artisan optimize:clear
 
-composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
-npm ci
+php artisan package:discover --ansi
+
+npm install
 
 npm run build:ssr
 
@@ -21,4 +23,4 @@ php artisan migrate --force
 
 php artisan up
 
-echo "Deploy foi um sucesso!!! :D"
+echo "Deploy foi um sucesso!!! >:D"
