@@ -1,4 +1,4 @@
-import { Lecture, Room } from '@/types/models';
+import { Lecture, Room, User } from '@/types/models';
 import { router } from '@inertiajs/react';
 import { type ClassValue, clsx } from 'clsx';
 import { toast } from 'sonner';
@@ -32,6 +32,19 @@ export function lecturesConflicting({ room, date, starts, ends }: { room: Room; 
     const arr = [];
     for (const lecture of sameDateLectures) {
         if (starts < lecture.ends && lecture.starts < ends) {
+            arr.push(lecture);
+        }
+    }
+
+    return arr;
+}
+
+export function isUserAlreadyEnrolledAtThatTime(user: User, lectureToBeJoined: Lecture): Lecture[] {
+    const sameDateLectures = user.lectures!.filter((lecture: Lecture) => lecture.date === lectureToBeJoined.date);
+
+    const arr = [];
+    for (const lecture of sameDateLectures) {
+        if (lectureToBeJoined.starts < lecture.ends && lecture.starts < lectureToBeJoined.ends) {
             arr.push(lecture);
         }
     }
