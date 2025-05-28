@@ -8,6 +8,7 @@ use App\Models\Room;
 use App\Models\Speaker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class LectureController extends Controller
@@ -21,15 +22,14 @@ class LectureController extends Controller
             $user = Auth::user()->load(['lectures']);
         }
 
-        function defer_lectures()
-        {
-            $lectures = Lecture::with(['speaker.lectures'])->get();
+        $lectures = Lecture::with(['speaker.lectures', 'room'])->get();
 
-            return $lectures;
+        foreach($lectures as $l){
+            $l['n_attendees'] = DB::table('lecture_attendances')->where("lecture_id", $l->id)->count();
         }
 
         return Inertia::render('lectures', [
-            'lectures' => defer_lectures(),
+            'lectures' => $lectures,
             'user' => $user,
         ]);
     }
@@ -137,5 +137,13 @@ class LectureController extends Controller
         Lecture::destroy($lecture->id);
 
         return to_route('lectures.index');
+    }
+
+    // Abre e fecha inscrições
+    public function reopen_enrollment(Lecture $lecture){
+        $lecture->is_open_for_enrollment = !$lecture->is_open_for_enrollment;
+        $lecture->save();
+
+        return back();
     }
 }

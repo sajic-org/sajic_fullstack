@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
         Speaker::factory(5)->create();
 
         Room::create(['number' => 'Biblioteca', 'capacity' => 24]);
-        Room::create(['number' => 'idiomas', 'capacity' => 21]);
-        Room::create(['number' => 'labtec', 'capacity' => 60]);
+        Room::create(['number' => 'Idiomas', 'capacity' => 21]);
+        Room::create(['number' => 'LabTec', 'capacity' => 60]);
         Room::create(['number' => '102', 'capacity' => 85]);
         Room::create(['number' => '201', 'capacity' => 50]);
         Room::create(['number' => '202', 'capacity' => 50]);
@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
         Room::create(['number' => '208', 'capacity' => 50]);
         Room::create(['number' => '209', 'capacity' => 12]);
         Room::create(['number' => '210', 'capacity' => 25]);
+        Room::create(['number' => 'teste', 'capacity' => 1]);
 
         Lecture::factory(25)->create();
 
