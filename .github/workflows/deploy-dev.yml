@@ -20,4 +20,4 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /var/www/sajic.marce1in.com.br
-            ./.github/scripts/deploy.sh"
+            ./.github/scripts/deploy.sh
