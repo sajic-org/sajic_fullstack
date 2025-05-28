@@ -2,6 +2,7 @@ import { cn, unsubcribe } from '@/lib/utils';
 import { Lecture, User } from '@/types/models';
 import { Link } from '@inertiajs/react';
 import { CircleOff, CircleX, GraduationCap, ListChecks, SquarePen } from 'lucide-react';
+import { useState } from 'react';
 import ParticipateDialog from './participate-dialog';
 import SpeakerDialog from './speaker-drawer';
 
@@ -29,6 +30,8 @@ export function ButtonBasedOnAvailability({ isFull, lecture }: { isFull: boolean
 }
 
 export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user: User | undefined }) => {
+    const [maxAttendance, setMaxAttendance] = useState(lecture.room?.capacity);
+
     return (
         <div
             className={cn(
@@ -55,7 +58,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                             <CircleX className="size-5.5" />
                         </button>
                     ) : (
-                        user && <ButtonBasedOnAvailability isFull={true} lecture={lecture} />
+                        user && <ButtonBasedOnAvailability isFull={lecture.n_attendees >= maxAttendance} lecture={lecture} />
                     )}
 
                     {user?.is_admin && (

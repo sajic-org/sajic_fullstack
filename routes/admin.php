@@ -28,3 +28,6 @@ Route::get('/presencas', [UserController::class, 'attendance_list'])->name('user
 // Check In
 Route::get('/palestras/{lecture}/check-in', [LectureController::class, 'attendant_table'])->name('lectures.attendant_table');
 Route::patch('/palestras/{lecture}/check-in', [LectureController::class, 'checkin'])->name('lectures.check-in');
+
+// Reabre inscrições
+Route::patch('/palestras/{lecture}/reabrir-inscricoes', [LectureController::class, 'reopen_enrollment'])->name('lectures.reopen_enrollment');
