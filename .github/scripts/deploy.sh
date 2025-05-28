@@ -23,4 +23,4 @@ php artisan migrate --force
 
 php artisan up
 
-echo "Deploy foi um sucesso!!! :D"
+echo "Deploy foi um sucesso!!! >:D"
