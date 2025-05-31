@@ -58,7 +58,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                         user && <ButtonBasedOnAvailability isFull={lecture.n_attendees >= lecture.room?.capacity} lecture={lecture} user={user} />
                     )}
 
-                    {user?.is_admin && (
+                    {user?.is_admin ? (
                         <div className="flex gap-1">
                             <Link href={route('lectures.edit', { lecture: lecture })}>
                                 <button className="size-10 cursor-pointer rounded-md bg-orange-400 text-white">
@@ -72,6 +72,8 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                                 </button>
                             </Link>
                         </div>
+                    ) : (
+                        ''
                     )}
                 </div>
 
