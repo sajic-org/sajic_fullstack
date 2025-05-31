@@ -70,7 +70,7 @@ export default function Password() {
                             disabled={processing}
                             className="max-w-4"
                         />
-                        <Label htmlFor="alunoUnisenac">Aluno UniSenac?</Label>
+                        <Label htmlFor="alunoUnisenac">Aluno UniSenac</Label>
                     </div>
                     <HeadingSmall
                         title="Atualizar Senha"
