@@ -3,7 +3,7 @@ import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { type BreadcrumbItem } from '@/types';
 import { Transition } from '@headlessui/react';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler, useRef } from 'react';
 
 import HeadingSmall from '@/components/heading-small';
@@ -11,14 +11,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Password settings',
-        href: '/configuracoes',
-    },
-];
-
 export default function Password() {
+    const page = usePage<SharedData>();
+    const { auth } = page.props;
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: `${auth.user.name.split(' ', 1)}`,
+            href: '#',
+        },
+        {
+            title: 'Password settings',
+            href: '/configuracoes',
+        },
+    ];
+
     const passwordInput = useRef<HTMLInputElement>(null);
     const currentPasswordInput = useRef<HTMLInputElement>(null);
 
@@ -53,15 +60,15 @@ export default function Password() {
             <Head title="Profile settings" />
 
             <SettingsLayout>
-                <div className="space-y-6">
-                <div className="flex items-center gap-2">
+                <div className="w-full space-y-6">
+                    <div className="flex items-center gap-2">
                         <Input
                             id="alunoUnisenac"
                             type="checkbox"
                             checked={data.is_unisenac_student}
                             onChange={(e) => setData('is_unisenac_student', e.target.checked)}
                             disabled={processing}
-                            className='max-w-4'
+                            className="max-w-4"
                         />
                         <Label htmlFor="alunoUnisenac">Aluno UniSenac?</Label>
                     </div>
