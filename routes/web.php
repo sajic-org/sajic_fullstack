@@ -13,6 +13,10 @@ Route::get('/', function () {
     return Inertia::render('home', ['lectures' => Lecture::with('speaker')->get()]);
 })->name('home');
 
+Route::get('/detona-div', function () {
+    return Inertia::render('detona-div');
+})->name('detona-div');
+
 // Palestras
 Route::get('/palestras', [LectureController::class, 'index'])->name('lectures.index');
 
