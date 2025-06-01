@@ -23,6 +23,7 @@ class Lecture extends Model
         'is_active',
         'speaker_id',
         'room_number',
+        'is_open_for_enrollment',
     ];
 
     public function speaker(): BelongsTo

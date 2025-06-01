@@ -53,9 +53,6 @@ function Footer() {
                             <Link className="hover:underline" prefetch href="/palestras">
                                 Palestras
                             </Link>
-                            <Link className="hover:underline" prefetch href="/palestrantes">
-                                Palestrantes
-                            </Link>
                         </nav>
 
                         <nav className="flex flex-col gap-1">
@@ -63,9 +60,6 @@ function Footer() {
                             <a href="https://www.instagram.com/sajic_unisenac/" className="ml-auto flex w-fit items-center gap-1 hover:underline">
                                 @sajic_unisenac
                                 <Instagram className="size-4" />
-                            </a>
-                            <a href="https://www.instagram.com/unisenacpelotas/" className="ml-auto flex w-fit items-center gap-1 hover:underline">
-                                @unisenacpelotas <Instagram className="size-4" />
                             </a>
                         </nav>
                     </div>

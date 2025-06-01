@@ -1,16 +1,16 @@
 name: deploy dev branch
 
-# on:
-#   push:
-#     branches:
-#       - dev
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: production
     steps:
-      - name: Repo Checkout
-        uses: action/checkout@v4
       - name: Deploy in ec2
         uses: appleboy/ssh-action@v1
         with:
@@ -18,4 +18,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSHKEY }}
           port: ${{ secrets.PORT }}
-          script: "./var/www/sajic.marce1in.com.br/.github/scripts/deploy.sh"
+          script: "cd /var/www/sajic.marce1in.com.br && ./.github/scripts/deploy.sh"

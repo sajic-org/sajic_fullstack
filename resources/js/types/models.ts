@@ -11,9 +11,12 @@ export interface Lecture {
     starts: string;
     ends: string;
     room_number: string;
+    is_open_for_enrollment: boolean;
+    n_attendees?: number;
     is_active?: boolean | number;
     speaker_id?: number;
     speaker?: Speaker;
+    room?: Room;
     attendants?: User[];
 }
 

@@ -9,27 +9,26 @@ export const LecturesGrid = ({ className, children }: { className?: string; chil
     return <div className={cn('mx-auto my-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:max-w-7xl lg:grid-cols-3', className)}>{children}</div>;
 };
 
-export function ButtonBasedOnAvailability({ isFull, lecture }: { isFull: boolean; lecture: Lecture }) {
-    isFull = false
+export function ButtonBasedOnAvailability({ isFull, lecture, user }: { isFull: boolean; lecture: Lecture; user: User }) {
     return (
         <>
-            {isFull ? (
-                <button className="text-light-text mb-1 flex cursor-pointer items-center rounded-md bg-gray-300 px-4 py-2.5 font-medium sm:gap-2">
-                    Esgotado <CircleOff className="size-5" />
-                </button>
-            ) : (
-                <ParticipateDialog lecture={lecture}>
+            {!isFull || lecture.is_open_for_enrollment ? (
+                <ParticipateDialog lecture={lecture} user={user}>
                     <button className="bg-primary-blue flex cursor-pointer items-center gap-3 rounded-md px-4 py-2.5 font-medium text-white sm:gap-2">
                         Participar
                         <GraduationCap className="size-5.5" />
                     </button>
                 </ParticipateDialog>
+            ) : (
+                <button className="text-light-text mb-1 flex cursor-pointer items-center rounded-md bg-gray-300 px-4 py-2.5 font-medium sm:gap-2">
+                    Esgotado <CircleOff className="size-5" />
+                </button>
             )}
         </>
     );
 }
 
-export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user: User | undefined }) => {
+export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user?: User }) => {
     return (
         <div
             className={cn(
@@ -56,10 +55,10 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                             <CircleX className="size-5.5" />
                         </button>
                     ) : (
-                        user && <ButtonBasedOnAvailability isFull={true} lecture={lecture} />
+                        user && <ButtonBasedOnAvailability isFull={lecture.n_attendees >= lecture.room?.capacity} lecture={lecture} user={user} />
                     )}
 
-                    {user?.is_admin && (
+                    {user?.is_admin ? (
                         <div className="flex gap-1">
                             <Link href={route('lectures.edit', { lecture: lecture })}>
                                 <button className="size-10 cursor-pointer rounded-md bg-orange-400 text-white">
@@ -73,6 +72,8 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                                 </button>
                             </Link>
                         </div>
+                    ) : (
+                        ''
                     )}
                 </div>
 

@@ -62,7 +62,7 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
             <section className="flex flex-col gap-6 p-5">
                 <div className="mt-12 text-center">
                     <h1 className="text-2xl font-bold text-black">Nosso Campus</h1>
-                    <h2 className="text-gray-500">As palestar ocorrerão no nosso Centro Universitario UniSenac</h2>
+                    <h2 className="text-gray-500">As palestras ocorrerão no nosso Centro Universitario UniSenac</h2>
                     <h2 className="text-gray-500">R. Gonçalves Chaves, 602</h2>
                 </div>
                 <MapView />

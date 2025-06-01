@@ -25,20 +25,24 @@ export function UserMenuContent({ user }: { user: User }) {
                     </Link>
                 </DropdownMenuItem>
 
-                {user.is_admin && (
+                {user.is_admin ? (
                     <DropdownMenuItem asChild className="max-md:hidden">
                         <Link className="block w-full" href={route('lectures.create')} as="button" prefetch onClick={cleanup}>
                             <BookPlus className="mr-2" /> Novas Palestras
                         </Link>
                     </DropdownMenuItem>
+                ) : (
+                    ''
                 )}
 
-                {user.is_admin && (
+                {user.is_admin ? (
                     <DropdownMenuItem asChild className="max-md:hidden">
                         <Link className="block w-full" href={route('user.attendance_list')} as="button" prefetch onClick={cleanup}>
                             <ListChecks className="mr-2" /> Presenças
                         </Link>
                     </DropdownMenuItem>
+                ) : (
+                    ''
                 )}
 
                 <DropdownMenuSeparator className="max-md:hidden" />
