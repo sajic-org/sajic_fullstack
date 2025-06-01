@@ -4,26 +4,26 @@ import TimelineContent from './timeline/timeline-content';
 import TimelineHour from './timeline/timeline-hour';
 import TimelineLecture from './timeline/timeline-lecture';
 
-interface Lecture {
+interface LectureTimeline {
     day: string;
     time: string;
     name: string;
-    speaker: string;
+    speaker: string | undefined;
 }
 
 interface TimelineProps {
-    timelineData: Lecture[];
+    timelineData: LectureTimeline[];
 }
 
 interface LecturesByDay {
     [key: string]: {
-        Manhã: Lecture[];
-        Tarde: Lecture[];
-        Noite: Lecture[];
+        Manhã: LectureTimeline[];
+        Tarde: LectureTimeline[];
+        Noite: LectureTimeline[];
     };
 }
 
-function groupByDayReducer(grouped: LecturesByDay, lecture: Lecture) {
+function groupByDayReducer(grouped: LecturesByDay, lecture: LectureTimeline) {
     if (!grouped[lecture.day]) {
         grouped[lecture.day] = {
             Manhã: [],

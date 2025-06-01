@@ -5,6 +5,7 @@ import Spinner from '@/components/spinner';
 import TimelineContainer from '@/components/timeline-container';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import { Lecture } from '@/types/models';
 import { Deferred, Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -24,10 +25,19 @@ export default function Home({ lectures }: { lectures: Lecture[] }) {
             <PastEditions />
 
             <Deferred data="lectures" fallback={<Spinner />}>
-                <TimelineContainer timelineData={timeLineMockData} />
+                <TimelineContainer timelineData={processLectures(lectures)} />
             </Deferred>
         </AppLayout>
     );
+}
+
+function processLectures(lectures: Lecture[]) {
+    return lectures.map(lecture => ({
+        day: lecture.date,
+        time: lecture.starts,
+        name: lecture.title,
+        speaker: lecture.speaker?.name,
+    }))
 }
 
 const timeLineMockData = [
