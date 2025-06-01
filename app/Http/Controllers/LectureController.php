@@ -22,7 +22,9 @@ class LectureController extends Controller
             $user = Auth::user()->load(['lectures']);
         }
 
-        $lectures = Lecture::with(['speaker.lectures', 'room'])->orderBy('date')->get();
+        $lectures = Lecture::with(['speaker.lectures', 'room'])
+            ->orderByRaw("SUBSTRING(date FROM 4 FOR 2), SUBSTRING(date FROM 1 FOR 2)") // Made by gemini
+            ->get();
 
         foreach ($lectures as $l) {
             $l['n_attendees'] = DB::table('lecture_attendances')->where('lecture_id', $l->id)->count();
