@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function attendance_list()
     {
-        $attendants = LectureAttendance::whereShowedUp(false)
+        $attendants = LectureAttendance::whereShowedUp(true)
             ->join("lectures", "lecture_attendances.lecture_id", "=", "lectures.id")
             ->join("users", "lecture_attendances.user_id", "=", "users.id")
             ->where("users.is_unisenac_student", true)
