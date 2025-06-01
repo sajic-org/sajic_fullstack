@@ -22,7 +22,7 @@ class LectureController extends Controller
             $user = Auth::user()->load(['lectures']);
         }
 
-        $lectures = Lecture::with(['speaker.lectures', 'room'])->get();
+        $lectures = Lecture::with(['speaker.lectures', 'room'])->orderBy('date')->get();
 
         foreach ($lectures as $l) {
             $l['n_attendees'] = DB::table('lecture_attendances')->where('lecture_id', $l->id)->count();
