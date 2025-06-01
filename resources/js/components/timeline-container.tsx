@@ -50,6 +50,10 @@ function generateTimelineDays(lecturesByDay: LecturesByDay) {
 
     const TimelineDays = Object.keys(lecturesByDay).map((day) => {
         const TimelineDay = Object.entries(lecturesByDay[day]).map(([period, lectures]) => {
+            if (lectures.length == 0){
+                return
+            }
+
             const TimelinePeriod = (
                 <TimelineContent
                     key={period}
@@ -71,12 +75,12 @@ function generateTimelineDays(lecturesByDay: LecturesByDay) {
                 </TimelineContent>
             );
 
-            isRight = toggle(isRight);
+            isRight = !isRight;
 
             return TimelinePeriod;
         });
 
-        isBlue = toggle(isBlue);
+        isBlue = !isBlue;
 
         return (
             <Timeline date={day} key={day} section={isBlue ? 'blue' : 'white'}>
@@ -87,9 +91,6 @@ function generateTimelineDays(lecturesByDay: LecturesByDay) {
 
     return TimelineDays;
 }
-
-//Simple helper function to invert boolean values
-const toggle = (val: boolean) => (val ? false : true);
 
 function TimelineContainer({ timelineData }: TimelineProps) {
     const lecturesByDay = timelineData.reduce(groupByDayReducer, {});
