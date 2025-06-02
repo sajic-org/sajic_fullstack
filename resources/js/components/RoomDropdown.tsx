@@ -16,9 +16,19 @@ export function RoomDropdown({ children, rooms, onSetData, data }: { children: R
     const [showInfo, setShowInfo] = useState<string>();
     const [isAvailable, setIsAvailable] = useState<boolean>(true);
     const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
+    const [isScreenMedium, setIsScreenMedium] = useState<boolean>(false);
 
     useEffect(() => {
         setPortalRoot(document.getElementById('portal-root'));
+
+        const checkScreenSize = () => {
+            setIsScreenMedium(window.innerWidth >= 768);
+        };
+
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        return () => window.removeEventListener('resize', checkScreenSize);
     }, []);
 
     function onSetRoom(number: string) {
@@ -43,6 +53,21 @@ export function RoomDropdown({ children, rooms, onSetData, data }: { children: R
             onSetRoom(data.room_number);
         }
     }, [data.date, data.starts, data.ends, data.room_number]);
+
+    // Conditionally apply hover handlers only on medium+ screens
+    const hoverHandlers = isScreenMedium
+        ? {
+              onMouseEnter: () => setShowInfo(data.room_number),
+              onMouseLeave: () => setShowInfo(''),
+          }
+        : {};
+
+    // Determine if warning should be visible
+    const shouldShowWarning =
+        !isAvailable &&
+        data.room_number &&
+        (!isScreenMedium || // Always show on small screens
+            showInfo === data.room_number); // Show on hover for medium+ screens
 
     return (
         <Select
@@ -72,17 +97,13 @@ export function RoomDropdown({ children, rooms, onSetData, data }: { children: R
                     {!isAvailable &&
                         portalRoot &&
                         createPortal(
-                            <div
-                                onMouseEnter={() => setShowInfo(data.room_number)}
-                                onMouseLeave={() => setShowInfo('')}
-                                className="pointer-events-auto"
-                            >
+                            <div {...hoverHandlers} className="pointer-events-auto">
                                 <Info strokeWidth={2.5} size={15} />
                             </div>,
                             portalRoot,
                         )}
 
-                    {data.room_number &&
+                    {shouldShowWarning &&
                         portalRoot &&
                         createPortal(
                             <UnavailableRoomWarning
@@ -93,7 +114,7 @@ export function RoomDropdown({ children, rooms, onSetData, data }: { children: R
                                     starts: data.starts,
                                     ends: data.ends,
                                 })}
-                                className={showInfo === data.room_number ? 'block' : 'hidden'}
+                                className="block"
                             />,
                             portalRoot,
                         )}
