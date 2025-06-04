@@ -13,23 +13,23 @@ interface PastEditionsItem {
 
 const data: PastEditionsItem[] = [
     {
-        image: '/assets/newton_i_guess.png',
+        image: '/assets/newton_i_guess.webp',
         year: '1690',
     },
     {
-        image: '/assets/school_of_athens.png',
+        image: '/assets/school_of_athens.webp',
         year: '380 AC',
     },
     {
-        image: '/assets/oppenheimer.png',
+        image: '/assets/oppenheimer.webp',
         year: '1942',
     },
     {
-        image: '/assets/marie_curie.png',
+        image: '/assets/marie_curie.webp',
         year: '1910',
     },
     {
-        image: '/assets/pliny_the_elder.jpg',
+        image: '/assets/pliny_the_elder.webp',
         year: '55',
     },
 ];
@@ -116,7 +116,7 @@ const PastEditions = () => {
                                         <div className="absolute inset-0 h-full bg-[linear-gradient(transparent_20%,var(--primary)_100%)] mix-blend-multiply" />
                                         <div className="text-primary-foreground absolute inset-x-0 bottom-0 flex flex-col items-start p-6 md:p-8">
                                             <div className="flex items-center text-sm">
-                                                <img src="/assets/logo_branco.png" alt="" className="w-21" />
+                                                <img src="/assets/logo_branco.webp" alt="" className="w-21" />
                                                 <span className="mt-4 ml-2 size-5 w-fit transition-transform group-hover:translate-x-1">
                                                     {' '}
                                                     {item.year}

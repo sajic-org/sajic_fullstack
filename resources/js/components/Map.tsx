@@ -110,7 +110,7 @@ const MapView = ({
   const RL = ReactLeafletModule;
 
   const customMarkerIcon = L.icon({
-    iconUrl: '/assets/marker-icon-hN30_KVU.png',
+    iconUrl: '/assets/marker-icon-hN30_KVU.webp',
     iconSize: [40, 40],
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],

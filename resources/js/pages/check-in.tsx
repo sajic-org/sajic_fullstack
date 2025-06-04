@@ -73,7 +73,7 @@ function CheckIn({ lecture }: checkInPageProps) {
                     <h1 className="text-2xl font-bold">Check In</h1>
                     <p>Verifique a presença dos inscritos para que possam receber certificados</p>
                     <div className="flex flex-wrap items-center gap-4 pt-4">
-                        <img className="h-30 w-30 rounded-2xl" src="/assets/edecio.jpeg" />
+                        <img className="h-30 w-30 rounded-2xl" src={lecture.speaker?.image} />
 
                         <div>
                             <h2 className="text-lg font-semibold">{lecture.title}</h2>
