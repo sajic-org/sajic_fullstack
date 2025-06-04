@@ -21,7 +21,21 @@ export default function Home({ lectures }: { lectures: Lecture[] }) {
             <Head>
                 <title>Home</title>
                 <meta name="description" content="Semana Acadêmica | Jornada de Iniciação Científica " />
+
+                <meta property="og:url" content="https://sajic.marce1in.com.br/" />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="SAJIC 2025" />
+                <meta property="og:description" content="Semana Acadêmica | Jornada de Iniciação Científica " />
+                <meta property="og:image" content="https://sajic.marce1in.com.br/favicon.ico" />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta property="twitter:domain" content="sajic.marce1in.com.br" />
+                <meta property="twitter:url" content="https://sajic.marce1in.com.br/" />
+                <meta name="twitter:title" content="SAJIC 2025" />
+                <meta name="twitter:description" content="Semana Acadêmica | Jornada de Iniciação Científica " />
+                <meta name="twitter:image" content="https://sajic.marce1in.com.br/favicon.ico" />
             </Head>
+
             <Hero />
             <SecondHero />
 
