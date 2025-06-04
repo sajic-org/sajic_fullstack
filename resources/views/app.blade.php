@@ -9,18 +9,18 @@
         @inertiaHead
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..600;1,400..700&display=swap" rel="stylesheet">
 
         <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/ico">
 
+        @routes
+        @viteReactRefresh
+        @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
     </head>
 
     <body class="font-sans antialiased">
         @inertia
-        @viteReactRefresh
-        @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
-        @routes
-</body>
+    </body>
 
 </html>
