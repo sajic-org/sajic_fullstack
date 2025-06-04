@@ -11,8 +11,7 @@ createInertiaApp({
     title: (title) => `SAJIC 2025 | ${title}`,
     resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
     setup({ el, App, props }) {
-
-        hydrateRoot(el, <App {...props} />)
+        hydrateRoot(el, <App {...props} />);
     },
     progress: {
         color: '#4B5563',

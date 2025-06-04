@@ -20,7 +20,7 @@ createServer((page) =>
                     // @ts-expect-error
                     ...page.props.ziggy,
                     // @ts-expect-error
-                    location: new URL(page.props.ziggy.location),
+                    location: new URL(page.props.ziggy.url),
                 });
             /* eslint-enable */
 
