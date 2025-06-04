@@ -11,12 +11,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..600;1,400..700&display=swap" rel="stylesheet">
 
-    @routes
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/ico">
 
     @viteReactRefresh
     @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
     @inertiaHead
+    @routes
 </head>
 
 <body class="font-sans antialiased">
