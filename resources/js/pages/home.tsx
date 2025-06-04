@@ -18,7 +18,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Home({ lectures }: { lectures: Lecture[] }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Home" />
+            <Head>
+                <title>Home</title>
+                <meta name="description" content="Semana Acadêmica | Jornada de Iniciação Científica " />
+            </Head>
             <Hero />
             <SecondHero />
 

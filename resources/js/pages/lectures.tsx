@@ -21,6 +21,11 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Palestras" />
+            <Head>
+                <title>Palestras</title>
+                <meta name="description" content="Palestrantes que irão participar da edição da Sajic esse ano" />
+            </Head>
+
             <Banner
                 description="caso, no momento da palestra, as salas ainda tenham espaço, os organizadores poderão permitir que você se inscreva e participe."
                 linkText=""
