@@ -23,7 +23,7 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
             <Head title="Palestras" />
             <Head>
                 <title>Palestras</title>
-                <meta name="description" content="Palestrantes que irão participar da edição da Sajic esse ano" />
+                <meta name="description" content="Palestrantes que irão participar da edição da Sajic desse ano" />
             </Head>
 
             <Banner
