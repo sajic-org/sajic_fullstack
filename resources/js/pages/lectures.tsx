@@ -20,7 +20,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Palestras" />
             <Head>
                 <title>Palestras</title>
                 <meta name="description" content="Palestrantes que irão participar da edição da Sajic desse ano" />
