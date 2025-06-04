@@ -14,11 +14,11 @@
 
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/ico">
 
-    @viteReactRefresh
-    @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
 </head>
 
 <body class="font-sans antialiased">
+    @viteReactRefresh
+    @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
     @routes
     @inertia
 </body>
