@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LectureAttendance;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,16 +15,16 @@ class UserController extends Controller
     public function attendance_list()
     {
         $attendants = LectureAttendance::whereShowedUp(true)
-            ->join("lectures", "lecture_attendances.lecture_id", "=", "lectures.id")
-            ->join("users", "lecture_attendances.user_id", "=", "users.id")
-            ->where("users.is_unisenac_student", true)
+            ->join('lectures', 'lecture_attendances.lecture_id', '=', 'lectures.id')
+            ->join('users', 'lecture_attendances.user_id', '=', 'users.id')
+            ->where('users.is_unisenac_student', true)
             ->select(
-                "users.name",
-                "lectures.date",
-                DB::raw("count(lectures.id) as lecture_count")
+                'users.name',
+                'lectures.date',
+                DB::raw('count(lectures.id) as lecture_count')
             )
-            ->groupBy("users.name", "lectures.date")
-            ->orderBy("users.name", "desc")
+            ->groupBy('users.name', 'lectures.date')
+            ->orderBy('users.name', 'desc')
             ->get();
 
         return Inertia::render('attendance_list', ['attendees' => $attendants]);
@@ -52,7 +53,12 @@ class UserController extends Controller
         return back();
     }
 
-    public  function  certficate(){
+    public function certificate(LectureAttendance $lectureAttendance)
+    {
+        $lectureAttendance->load('lecture', 'user');
 
+        return Pdf::loadView('pdf.certificate', [
+            'name' => $lectureAttendance->user->name,
+        ])->setPaper('a4', 'landscape')->stream();
     }
 }

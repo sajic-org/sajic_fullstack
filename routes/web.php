@@ -41,7 +41,7 @@ Route::prefix('minhas-palestras')->middleware(['auth'])->group(function () {
 });
 
 Route::get(
-    '/certificate',
+    '/certificate/{lectureAttendance}',
     [UserController::class, 'certificate']
 )->name('user.certificate');
 
