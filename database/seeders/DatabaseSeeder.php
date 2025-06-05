@@ -8,6 +8,7 @@ use App\Models\Speaker;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,6 +18,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Speaker::factory(5)->create();
+        Speaker::factory(1)->create([
+            'image' => 'https://x0hwtz7p9i.ufs.sh/f/7fxSWKXR2MtuS0RtU2qDUwcP7FE1GnOp6mC4kj5beKT3J82M',
+            'name' => 'Pablito Velhito',
+            'description' => 'Pablito Velhito, o mestre supremo das redes, IA e metodologias ágeis, vive no ecossistema Apple como se fosse parte da fauna. Com seu MacBook abençoado e Siri de estimação, ensina com sabedoria milenar — diz que TCP/IP veio em tábuas de pedra. Quando fala de Scrum, até a Alexa entra em daily. Seu olhar é tão intenso que faz até firewall repensar suas regras.',
+        ]);
 
         Room::create(['number' => 'Biblioteca', 'capacity' => 24]);
         Room::create(['number' => 'Idiomas', 'capacity' => 21]);
@@ -36,9 +42,25 @@ class DatabaseSeeder extends Seeder
 
         Lecture::factory(25)->create();
 
+        Lecture::factory(1)->create([
+            'title' => 'Redes Ancestrais e Protocolos Perdidos',
+            'type' => 'Tecnologia',
+            'speaker_id' => 6,
+            'room_number' => '102',
+        ]);
+        Lecture::factory(1)->create([
+            'title' => 'Scrum Sem Frescura: Como Gerir Equipes com Planilha, Rock e Café',
+            'type' => 'Gestão e Mercado',
+            'speaker_id' => 6,
+            'room_number' => '201',
+        ]);
+
         $users = User::factory(20)->create();
         foreach ($users as $user) {
-            $user->lectures()->attach(1);
+            $user->lectures()->attach($user->id, ['id' => Str::uuid()]);
+
+            $user->lectures()->attach(26, ['id' => Str::uuid()]);
+            $user->lectures()->attach(27, ['id' => Str::uuid()]);
         }
     }
 }

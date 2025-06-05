@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lecture;
 use App\Models\LectureAttendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Str;
 
 class UserController extends Controller
 {
@@ -39,7 +39,7 @@ class UserController extends Controller
     public function attend_lecture(Request $request)
     {
         $user = Auth::user();
-        $user->lectures()->attach($request->id);
+        $user->lectures()->attach($request->id, ['id' => Str::uuid()]);
 
         return back();
     }
