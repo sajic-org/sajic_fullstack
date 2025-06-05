@@ -37,7 +37,13 @@ Route::prefix('minhas-palestras')->middleware(['auth'])->group(function () {
         '/leave',
         [UserController::class, 'leave_lecture']
     )->name('user.leave-lecture');
+
 });
+
+Route::get(
+    '/certificate',
+    [UserController::class, 'certificate']
+)->name('user.certificate');
 
 // Rota p os guri criar admin rapido dps de limpar o db
 // REMOVER

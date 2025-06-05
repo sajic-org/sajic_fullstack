@@ -51,4 +51,8 @@ class UserController extends Controller
 
         return back();
     }
+
+    public  function  certficate(){
+
+    }
 }
