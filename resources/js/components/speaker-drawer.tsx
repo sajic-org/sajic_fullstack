@@ -16,7 +16,7 @@ function SpeakerDialog({ children, speaker }: { children: ReactNode; speaker: Sp
                             alt={`Foto de ${speaker?.name}`}
                             className="col-span-2 aspect-square w-full rounded-xl object-cover object-center"
                         />
-                        <DialogDescription className="col-span-3 h-full max-w-full px-4 break-all">{speaker?.description}</DialogDescription>
+                        <DialogDescription className="col-span-3 h-full max-w-full px-4">{speaker?.description}</DialogDescription>
                     </div>
                 </DialogHeader>
                 <ul className="h-60 overflow-y-scroll px-4 pb-4">
