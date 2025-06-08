@@ -58,7 +58,12 @@ class UserController extends Controller
         $lectureAttendance->load('lecture', 'user');
 
         return Pdf::loadView('pdf.certificate', [
-            'name' => $lectureAttendance->user->name,
+            'id' => $lectureAttendance->id,
+            'name' => Str::upper($lectureAttendance->user->name),
+            'title' => $lectureAttendance->lecture->title,
+            'date' => $lectureAttendance->lecture->date,
+            'start' => $lectureAttendance->lecture->starts,
+            'end' => $lectureAttendance->lecture->ends,
         ])->setPaper('a4', 'landscape')->stream();
     }
 }
