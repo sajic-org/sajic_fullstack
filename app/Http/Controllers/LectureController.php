@@ -85,19 +85,18 @@ class LectureController extends Controller
             'checkedUsersIds.*' => 'string',
         ]);
 
-        $pdfIds = LectureAttendance::whereBelongsTo($lecture)
+        $attendances = LectureAttendance::whereBelongsTo($lecture)
             ->whereIn('user_id', $validated['checkedUsersIds'])
-            ->join('users', 'lecture_attendances.user_id', '=', 'users.id')
+            ->with('user')
             ->get();
 
-        dd($pdfIds->toArray());
-
-        LectureAttendance::whereIn('id', $pdfIds)
+        LectureAttendance::whereIn('id', $attendances->pluck('id'))
             ->update(['showed_up' => true]);
 
-        foreach ($pdfIds->toArray() as $user) {
-            dd($user);
-            // Mail::to($mail)->queue(new SendCertificate);
+
+        foreach ($attendances as $attendance) {
+            Mail::to($attendance->user->email)
+                ->queue(new SendCertificate($attendance->id));
         }
 
         return to_route('lectures.index');

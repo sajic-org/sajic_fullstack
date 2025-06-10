@@ -97,7 +97,7 @@ class DatabaseSeeder extends Seeder
         // Igor Raposinha
         Speaker::factory(1)->create([
             'image' => 'https://x0hwtz7p9i.ufs.sh/f/7fxSWKXR2MtuGhGLMHBa4XregDiFhKIzxcw2QBtkf850nEjZ',
-            'name' => 'Igor Raposinha',
+            'name' => 'Iguinho Raposinha',
             'description' => 'Com a astúcia de uma raposa, Igor domina a arte de transitar entre o front-end e o back-end, garantindo que o pagamento sempre caia, não importa onde o trabalho foi feito. Ele também é um guru da autodefesa social, com um arsenal de estratégias para detectar e desviar de "galãs do amor" e outras ameaças à produtividade.',
         ]);
 

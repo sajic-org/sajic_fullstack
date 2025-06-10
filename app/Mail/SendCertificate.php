@@ -7,6 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Str;
 
 class SendCertificate extends Mailable
 {
@@ -37,7 +38,7 @@ class SendCertificate extends Mailable
         return new Content(
             markdown: 'mail.mailCertificate',
             with: [
-                'url' => 'foo/bar',
+                'url' => url("/certificate/{$this->pdfId}"),
             ]
         );
     }
