@@ -14,9 +14,8 @@ type RegisterForm = {
     email: string;
     password: string;
     password_confirmation: string;
-    is_unisenac_student: boolean;
-    curso: string;
-    semestre: number | string;
+    course: string;
+    semester: string;
 };
 
 export default function Register() {
@@ -25,26 +24,25 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
-        is_unisenac_student: false,
-        curso: '',
-        semestre: 0 
+        course: '',
+        semester: '',
     });
-    
+
     //Enquanto não tem a logica funcionando eu criei esses arrays
     const cursos = [
         {
             name: 'Analise e desenvolvimentos de sistemas',
-            abv: 'ADS'
+            abv: 'ADS',
         },
         {
             name: 'Marketing',
-            abv: 'MKT'  
+            abv: 'MKT',
         },
         {
             name: 'Processos Gerenciais',
-            abv: 'PG'
-        }
-    ]
+            abv: 'PG',
+        },
+    ];
 
     const semestres = [
         {
@@ -65,44 +63,41 @@ export default function Register() {
         {
             num: 6,
         },
-    ]
+    ];
 
     const radioSemestres = semestres.map((semestre) => {
-        return(
-            <div className="ml-6 mt-2 flex items-center gap-2">
+        return (
+            <div className="mt-2 ml-6 flex items-center gap-2">
                 <Input
-                    className='w-3.5'
+                    className="w-3.5"
                     id={`${semestre.num}sem`}
-                    name='semestre'
+                    name="semestre"
                     type="radio"
                     value={semestre.num}
                     onChange={(e) => setData('semestre', e.target.value)}
                     disabled={processing}
                 />
-                <Label htmlFor="scholarship">{semestre.num} semestre</Label>   
+                <Label htmlFor="scholarship">{semestre.num} semestre</Label>
             </div>
-        )
-    })
+        );
+    });
 
     const radioCursos = cursos.map((curso) => {
-        return(
-            <div className="ml-6 mt-2 flex items-center gap-2">
+        return (
+            <div className="mt-2 ml-6 flex items-center gap-2">
                 <Input
-                    className='w-3.5'
+                    className="w-3.5"
                     id={curso.abv}
-                    name='curso'
+                    name="curso"
                     type="radio"
                     value={curso.name}
                     onChange={(e) => setData('curso', e.target.value)}
                     disabled={processing}
                 />
-                <Label htmlFor="scholarship">{curso.name}</Label>   
+                <Label htmlFor="scholarship">{curso.name}</Label>
             </div>
-        )
-    })
-         
-        
-
+        );
+    });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -189,29 +184,27 @@ export default function Register() {
                                 checked={data.is_unisenac_student}
                                 onChange={(e) => setData('is_unisenac_student', e.target.checked)}
                                 disabled={processing}
-                                className='max-w-4'
+                                className="max-w-4"
                             />
                             <Label htmlFor="alunoUnisenac">Aluno UniSenac?</Label>
                         </div>
-                         {data.is_unisenac_student && (
+                        {data.is_unisenac_student && (
                             <>
-                                <div className='flex flex-col'>
-                                    <Label className='mb-1 block text-sm font-semibold'>Selecione seu curso: </Label>
+                                <div className="flex flex-col">
+                                    <Label className="mb-1 block text-sm font-semibold">Selecione seu curso: </Label>
                                     {radioCursos}
-                                </div>  
-                                {data.curso &&(
+                                </div>
+                                {data.curso && (
                                     <>
-                                        <div className='flex flex-col ml-5'>
-                                            <Label className='mb-1 block text-sm font-semibold'>Selecione seu semestre: </Label>
+                                        <div className="ml-5 flex flex-col">
+                                            <Label className="mb-1 block text-sm font-semibold">Selecione seu semestre: </Label>
                                             {radioSemestres}
                                         </div>
                                     </>
-                                )
-                                }
-                            </>  
-                         )}
+                                )}
+                            </>
+                        )}
                     </div>
-                    
 
                     <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
