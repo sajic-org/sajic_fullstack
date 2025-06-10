@@ -72,7 +72,7 @@ export default function Password() {
         });
     };
 
-    const cursos = ['ADS', 'MKT', 'PG', 'Redes', 'Outro'];
+    const cursos = ['ADS', 'MKT', 'PG', 'REDES', 'OUTRO'];
     const semestres = ['1', '2', '3', '4', '5', '6', '7', '8', '8+'];
 
     return (
