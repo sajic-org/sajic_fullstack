@@ -4,12 +4,14 @@ import SettingsLayout from '@/layouts/settings/layout';
 import { type BreadcrumbItem } from '@/types';
 import { Transition } from '@headlessui/react';
 import { Head, useForm, usePage } from '@inertiajs/react';
-import { FormEventHandler, useRef } from 'react';
+import { FormEventHandler, useEffect, useRef } from 'react';
 
 import HeadingSmall from '@/components/heading-small';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { CoursesDropdown } from '@/components/CoursesDropdown';
+import { SemesterDropdown } from '@/components/SemesterDropdown';
 
 export default function Password() {
     const page = usePage<SharedData>();
@@ -35,8 +37,18 @@ export default function Password() {
         password_confirmation: '',
         is_unisenac_student: false,
         curso: '',
-        semestre: ''
+        semestre: 0
     });
+
+    useEffect(() => {
+          if (!data.is_unisenac_student) {
+            setData({
+              ...data,
+              curso: '',
+              semestre: 0
+            });
+          }
+        }, [data.is_unisenac_student]);
 
     const updatePassword: FormEventHandler = (e) => {
         e.preventDefault();
@@ -61,74 +73,14 @@ export default function Password() {
 
     //Enquanto não tem a logica funcionando eu criei esses arrays
     const cursos = [
-        {
-            name: 'Analise e desenvolvimentos de sistemas',
-            abv: 'ADS'
-        },
-        {
-            name: 'Marketing',
-            abv: 'MKT'  
-        },
-        {
-            name: 'Processos Gerenciais',
-            abv: 'PG'
-        }
+        { name: 'ADS' },
+        { name: 'MKT' },
+        { name: 'PG' },
+        { name: 'Redes' },
+        { name: 'Outro' }
     ]
 
-    const semestres = [
-        {
-            num: 1,
-        },
-        {
-            num: 2,
-        },
-        {
-            num: 3,
-        },
-        {
-            num: 4,
-        },
-        {
-            num: 5,
-        },
-        {
-            num: 6,
-        },
-    ]
-
-    const radioSemestres = semestres.map((semestre) => {
-        return(
-            <div className="ml-6 mt-2 flex items-center gap-2">
-                <Input
-                    className='w-3.5'
-                    id={`${semestre.num}sem`}
-                    name='semestre'
-                    type="radio"
-                    value={semestre.num}
-                    onChange={(e) => setData('semestre', e.target.value)}
-                    disabled={processing}
-                />
-                <Label htmlFor="scholarship">{semestre.num} semestre</Label>   
-            </div>
-        )
-    })
-
-    const radioCursos = cursos.map((curso) => {
-        return(
-            <div className="ml-6 mt-2 flex items-center gap-2">
-                <Input
-                    className='w-3.5'
-                    id={curso.abv}
-                    name='curso'
-                    type="radio"
-                    value={curso.name}
-                    onChange={(e) => setData('curso', e.target.value)}
-                    disabled={processing}
-                />
-                <Label htmlFor="scholarship">{curso.name}</Label>   
-            </div>
-        )
-    })
+    const semestres = [1, 2, 3, 4, 5, 6, 7, 8]
 
 
     return (
@@ -151,21 +103,20 @@ export default function Password() {
                         </div>
                          {data.is_unisenac_student && (
                             <>
-                                <div className='flex flex-col'>
-                                    <Label className='mb-1 block text-sm font-semibold'>Selecione seu curso: </Label>
-                                    {radioCursos}
-                                </div>  
-                                {data.curso &&(
+                                <CoursesDropdown course={cursos} value={data.curso}
+                                    onValueChange={(value: string) => setData('curso', value)}/>
+                                
+                                {data.curso && data.curso != "Outro" &&(
                                     <>
-                                        <div className='flex flex-col ml-5'>
-                                            <Label className='mb-1 block text-sm font-semibold'>Selecione seu semestre: </Label>
-                                            {radioSemestres}
-                                        </div>
+                                        <SemesterDropdown semesters={semestres}value={data.semestre}
+                                            onValueChange={(value) => setData('semestre', value)} />
                                     </>
-                                )
-                                }
+                                )}
+                                 <InputError message={errors.semestre} />
+                                {data.curso == "Outro" && ""}
                             </>  
-                         )}
+                         )}     
+                        <InputError message={errors.curso} />
                     </div>
                     <HeadingSmall
                         title="Atualizar Senha"
