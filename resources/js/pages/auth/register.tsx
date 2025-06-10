@@ -1,15 +1,15 @@
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler, useEffect } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 
+import { CoursesDropdown } from '@/components/CoursesDropdown';
 import InputError from '@/components/input-error';
+import { SemesterDropdown } from '@/components/SemesterDropdown';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
-import { CoursesDropdown } from '@/components/CoursesDropdown';
-import { SemesterDropdown } from '@/components/SemesterDropdown';
 
 type RegisterForm = {
     name: string;
@@ -21,7 +21,6 @@ type RegisterForm = {
 };
 
 export default function Register() {
-
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         name: '',
         email: '',
@@ -31,30 +30,21 @@ export default function Register() {
         semester: '',
     });
 
+    const [isUnisenacStudent, setIsUnisenacStudent] = useState<boolean>(data.course || data.semester ? true : false);
 
+    useEffect(() => {
+        if (!isUnisenacStudent) {
+            setData({
+                ...data,
+                course: '',
+                semester: '',
+            });
+        }
+    }, [!isUnisenacStudent]);
 
-     useEffect(() => {
-      if (!data.is_unisenac_student) {
-        setData({
-          ...data,
-          curso: '',
-          semestre: 0
-        });
-      }
-    }, [data.is_unisenac_student]);
-    
-    //Enquanto não tem a logica funcionando eu criei esses arrays
-    const cursos = [
-        { name: 'ADS' },
-        { name: 'MKT' },
-        { name: 'PG' },
-        { name: 'Redes' },
-        { name: 'Outro' }
-    ]
+    const cursos = ['ADS', 'MKT', 'PG', 'Redes', 'Outro'];
+    const semestres = ['1', '2', '3', '4', '5', '6', '7', '8', '8+'];
 
-    const semestres = [1, 2, 3, 4, 5, 6, 7, 8]
-
- 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('register'), {
@@ -137,31 +127,38 @@ export default function Register() {
                             <Input
                                 id="alunoUnisenac"
                                 type="checkbox"
-                                checked={data.is_unisenac_student}
-                                onChange={(e) => setData('is_unisenac_student', e.target.checked)}
+                                checked={isUnisenacStudent}
+                                onChange={(e) => setIsUnisenacStudent(e.target.checked)}
                                 disabled={processing}
                                 className="max-w-4"
                             />
-                            <Label htmlFor="alunoUnisenac">Aluno UniSenac?</Label>
+                            <Label htmlFor="alunoUnisenac">Aluno UniSenac</Label>
                         </div>
-                        {data.is_unisenac_student && (
-                            <>
+                        {isUnisenacStudent && (
+                            <div className="space-x-2">
+                                <div>
+                                    <CoursesDropdown
+                                        courses={cursos}
+                                        value={data.course}
+                                        onValueChange={(value: string) => setData('course', value)}
+                                    />
+                                </div>
 
-                                <CoursesDropdown course={cursos} value={data.curso}
-                                    onValueChange={(value: string) => setData('curso', value)}/>
-                                
-                                {data.curso && data.curso != "Outro" &&(
-                                    <>
-                                        <SemesterDropdown semesters={semestres}value={data.semestre}
-                                            onValueChange={(value) => setData('semestre', value)} />
-                                    </>
+                                {data.course && data.course != 'Outro' ? (
+                                    <div>
+                                        <SemesterDropdown
+                                            semesters={semestres}
+                                            value={data.semester}
+                                            onValueChange={(value) => setData('semester', value)}
+                                        />
+                                        <InputError message={errors.semester} />
+                                    </div>
+                                ) : (
+                                    ''
                                 )}
-                                 <InputError message={errors.semestre} />
-                                {data.curso == "Outro" && ""}
-                            </>  
-                         )}     
-                        <InputError message={errors.curso} />          
-
+                            </div>
+                        )}
+                        <InputError message={errors.course} />
                     </div>
 
                     <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>

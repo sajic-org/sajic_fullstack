@@ -1,21 +1,23 @@
 import InputError from '@/components/input-error';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
-import { type BreadcrumbItem } from '@/types';
+import { SharedData, type BreadcrumbItem } from '@/types';
 import { Transition } from '@headlessui/react';
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler, useEffect, useRef } from 'react';
 
+import { CoursesDropdown } from '@/components/CoursesDropdown';
 import HeadingSmall from '@/components/heading-small';
+import { SemesterDropdown } from '@/components/SemesterDropdown';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { CoursesDropdown } from '@/components/CoursesDropdown';
-import { SemesterDropdown } from '@/components/SemesterDropdown';
 
 export default function Password() {
     const page = usePage<SharedData>();
     const { auth } = page.props;
+
+    const [isUnisenacStudent, setIsUnisenacStudent] = useState<boolean>(data.course || data.semester ? true : false);
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
@@ -36,20 +38,19 @@ export default function Password() {
         password: '',
         password_confirmation: '',
         is_unisenac_student: false,
-        curso: '',
-        semestre: '',
-
+        course: '',
+        semester: '',
     });
 
     useEffect(() => {
-          if (!data.is_unisenac_student) {
+        if (!isUnisenacStudent) {
             setData({
-              ...data,
-              curso: '',
-              semestre: 0
+                ...data,
+                course: '',
+                semester: '',
             });
-          }
-        }, [data.is_unisenac_student]);
+        }
+    }, [isUnisenacStudent]);
 
     const updatePassword: FormEventHandler = (e) => {
         e.preventDefault();
@@ -71,18 +72,8 @@ export default function Password() {
         });
     };
 
-    //Enquanto não tem a logica funcionando eu criei esses arrays
-    const cursos = [
-
-        { name: 'ADS' },
-        { name: 'MKT' },
-        { name: 'PG' },
-        { name: 'Redes' },
-        { name: 'Outro' }
-    ]
-
-    const semestres = [1, 2, 3, 4, 5, 6, 7, 8]
-
+    const cursos = ['ADS', 'MKT', 'PG', 'Redes', 'Outro'];
+    const semestres = ['1', '2', '3', '4', '5', '6', '7', '8', '8+'];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -95,31 +86,37 @@ export default function Password() {
                             <Input
                                 id="alunoUnisenac"
                                 type="checkbox"
-                                checked={data.is_unisenac_student}
-                                onChange={(e) => setData('is_unisenac_student', e.target.checked)}
+                                checked={isUnisenacStudent}
+                                onChange={(e) => setIsUnisenacStudent(e.target.checked)}
                                 disabled={processing}
                                 className="max-w-4"
                             />
-                            <Label htmlFor="alunoUnisenac">Aluno UniSenac?</Label>
+                            <Label htmlFor="alunoUnisenac">Aluno UniSenac</Label>
                         </div>
-                        {data.is_unisenac_student && (
-                            <>
+                        {isUnisenacStudent && (
+                            <div className="space-x-2">
+                                <div>
+                                    <CoursesDropdown
+                                        courses={cursos}
+                                        value={data.course}
+                                        onValueChange={(value: string) => setData('course', value)}
+                                    />
+                                </div>
 
-                                <CoursesDropdown course={cursos} value={data.curso}
-                                    onValueChange={(value: string) => setData('curso', value)}/>
-                                
-                                {data.curso && data.curso != "Outro" &&(
-                                    <>
-                                        <SemesterDropdown semesters={semestres}value={data.semestre}
-                                            onValueChange={(value) => setData('semestre', value)} />
-                                    </>
+                                {data.course && data.course != 'Outro' ? (
+                                    <div>
+                                        <SemesterDropdown
+                                            semesters={semestres}
+                                            value={data.semester}
+                                            onValueChange={(value) => setData('semester', value)}
+                                        />
+                                        <InputError message={errors.semester} />
+                                    </div>
+                                ) : (
+                                    ''
                                 )}
-                                 <InputError message={errors.semestre} />
-                                {data.curso == "Outro" && ""}
-                            </>  
-                         )}     
-                        <InputError message={errors.curso} />
-
+                            </div>
+                        )}
                     </div>
                     <HeadingSmall
                         title="Atualizar Senha"
