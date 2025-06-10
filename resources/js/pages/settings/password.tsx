@@ -4,7 +4,7 @@ import SettingsLayout from '@/layouts/settings/layout';
 import { SharedData, type BreadcrumbItem } from '@/types';
 import { Transition } from '@headlessui/react';
 import { Head, useForm, usePage } from '@inertiajs/react';
-import { FormEventHandler, useEffect, useRef } from 'react';
+import { FormEventHandler, useEffect, useRef, useState } from 'react';
 
 import { CoursesDropdown } from '@/components/CoursesDropdown';
 import HeadingSmall from '@/components/heading-small';
@@ -16,8 +16,6 @@ import { Label } from '@/components/ui/label';
 export default function Password() {
     const page = usePage<SharedData>();
     const { auth } = page.props;
-
-    const [isUnisenacStudent, setIsUnisenacStudent] = useState<boolean>(data.course || data.semester ? true : false);
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
@@ -41,6 +39,8 @@ export default function Password() {
         course: '',
         semester: '',
     });
+
+    const [isUnisenacStudent, setIsUnisenacStudent] = useState<boolean>(data.course || data.semester ? true : false);
 
     useEffect(() => {
         if (!isUnisenacStudent) {
@@ -94,7 +94,7 @@ export default function Password() {
                             <Label htmlFor="alunoUnisenac">Aluno UniSenac</Label>
                         </div>
                         {isUnisenacStudent && (
-                            <div className="space-x-2">
+                            <div className="flex space-x-2">
                                 <div>
                                     <CoursesDropdown
                                         courses={cursos}

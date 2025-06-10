@@ -135,13 +135,14 @@ export default function Register() {
                             <Label htmlFor="alunoUnisenac">Aluno UniSenac</Label>
                         </div>
                         {isUnisenacStudent && (
-                            <div className="space-x-2">
+                            <div className="flex space-x-2">
                                 <div>
                                     <CoursesDropdown
                                         courses={cursos}
                                         value={data.course}
                                         onValueChange={(value: string) => setData('course', value)}
                                     />
+                                    <InputError message={errors.course} />
                                 </div>
 
                                 {data.course && data.course != 'Outro' ? (
@@ -158,7 +159,6 @@ export default function Register() {
                                 )}
                             </div>
                         )}
-                        <InputError message={errors.course} />
                     </div>
 
                     <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
