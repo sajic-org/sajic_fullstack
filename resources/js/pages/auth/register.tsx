@@ -16,9 +16,8 @@ type RegisterForm = {
     email: string;
     password: string;
     password_confirmation: string;
-    is_unisenac_student: boolean;
-    curso: string;
-    semestre: number;
+    course: string;
+    semester: string;
 };
 
 export default function Register() {
@@ -28,10 +27,10 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
-        is_unisenac_student: false,
-        curso: '',
-        semestre: 0 
+        course: '',
+        semester: '',
     });
+
 
 
      useEffect(() => {
@@ -55,7 +54,7 @@ export default function Register() {
 
     const semestres = [1, 2, 3, 4, 5, 6, 7, 8]
 
-        
+ 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('register'), {
@@ -141,12 +140,13 @@ export default function Register() {
                                 checked={data.is_unisenac_student}
                                 onChange={(e) => setData('is_unisenac_student', e.target.checked)}
                                 disabled={processing}
-                                className='max-w-4'
+                                className="max-w-4"
                             />
                             <Label htmlFor="alunoUnisenac">Aluno UniSenac?</Label>
                         </div>
-                         {data.is_unisenac_student && (
+                        {data.is_unisenac_student && (
                             <>
+
                                 <CoursesDropdown course={cursos} value={data.curso}
                                     onValueChange={(value: string) => setData('curso', value)}/>
                                 
@@ -161,8 +161,8 @@ export default function Register() {
                             </>  
                          )}     
                         <InputError message={errors.curso} />          
+
                     </div>
-                    
 
                     <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}

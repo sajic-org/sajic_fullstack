@@ -32,10 +32,15 @@ class PasswordController extends Controller
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
             'password' => ['required', Password::defaults(), 'confirmed'],
+             'course' => ['nullable', 'in:ADS,REDES,MKT,PG,ETC'],
+            'semester' => ['nullable', 'in:1,2,3,4,5,6,7,8,8+'],
+
         ]);
 
         $request->user()->update([
             'password' => Hash::make($validated['password']),
+            'course' => $request->course,
+            'semester' => $request->semester,
         ]);
 
         return back();

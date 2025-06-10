@@ -37,7 +37,8 @@ export default function Password() {
         password_confirmation: '',
         is_unisenac_student: false,
         curso: '',
-        semestre: 0
+        semestre: '',
+
     });
 
     useEffect(() => {
@@ -70,9 +71,9 @@ export default function Password() {
         });
     };
 
-
     //Enquanto não tem a logica funcionando eu criei esses arrays
     const cursos = [
+
         { name: 'ADS' },
         { name: 'MKT' },
         { name: 'PG' },
@@ -97,12 +98,13 @@ export default function Password() {
                                 checked={data.is_unisenac_student}
                                 onChange={(e) => setData('is_unisenac_student', e.target.checked)}
                                 disabled={processing}
-                                className='max-w-4'
+                                className="max-w-4"
                             />
                             <Label htmlFor="alunoUnisenac">Aluno UniSenac?</Label>
                         </div>
-                         {data.is_unisenac_student && (
+                        {data.is_unisenac_student && (
                             <>
+
                                 <CoursesDropdown course={cursos} value={data.curso}
                                     onValueChange={(value: string) => setData('curso', value)}/>
                                 
@@ -117,6 +119,7 @@ export default function Password() {
                             </>  
                          )}     
                         <InputError message={errors.curso} />
+
                     </div>
                     <HeadingSmall
                         title="Atualizar Senha"
