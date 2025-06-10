@@ -1,19 +1,22 @@
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
+import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, RowSelectionState, useReactTable } from '@tanstack/react-table';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { CheckInColumnsType } from '@/lib/check-in-columns-factory';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { checkInFormProps } from '@/pages/check-in';
 
 interface DataTableProps {
     columns: ColumnDef<CheckInColumnsType, any>[];
     data: CheckInColumnsType[];
+    form: checkInFormProps
 }
 
-function CheckInDataTable({ columns, data }: DataTableProps) {
+function CheckInDataTable({ columns, data, form }: DataTableProps) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [filterColumn, setFilterColumn] = useState('name');
+    const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
 
     const table = useReactTable({
         data,
@@ -21,11 +24,20 @@ function CheckInDataTable({ columns, data }: DataTableProps) {
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
         getCoreRowModel: getCoreRowModel(),
+        getRowId: row => String(row.showed_up.userId),
+        onRowSelectionChange: setRowSelection,
 
         state: {
+            rowSelection,
             columnFilters,
         },
     });
+
+    useEffect(() => {
+        const ids = Object.keys(rowSelection)
+
+        form.setData({ checkedUsersIds: ids })
+    }, [rowSelection])
 
     return (
         <div className="px-4 sm:px-6 md:max-w-7xl">
@@ -53,8 +65,6 @@ function CheckInDataTable({ columns, data }: DataTableProps) {
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
-                                    console.log(header.id);
-
                                     if (header.id != filterColumn && header.id != 'showed_up_presence') {
                                         return (
                                             <TableHead key={header.id} className="max-md:hidden">
@@ -78,7 +88,10 @@ function CheckInDataTable({ columns, data }: DataTableProps) {
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && 'selected'}
-                                    className={`${i % 2 == 0 && 'bg-primary-blue/15 hover:bg-primary-blue/25'} data-[state=selected]:bg-green-100/50 data-[state=selected]:hover:bg-green-100`}
+                                    className={
+                                        `${i % 2 == 0 && 'bg-primary-blue/15 hover:bg-primary-blue/25'}
+                                            data-[state=selected]:bg-green-100/50 data-[state=selected]:hover:bg-green-100
+                                            has-disabled:opacity-75 has-disabled:data-[state=selected]:bg-green-50/50`}
                                 >
                                     {row.getVisibleCells().map((cell) => {
                                         const cellName = cell.column.id;

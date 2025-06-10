@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendCertificate;
 use App\Models\Lecture;
 use App\Models\LectureAttendance;
 use App\Models\Room;
 use App\Models\Speaker;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class LectureController extends Controller
@@ -22,9 +25,7 @@ class LectureController extends Controller
             $user = Auth::user()->load(['lectures']);
         }
 
-        $lectures = Lecture::with(['speaker.lectures', 'room'])
-            ->orderByRaw("SUBSTRING(date FROM 4 FOR 2), SUBSTRING(date FROM 1 FOR 2)") // Made by gemini
-            ->get();
+        $lectures = Lecture::with(['speaker.lectures', 'room'])->get();
 
         foreach ($lectures as $l) {
             $l['n_attendees'] = DB::table('lecture_attendances')->where('lecture_id', $l->id)->count();
@@ -80,30 +81,23 @@ class LectureController extends Controller
     public function checkin(Request $request, Lecture $lecture)
     {
         $validated = $request->validate([
-            'checkedUsers' => 'required|array',
-            'checkedUsers.*.userId' => 'required|integer|exists:users,id',
-            'checkedUsers.*.presence' => 'required|boolean',
+            'checkedUsersIds' => 'required|array',
+            'checkedUsersIds.*' => 'string',
         ]);
 
-        $userIdsByPresence = [
-            true => [],
-            false => [],
-        ];
+        $pdfIds = LectureAttendance::whereBelongsTo($lecture)
+            ->whereIn('user_id', $validated['checkedUsersIds'])
+            ->join('users', 'lecture_attendances.user_id', '=', 'users.id')
+            ->get();
 
-        foreach ($validated['checkedUsers'] as $user) {
-            $userIdsByPresence[$user['presence']][] = $user['userId'];
-        }
+        dd($pdfIds->toArray());
 
-        if (! empty($userIdsByPresence[true])) {
-            LectureAttendance::where('lecture_id', $lecture->id)
-                ->whereIn('user_id', $userIdsByPresence[true])
-                ->update(['showed_up' => true]);
-        }
+        LectureAttendance::whereIn('id', $pdfIds)
+            ->update(['showed_up' => true]);
 
-        if (! empty($userIdsByPresence[false])) {
-            LectureAttendance::where('lecture_id', $lecture->id)
-                ->whereIn('user_id', $userIdsByPresence[false])
-                ->update(['showed_up' => false]);
+        foreach ($pdfIds->toArray() as $user) {
+            dd($user);
+            // Mail::to($mail)->queue(new SendCertificate);
         }
 
         return to_route('lectures.index');

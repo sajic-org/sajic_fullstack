@@ -5,15 +5,15 @@ import AppLayout from '@/layouts/app-layout';
 
 import { Head, InertiaFormProps, router, useForm, usePage } from '@inertiajs/react';
 
-import checkInColumnsFactory, { CheckInColumnsType, ShowedUpType } from '@/lib/check-in-columns-factory';
+import { CheckInColumnsType, ShowedUpType } from '@/lib/check-in-columns-factory';
 import { SharedData, type BreadcrumbItem } from '@/types';
 import { Lecture } from '@/types/models';
 
-import { useState } from 'react';
 import { toast } from 'sonner';
+import checkInColumns from '@/lib/check-in-columns-factory';
 
 type checkInFormType = {
-    checkedUsers: ShowedUpType[];
+    checkedUsersIds: string[];
 };
 
 export type checkInFormProps = InertiaFormProps<checkInFormType>;
@@ -60,10 +60,8 @@ function CheckIn({ lecture }: checkInPageProps) {
         },
     ];
 
-    const form = useForm<checkInFormType>({ checkedUsers: [] });
-
-    const [columnData, setColumnData] = useState<CheckInColumnsType[]>(generateColumnsData(lecture));
-    const checkInColumns = checkInColumnsFactory(form, setColumnData);
+    const form = useForm<checkInFormType>({ checkedUsersIds: [] });
+    const columnData = generateColumnsData(lecture);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -102,7 +100,7 @@ function CheckIn({ lecture }: checkInPageProps) {
                 </div>
             </div>
 
-            <CheckInDataTable columns={checkInColumns} data={columnData} />
+            <CheckInDataTable columns={checkInColumns} data={columnData} form={form} />
         </AppLayout>
     );
 }
