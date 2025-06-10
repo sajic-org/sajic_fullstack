@@ -1,12 +1,14 @@
 import InputError from '@/components/input-error';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
-import { type BreadcrumbItem } from '@/types';
+import { SharedData, type BreadcrumbItem } from '@/types';
 import { Transition } from '@headlessui/react';
 import { Head, useForm, usePage } from '@inertiajs/react';
-import { FormEventHandler, useRef } from 'react';
+import { FormEventHandler, useEffect, useRef, useState } from 'react';
 
+import { CoursesDropdown } from '@/components/CoursesDropdown';
 import HeadingSmall from '@/components/heading-small';
+import { SemesterDropdown } from '@/components/SemesterDropdown';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -33,7 +35,22 @@ export default function Password() {
         current_password: '',
         password: '',
         password_confirmation: '',
+        is_unisenac_student: false,
+        course: auth.user.course || '',
+        semester: auth.user.semester || '',
     });
+
+    const [isUnisenacStudent, setIsUnisenacStudent] = useState<boolean>(data.course || data.semester ? true : false);
+
+    useEffect(() => {
+        if (!isUnisenacStudent) {
+            setData({
+                ...data,
+                course: '',
+                semester: '',
+            });
+        }
+    }, [isUnisenacStudent]);
 
     const updatePassword: FormEventHandler = (e) => {
         e.preventDefault();
@@ -55,22 +72,52 @@ export default function Password() {
         });
     };
 
+    const cursos = ['ADS', 'MKT', 'PG', 'Redes', 'Outro'];
+    const semestres = ['1', '2', '3', '4', '5', '6', '7', '8', '8+'];
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Profile settings" />
 
             <SettingsLayout>
                 <div className="w-full space-y-6">
-                    <div className="flex items-center gap-2">
-                        <Input
-                            id="alunoUnisenac"
-                            type="checkbox"
-                            checked={data.is_unisenac_student}
-                            onChange={(e) => setData('is_unisenac_student', e.target.checked)}
-                            disabled={processing}
-                            className="max-w-4"
-                        />
-                        <Label htmlFor="alunoUnisenac">Aluno UniSenac</Label>
+                    <div>
+                        <div className="flex items-center gap-2">
+                            <Input
+                                id="alunoUnisenac"
+                                type="checkbox"
+                                checked={isUnisenacStudent}
+                                onChange={(e) => setIsUnisenacStudent(e.target.checked)}
+                                disabled={processing}
+                                className="max-w-4"
+                            />
+                            <Label htmlFor="alunoUnisenac">Aluno UniSenac</Label>
+
+                            {isUnisenacStudent && (
+                                <div className="flex space-x-2">
+                                    <div>
+                                        <CoursesDropdown
+                                            courses={cursos}
+                                            value={data.course}
+                                            onValueChange={(value: string) => setData('course', value)}
+                                        />
+                                    </div>
+
+                                    {data.course && data.course != 'Outro' ? (
+                                        <div>
+                                            <SemesterDropdown
+                                                semesters={semestres}
+                                                value={data.semester}
+                                                onValueChange={(value) => setData('semester', value)}
+                                            />
+                                            <InputError message={errors.semester} />
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )}
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <HeadingSmall
                         title="Atualizar Senha"
@@ -129,7 +176,7 @@ export default function Password() {
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <Button disabled={processing}>Salvar Senha</Button>
+                            <Button disabled={processing}>Salvar Mudanças</Button>
 
                             <Transition
                                 show={recentlySuccessful}

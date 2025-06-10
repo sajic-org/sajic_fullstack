@@ -26,7 +26,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'is_admin', // REMOVE
-        'is_unisenac_student',
+        'course',
+        'semester',
     ];
 
     public function lectures(): BelongsToMany

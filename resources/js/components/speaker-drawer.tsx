@@ -10,11 +10,11 @@ function SpeakerDialog({ children, speaker }: { children: ReactNode; speaker: Sp
             <DialogContent className="sm:max-w-[425px] md:max-w-3xl">
                 <DialogHeader className="p-4">
                     <DialogTitle className="text-primary-blue text-xl">{speaker?.name}</DialogTitle>
-                    <div className="grid items-start gap-4 md:grid-cols-5">
+                    <div className="flex-col items-start gap-4 max-md:flex md:grid md:grid-cols-5">
                         <img
                             src={speaker?.image}
                             alt={`Foto de ${speaker?.name}`}
-                            className="col-span-2 aspect-square w-full rounded-xl object-cover object-center"
+                            className="col-span-2 mx-auto aspect-square w-full rounded-xl object-cover object-center max-md:max-w-sm"
                         />
                         <DialogDescription className="col-span-3 h-full max-w-full px-4">{speaker?.description}</DialogDescription>
                     </div>

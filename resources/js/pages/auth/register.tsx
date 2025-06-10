@@ -1,8 +1,10 @@
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 
+import { CoursesDropdown } from '@/components/CoursesDropdown';
 import InputError from '@/components/input-error';
+import { SemesterDropdown } from '@/components/SemesterDropdown';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,7 +16,8 @@ type RegisterForm = {
     email: string;
     password: string;
     password_confirmation: string;
-    is_unisenac_student: boolean;
+    course: string;
+    semester: string;
 };
 
 export default function Register() {
@@ -23,8 +26,24 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
-        is_unisenac_student: false,
+        course: '',
+        semester: '',
     });
+
+    const [isUnisenacStudent, setIsUnisenacStudent] = useState<boolean>(data.course || data.semester ? true : false);
+
+    useEffect(() => {
+        if (!isUnisenacStudent) {
+            setData({
+                ...data,
+                course: '',
+                semester: '',
+            });
+        }
+    }, [!isUnisenacStudent]);
+
+    const cursos = ['ADS', 'MKT', 'PG', 'Redes', 'Outro'];
+    const semestres = ['1', '2', '3', '4', '5', '6', '7', '8', '8+'];
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -103,16 +122,43 @@ export default function Register() {
                         <InputError message={errors.password_confirmation} />
                     </div>
 
-                    <div className="flex items-center gap-2">
-                        <Input
-                            id="alunoUnisenac"
-                            type="checkbox"
-                            checked={data.is_unisenac_student}
-                            onChange={(e) => setData('is_unisenac_student', e.target.checked)}
-                            disabled={processing}
-                            className='max-w-4'
-                        />
-                        <Label htmlFor="alunoUnisenac">Aluno UniSenac?</Label>
+                    <div>
+                        <div className="flex items-center gap-2">
+                            <Input
+                                id="alunoUnisenac"
+                                type="checkbox"
+                                checked={isUnisenacStudent}
+                                onChange={(e) => setIsUnisenacStudent(e.target.checked)}
+                                disabled={processing}
+                                className="max-w-4"
+                            />
+                            <Label htmlFor="alunoUnisenac">Aluno UniSenac</Label>
+                        </div>
+                        {isUnisenacStudent && (
+                            <div className="flex space-x-2">
+                                <div>
+                                    <CoursesDropdown
+                                        courses={cursos}
+                                        value={data.course}
+                                        onValueChange={(value: string) => setData('course', value)}
+                                    />
+                                    <InputError message={errors.course} />
+                                </div>
+
+                                {data.course && data.course != 'Outro' ? (
+                                    <div>
+                                        <SemesterDropdown
+                                            semesters={semestres}
+                                            value={data.semester}
+                                            onValueChange={(value) => setData('semester', value)}
+                                        />
+                                        <InputError message={errors.semester} />
+                                    </div>
+                                ) : (
+                                    ''
+                                )}
+                            </div>
+                        )}
                     </div>
 
                     <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
