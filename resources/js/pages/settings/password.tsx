@@ -33,6 +33,9 @@ export default function Password() {
         current_password: '',
         password: '',
         password_confirmation: '',
+        is_unisenac_student: false,
+        curso: '',
+        semestre: ''
     });
 
     const updatePassword: FormEventHandler = (e) => {
@@ -55,22 +58,114 @@ export default function Password() {
         });
     };
 
+
+    //Enquanto não tem a logica funcionando eu criei esses arrays
+    const cursos = [
+        {
+            name: 'Analise e desenvolvimentos de sistemas',
+            abv: 'ADS'
+        },
+        {
+            name: 'Marketing',
+            abv: 'MKT'  
+        },
+        {
+            name: 'Processos Gerenciais',
+            abv: 'PG'
+        }
+    ]
+
+    const semestres = [
+        {
+            num: 1,
+        },
+        {
+            num: 2,
+        },
+        {
+            num: 3,
+        },
+        {
+            num: 4,
+        },
+        {
+            num: 5,
+        },
+        {
+            num: 6,
+        },
+    ]
+
+    const radioSemestres = semestres.map((semestre) => {
+        return(
+            <div className="ml-6 mt-2 flex items-center gap-2">
+                <Input
+                    className='w-3.5'
+                    id={`${semestre.num}sem`}
+                    name='semestre'
+                    type="radio"
+                    value={semestre.num}
+                    onChange={(e) => setData('semestre', e.target.value)}
+                    disabled={processing}
+                />
+                <Label htmlFor="scholarship">{semestre.num} semestre</Label>   
+            </div>
+        )
+    })
+
+    const radioCursos = cursos.map((curso) => {
+        return(
+            <div className="ml-6 mt-2 flex items-center gap-2">
+                <Input
+                    className='w-3.5'
+                    id={curso.abv}
+                    name='curso'
+                    type="radio"
+                    value={curso.name}
+                    onChange={(e) => setData('curso', e.target.value)}
+                    disabled={processing}
+                />
+                <Label htmlFor="scholarship">{curso.name}</Label>   
+            </div>
+        )
+    })
+
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Profile settings" />
 
             <SettingsLayout>
                 <div className="w-full space-y-6">
-                    <div className="flex items-center gap-2">
-                        <Input
-                            id="alunoUnisenac"
-                            type="checkbox"
-                            checked={data.is_unisenac_student}
-                            onChange={(e) => setData('is_unisenac_student', e.target.checked)}
-                            disabled={processing}
-                            className="max-w-4"
-                        />
-                        <Label htmlFor="alunoUnisenac">Aluno UniSenac</Label>
+                    <div>
+                        <div className="flex items-center gap-2">
+                            <Input
+                                id="alunoUnisenac"
+                                type="checkbox"
+                                checked={data.is_unisenac_student}
+                                onChange={(e) => setData('is_unisenac_student', e.target.checked)}
+                                disabled={processing}
+                                className='max-w-4'
+                            />
+                            <Label htmlFor="alunoUnisenac">Aluno UniSenac?</Label>
+                        </div>
+                         {data.is_unisenac_student && (
+                            <>
+                                <div className='flex flex-col'>
+                                    <Label className='mb-1 block text-sm font-semibold'>Selecione seu curso: </Label>
+                                    {radioCursos}
+                                </div>  
+                                {data.curso &&(
+                                    <>
+                                        <div className='flex flex-col ml-5'>
+                                            <Label className='mb-1 block text-sm font-semibold'>Selecione seu semestre: </Label>
+                                            {radioSemestres}
+                                        </div>
+                                    </>
+                                )
+                                }
+                            </>  
+                         )}
                     </div>
                     <HeadingSmall
                         title="Atualizar Senha"
