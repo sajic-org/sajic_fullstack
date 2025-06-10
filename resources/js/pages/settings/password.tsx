@@ -36,8 +36,8 @@ export default function Password() {
         password: '',
         password_confirmation: '',
         is_unisenac_student: false,
-        course: '',
-        semester: '',
+        course: auth.user.course || '',
+        semester: auth.user.semester || '',
     });
 
     const [isUnisenacStudent, setIsUnisenacStudent] = useState<boolean>(data.course || data.semester ? true : false);
@@ -92,31 +92,32 @@ export default function Password() {
                                 className="max-w-4"
                             />
                             <Label htmlFor="alunoUnisenac">Aluno UniSenac</Label>
-                        </div>
-                        {isUnisenacStudent && (
-                            <div className="flex space-x-2">
-                                <div>
-                                    <CoursesDropdown
-                                        courses={cursos}
-                                        value={data.course}
-                                        onValueChange={(value: string) => setData('course', value)}
-                                    />
-                                </div>
 
-                                {data.course && data.course != 'Outro' ? (
+                            {isUnisenacStudent && (
+                                <div className="flex space-x-2">
                                     <div>
-                                        <SemesterDropdown
-                                            semesters={semestres}
-                                            value={data.semester}
-                                            onValueChange={(value) => setData('semester', value)}
+                                        <CoursesDropdown
+                                            courses={cursos}
+                                            value={data.course}
+                                            onValueChange={(value: string) => setData('course', value)}
                                         />
-                                        <InputError message={errors.semester} />
                                     </div>
-                                ) : (
-                                    ''
-                                )}
-                            </div>
-                        )}
+
+                                    {data.course && data.course != 'Outro' ? (
+                                        <div>
+                                            <SemesterDropdown
+                                                semesters={semestres}
+                                                value={data.semester}
+                                                onValueChange={(value) => setData('semester', value)}
+                                            />
+                                            <InputError message={errors.semester} />
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )}
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <HeadingSmall
                         title="Atualizar Senha"
@@ -175,7 +176,7 @@ export default function Password() {
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <Button disabled={processing}>Salvar Senha</Button>
+                            <Button disabled={processing}>Salvar Mudanças</Button>
 
                             <Transition
                                 show={recentlySuccessful}
