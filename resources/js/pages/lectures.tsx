@@ -95,7 +95,7 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
                         ?.filter((lecture) => lecture.type === 'Tecnologia')
                         .map((item, i) => <LecturesGridItem key={i} lecture={item} user={user} className="md:col-span-1" />)}
                     {filteredLectures?.filter((lecture) => lecture.type === 'Tecnologia').length === 0 && (
-                        <div className="col-span-1 text-center text-gray-500">Nenhuma palestra encontrada para o termo pesquisado.</div>
+                        <div className="col-span-3 text-center text-gray-500">Nenhuma palestra encontrada para o termo pesquisado.</div>
                     )}
                 </LecturesGrid>
 
@@ -117,7 +117,7 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
                         ?.filter((lecture) => lecture.type === 'Gestão e Mercado')
                         .map((item, i) => <LecturesGridItem key={i} lecture={item} user={user} className="md:col-span-1" />)}
                     {filteredLectures?.filter((lecture) => lecture.type === 'Gestão e Mercado').length === 0 && (
-                        <div className="col-span-1 text-center text-gray-500">Nenhuma palestra encontrada para o termo pesquisado.</div>
+                        <div className="col-span-3 text-center text-gray-500">Nenhuma palestra encontrada para o termo pesquisado.</div>
                     )}
                 </LecturesGrid>
             </section>
