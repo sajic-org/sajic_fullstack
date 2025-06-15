@@ -21,8 +21,7 @@ Route::get('/detona-div', function () {
 Route::get('/palestras', [LectureController::class, 'index'])->name('lectures.index');
 
 // Minhas Palestras
-// adicionar 'verified'
-Route::prefix('minhas-palestras')->middleware(['auth'])->group(function () {
+Route::prefix('minhas-palestras')->middleware(['auth','verified'])->group(function () {
     Route::get(
         '/',
         [UserController::class, 'my_lectures']
@@ -45,21 +44,6 @@ Route::get(
     [UserController::class, 'certificate']
 )->name('user.certificate');
 
-// Rota p os guri criar admin rapido dps de limpar o db
-// REMOVER
-Route::get('/criar-admin', function () {
-
-    $user = User::create([
-        'name' => 'admin',
-        'email' => 'admin@gmail.com',
-        'password' => 'admin1234',
-        'is_admin' => 1,
-    ]);
-
-    Auth::login($user);
-
-    return to_route('home');
-});
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

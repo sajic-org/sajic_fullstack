@@ -14,8 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function () {
-            // ADICIONAR VERIFIED, ADMIN
-            Route::middleware(['web', 'auth'])->group(__DIR__.'/../routes/admin.php');
+            Route::middleware(['web', 'auth','verified','admin'])->group(__DIR__.'/../routes/admin.php');
         }
     )
     ->withMiddleware(function (Middleware $middleware) {
