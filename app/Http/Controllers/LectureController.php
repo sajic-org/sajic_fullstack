@@ -96,7 +96,7 @@ class LectureController extends Controller
 
         foreach ($attendances as $attendance) {
             Mail::to($attendance->user->email)
-                ->queue(new SendCertificate($attendance->id));
+                ->send(new SendCertificate($attendance->id));
         }
 
         return to_route('lectures.index');
