@@ -3,6 +3,7 @@ import { LecturesGrid, LecturesGridItem } from '@/components/lectures-grid';
 import LecturesGridHeading from '@/components/lectures-grid-heading';
 import MapView from '@/components/Map';
 import AppLayout from '@/layouts/app-layout';
+import { isUserAlreadyEnrolledAtThatTime } from '@/lib/utils';
 import { BreadcrumbItem } from '@/types';
 import { Lecture, User } from '@/types/models';
 import { Head } from '@inertiajs/react';
@@ -20,6 +21,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
+<<<<<<< HEAD
     const [query, setQuery] = useState('');
     const [filteredLectures, setFilteredSpeakers] = useState<Lecture[]>(lectures);
 
@@ -29,6 +31,9 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
         );
         setFilteredSpeakers(results);
     }, [query, lectures]);
+=======
+    console.log(user && isUserAlreadyEnrolledAtThatTime(user, user.lectures[0]));
+>>>>>>> main
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
