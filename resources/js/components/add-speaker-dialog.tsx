@@ -76,18 +76,31 @@ function AddSpeakerDialog({
                                 Foto
                             </Label>
 
-                            <div className="shadow-l-sm relative col-span-3 m-auto mt-4 flex aspect-square w-1/2 flex-col justify-center rounded-lg opacity-50 shadow-sm shadow-gray-600">
-                                <UploadIcon className="m-auto" />
+                            <div className="relative col-span-3 m-auto mt-4 flex aspect-square w-1/2 flex-col justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 shadow-sm transition-all hover:border-gray-400 hover:bg-gray-100 overflow-hidden">
+                                {data.image ? (
+                                    <img
+                                        src={URL.createObjectURL(data.image)}
+                                        alt="Preview"
+                                        className="h-full w-full object-cover rounded-lg"
+                                    />
+                                ) : (
+                                    <>
+                                        <UploadIcon className="m-auto h-8 w-8 text-gray-400" />
+                                        <p className="mt-2 text-center text-sm text-gray-500">
+                                            Clique para selecionar uma imagem
+                                        </p>
+                                    </>
+                                )}
                                 <input
                                     type="file"
                                     id="image"
                                     name="image"
                                     required
-                                    onChange={(e) => setData('image', e.target.files[0] || null)}
-                                    className="absolute h-full w-full cursor-pointer opacity-0"
+                                    accept="image/*"
+                                    onChange={(e) => setData('image', e.target.files?.[0] || null)}
+                                    className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                                 />
                             </div>
-                            {data.image && <p className="text-light-text col-span-5 pl-20 text-center">Imagem Selecionada</p>}
                             <InputError message={errors.image} className="col-span-3 col-start-2" />
                         </div>
 
