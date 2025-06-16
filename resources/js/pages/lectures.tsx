@@ -21,7 +21,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
-<<<<<<< HEAD
     const [query, setQuery] = useState('');
     const [filteredLectures, setFilteredSpeakers] = useState<Lecture[]>(lectures);
 
@@ -31,9 +30,6 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
         );
         setFilteredSpeakers(results);
     }, [query, lectures]);
-=======
-    console.log(user && isUserAlreadyEnrolledAtThatTime(user, user.lectures[0]));
->>>>>>> main
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
