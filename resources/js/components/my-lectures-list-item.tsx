@@ -1,6 +1,6 @@
 import { unsubcribe } from '@/lib/utils';
 import { Lecture } from '@/types/models';
-import { CircleX } from 'lucide-react';
+import { CircleX, FileText } from 'lucide-react';
 import SpeakerDialog from './speaker-drawer';
 
 function MyLecturesListItem({ lecture }: { lecture: Lecture }) {
@@ -20,24 +20,47 @@ function MyLecturesListItem({ lecture }: { lecture: Lecture }) {
                             <p className="text-sm">
                                 {lecture.date}, {lecture.starts} - {lecture.ends}
                             </p>
-                            <button
-                                className="ml-auto flex h-fit cursor-pointer items-center gap-3 rounded-sm bg-red-600 p-2 text-sm font-semibold text-white sm:gap-2 md:hidden md:rounded-md md:px-4.5 md:py-2.5"
-                                onClick={() => unsubcribe(lecture)}
-                            >
-                                <span>Cancelar</span>
-                                <CircleX className="size-5.5" />
-                            </button>
+                            
+                            {/* Buttons on Mobile */}
+                            {lecture.lecture_attendances.showed_up ? (
+                                <a
+                                    href={`/certificate/${lecture.lecture_attendances.id}`}
+                                    className="ml-auto flex h-fit cursor-pointer items-center gap-3 rounded-sm bg-blue-500 p-2 text-sm font-semibold text-white sm:gap-2 md:hidden md:rounded-md md:px-4.5 md:py-2.5"
+                                >
+                                    <span>Certificado</span>
+                                    <FileText className="size-5.5" />
+                                </a>
+                            ) : (
+                                <button
+                                    className="ml-auto flex h-fit cursor-pointer items-center gap-3 rounded-sm bg-red-600 p-2 text-sm font-semibold text-white sm:gap-2 md:hidden md:rounded-md md:px-4.5 md:py-2.5"
+                                    onClick={() => unsubcribe(lecture)}
+                                >
+                                    <span>Cancelar</span>
+                                    <CircleX className="size-5.5" />
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
 
-                <button
-                    className="text-md hidden h-fit cursor-pointer items-center gap-3 rounded-sm bg-red-600 p-2 font-semibold text-white sm:gap-2 md:flex md:rounded-md md:px-4.5 md:py-2.5"
-                    onClick={() => unsubcribe(lecture)}
-                >
-                    <span>Cancelar</span>
-                    <CircleX className="size-5.5" />
-                </button>
+                {/* Buttons on Desktop */}
+                {lecture.lecture_attendances.showed_up ? (
+                    <a
+                        href={`/certificate/${lecture.lecture_attendances.id}`}
+                        className="text-md hidden h-fit cursor-pointer items-center gap-3 rounded-sm bg-blue-500 p-2 font-semibold text-white sm:gap-2 md:flex md:rounded-md md:px-4.5 md:py-2.5"
+                    >
+                        <span>Certificado</span>
+                        <FileText className="size-5.5" />
+                    </a>
+                ) : (
+                    <button
+                        className="text-md hidden h-fit cursor-pointer items-center gap-3 rounded-sm bg-red-600 p-2 font-semibold text-white sm:gap-2 md:flex md:rounded-md md:px-4.5 md:py-2.5"
+                        onClick={() => unsubcribe(lecture)}
+                    >
+                        <span>Cancelar</span>
+                        <CircleX className="size-5.5" />
+                    </button>
+                )}
             </div>
 
             <div className="w-full bg-yellow-400"></div>
