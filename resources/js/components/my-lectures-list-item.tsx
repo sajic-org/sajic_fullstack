@@ -20,7 +20,9 @@ function MyLecturesListItem({ lecture }: { lecture: Lecture }) {
                             <p className="text-sm">
                                 {lecture.date}, {lecture.starts} - {lecture.ends}
                             </p>
-                            {lecture.lecture_attendances.showed_up ?(
+                            
+                            {/* Buttons on Mobile */}
+                            {lecture.lecture_attendances.showed_up ? (
                                 <a
                                     href={`/certificate/${lecture.lecture_attendances.id}`}
                                     className="ml-auto flex h-fit cursor-pointer items-center gap-3 rounded-sm bg-blue-500 p-2 text-sm font-semibold text-white sm:gap-2 md:hidden md:rounded-md md:px-4.5 md:py-2.5"
@@ -28,36 +30,37 @@ function MyLecturesListItem({ lecture }: { lecture: Lecture }) {
                                     <span>Certificado</span>
                                     <FileText className="size-5.5" />
                                 </a>
-                            ):
+                            ) : (
                                 <button
-                                className="ml-auto flex h-fit cursor-pointer items-center gap-3 rounded-sm bg-red-600 p-2 text-sm font-semibold text-white sm:gap-2 md:hidden md:rounded-md md:px-4.5 md:py-2.5"
-                                onClick={() => unsubcribe(lecture)}
+                                    className="ml-auto flex h-fit cursor-pointer items-center gap-3 rounded-sm bg-red-600 p-2 text-sm font-semibold text-white sm:gap-2 md:hidden md:rounded-md md:px-4.5 md:py-2.5"
+                                    onClick={() => unsubcribe(lecture)}
                                 >
                                     <span>Cancelar</span>
                                     <CircleX className="size-5.5" />
                                 </button>
-                            }
+                            )}
                         </div>
                     </div>
                 </div>
 
-                {lecture.lecture_attendances.showed_up ?(
-                        <a
-                            href={`/certificate/${lecture.lecture_attendances.id}`}
-                            className="text-md hidden h-fit cursor-pointer items-center gap-3 rounded-sm bg-blue-500 p-2 font-semibold text-white sm:gap-2 md:flex md:rounded-md md:px-4.5 md:py-2.5"
-                        >
-                            <span>Certificado</span>
-                            <FileText className="size-5.5"/>
-                        </a>
-                ): 
-                   <button
-                    className="text-md hidden h-fit cursor-pointer items-center gap-3 rounded-sm bg-red-600 p-2 font-semibold text-white sm:gap-2 md:flex md:rounded-md md:px-4.5 md:py-2.5"
-                    onClick={() => unsubcribe(lecture)}
+                {/* Buttons on Desktop */}
+                {lecture.lecture_attendances.showed_up ? (
+                    <a
+                        href={`/certificate/${lecture.lecture_attendances.id}`}
+                        className="text-md hidden h-fit cursor-pointer items-center gap-3 rounded-sm bg-blue-500 p-2 font-semibold text-white sm:gap-2 md:flex md:rounded-md md:px-4.5 md:py-2.5"
+                    >
+                        <span>Certificado</span>
+                        <FileText className="size-5.5" />
+                    </a>
+                ) : (
+                    <button
+                        className="text-md hidden h-fit cursor-pointer items-center gap-3 rounded-sm bg-red-600 p-2 font-semibold text-white sm:gap-2 md:flex md:rounded-md md:px-4.5 md:py-2.5"
+                        onClick={() => unsubcribe(lecture)}
                     >
                         <span>Cancelar</span>
                         <CircleX className="size-5.5" />
-                    </button> 
-                }
+                    </button>
+                )}
             </div>
 
             <div className="w-full bg-yellow-400"></div>
