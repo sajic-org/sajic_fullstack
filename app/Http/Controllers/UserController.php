@@ -21,9 +21,9 @@ class UserController extends Controller
             ->select(
                 'users.name',
                 'lectures.date',
-                DB::raw('count(lectures.id) as lecture_count')
+                'users.course',
+                'users.semester',
             )
-            ->groupBy('users.name', 'lectures.date')
             ->orderBy('users.name', 'desc')
             ->get();
 

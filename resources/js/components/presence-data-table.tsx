@@ -31,10 +31,11 @@ function PresenceDataTable({ table }: DataTableProps) {
                 </TableHeader>
                 <TableBody>
                     {table.getRowModel().rows?.length ? (
-                        table.getRowModel().rows.map((row) => (
+                        table.getRowModel().rows.map((row, i) => (
                             <TableRow
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
+                                className={`${i % 2 == 0 && 'bg-primary-blue/15 hover:bg-primary-blue/25'}`}
                             >
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell key={cell.id}>
@@ -45,7 +46,7 @@ function PresenceDataTable({ table }: DataTableProps) {
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={3} className="h-24 text-center">
+                            <TableCell colSpan={5} className="h-24 text-center">
                                 Nenhum aluno encontrado :(
                             </TableCell>
                         </TableRow>

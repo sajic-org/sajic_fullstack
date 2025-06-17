@@ -5,17 +5,22 @@ const columnHelper = createColumnHelper<LecturePresence>()
 
 export const presenceColumns = [
     columnHelper.accessor("name", {
-        header: () => <div className="md:pl-5">Nome do Aluno</div>,
-        cell: row => <div className="md:pl-8">{row.getValue()}</div>,
+        header: () => <div className="">Nome do Aluno</div>,
+        cell: row => <div className="">{row.getValue()}</div>,
     }),
 
     columnHelper.accessor("date", {
-        header: () => <div className="text-center">Data</div>,
-        cell: row => <div className="text-center">{row.getValue()}</div>,
+        header: () => <div className="">Data</div>,
+        cell: row => <div className="">{row.getValue()}</div>,
     }),
 
-    columnHelper.accessor("lecture_count", {
-        header: () => <div className="text-right md:pr-5">Palestras Assistidas</div>,
-        cell: row => <div className="text-right md:pr-8">{row.getValue()}</div>,
-    })
+    columnHelper.accessor("course", {
+        header: () => <div className="text-right">Curso</div>,
+        cell: row => <div className="text-right pr-1.5">{row.getValue()}</div>,
+    }),
+
+    columnHelper.accessor("semester", {
+        header: () => <div className="text-center">Semestre</div>,
+        cell: row => <div className="text-center">{row.getValue()}</div>,
+    }),
 ]

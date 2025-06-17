@@ -60,5 +60,6 @@ export interface LectureAttendances {
 export interface LecturePresence {
     name: string;
     date: string;
-    lecture_count: number;
+    course: string;
+    semester: string;
 }
