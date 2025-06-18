@@ -47,11 +47,11 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
         >
             <div className="flex items-start justify-between transition duration-200 group-hover/bento:translate-x-2">
                 <SpeakerDialog speaker={lecture.speaker}>
-                    <div className="relative overflow-hidden rounded-xl">
+                    <>
                         <img
                             src={lecture.speaker?.image || "/placeholder.svg"}
                             alt={lecture.speaker?.name}
-                            className="aspect-square w-40 max-w-2/5 cursor-pointer object-cover sm:max-w-28 transition duration-200 hover:brightness-75"
+                            className="aspect-square w-40 max-w-2/5 cursor-pointer rounded-xl object-cover sm:max-w-28 transition duration-200 hover:brightness-75"
                         />
                         {/* O nome do palestrante é enviado para baixo */}
                         {portalElement && createPortal(
@@ -61,7 +61,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                             </span>,
                             portalElement
                         )}
-                    </div>
+                    </>
                 </SpeakerDialog>
 
                 <div className="flex flex-col items-end gap-1">
