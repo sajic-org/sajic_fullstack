@@ -1,9 +1,11 @@
 import { cn, unsubcribe } from '@/lib/utils';
 import { Lecture, User } from '@/types/models';
 import { Link } from '@inertiajs/react';
-import { CircleOff, CircleX, GraduationCap, ListChecks, SquarePen } from 'lucide-react';
+import { ArrowUpRight, ChevronRight, CircleOff, CircleX, ExternalLink, GraduationCap, ListChecks, SquarePen } from 'lucide-react';
 import ParticipateDialog from './participate-dialog';
 import SpeakerDialog from './speaker-drawer';
+import { createPortal } from 'react-dom';
+import { useEffect, useState } from 'react';
 
 export const LecturesGrid = ({ className, children }: { className?: string; children?: React.ReactNode }) => {
     return <div className={cn('mx-auto my-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:max-w-7xl lg:grid-cols-3', className)}>{children}</div>;
@@ -29,6 +31,13 @@ export function ButtonBasedOnAvailability({ isFull, lecture, user }: { isFull: b
 }
 
 export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user?: User }) => {
+    const [portalElement, setPortalElement] = useState<HTMLElement | null>(null);
+
+    useEffect(() => {
+        const container = document.getElementById(lecture.id.toString());
+        setPortalElement(container)
+    }, [])
+
     return (
         <div
             className={cn(
@@ -38,11 +47,21 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
         >
             <div className="flex items-start justify-between transition duration-200 group-hover/bento:translate-x-2">
                 <SpeakerDialog speaker={lecture.speaker}>
-                    <img
-                        src={lecture.speaker?.image}
-                        alt={lecture.speaker?.name}
-                        className="aspect-square w-40 max-w-2/5 cursor-pointer rounded-xl object-cover sm:max-w-28"
-                    />
+                    <div className="relative overflow-hidden rounded-xl">
+                        <img
+                            src={lecture.speaker?.image || "/placeholder.svg"}
+                            alt={lecture.speaker?.name}
+                            className="aspect-square w-40 max-w-2/5 cursor-pointer object-cover sm:max-w-28 transition duration-200 hover:brightness-75"
+                        />
+                        {/* O nome do palestrante é enviado para baixo */}
+                        {portalElement && createPortal(
+                            <span>
+                                {lecture.speaker?.name}
+                                <ExternalLink className='inline align-text-top' size={14} strokeWidth={2} color="#6087FB" />
+                            </span>,
+                            portalElement
+                        )}
+                    </div>
                 </SpeakerDialog>
 
                 <div className="flex flex-col items-end gap-1">
@@ -91,7 +110,14 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                 <div className="mt-2 mb-auto text-lg font-bold">{lecture.title}</div>
                 <div>
                     <div className="font-normal">
-                        com <span className="text-primary-blue font-medium capitalize">{lecture.speaker?.name}</span>
+                        com <span
+                            id={lecture.id.toString()}
+                            className="text-primary-blue font-medium capitalize cursor-pointer hover:underline">
+                            {/*
+                            O nome do palestrante tá vindo do portal dentro do trigger do speakerdialog...
+                            nesse arquivo, aqui em cima
+                            */}
+                        </span>
                     </div>
                     <div className="flex items-center justify-between">
                         <span>Sala {lecture.room_number}</span>
