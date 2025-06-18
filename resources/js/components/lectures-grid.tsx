@@ -33,10 +33,12 @@ export function ButtonBasedOnAvailability({ isFull, lecture, user }: { isFull: b
 export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user?: User }) => {
     const [portalElement, setPortalElement] = useState<HTMLElement | null>(null);
 
+    //Precisa ter useEffect pq o elemento que abre o dialog renderiza antes doq
+    //o div onde fica o nome do palestrante (e tem o ID)
     useEffect(() => {
         const container = document.getElementById(lecture.id.toString());
         setPortalElement(container)
-    }, [])
+    }, [lecture.id])
 
     return (
         <div
@@ -47,11 +49,11 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
         >
             <div className="flex items-start justify-between transition duration-200 group-hover/bento:translate-x-2">
                 <SpeakerDialog speaker={lecture.speaker}>
-                    <>
+                    <div>
                         <img
                             src={lecture.speaker?.image || "/placeholder.svg"}
                             alt={lecture.speaker?.name}
-                            className="aspect-square w-40 max-w-2/5 cursor-pointer rounded-xl object-cover sm:max-w-28 transition duration-200 hover:brightness-75"
+                            className="aspect-square w-40 cursor-pointer rounded-xl object-cover max-w-28 transition duration-200 hover:brightness-75"
                         />
                         {/* O nome do palestrante é enviado para baixo */}
                         {portalElement && createPortal(
@@ -61,7 +63,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                             </span>,
                             portalElement
                         )}
-                    </>
+                    </div>
                 </SpeakerDialog>
 
                 <div className="flex flex-col items-end gap-1">
