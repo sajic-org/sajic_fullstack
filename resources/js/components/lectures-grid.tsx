@@ -1,11 +1,11 @@
 import { cn, unsubcribe } from '@/lib/utils';
 import { Lecture, User } from '@/types/models';
 import { Link } from '@inertiajs/react';
-import { ArrowUpRight, ChevronRight, CircleOff, CircleX, ExternalLink, GraduationCap, ListChecks, SquarePen } from 'lucide-react';
+import { ArrowUpRight, CircleOff, CircleX, GraduationCap, ListChecks, SquarePen } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import ParticipateDialog from './participate-dialog';
 import SpeakerDialog from './speaker-drawer';
-import { createPortal } from 'react-dom';
-import { useEffect, useState } from 'react';
 
 export const LecturesGrid = ({ className, children }: { className?: string; children?: React.ReactNode }) => {
     return <div className={cn('mx-auto my-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:max-w-7xl lg:grid-cols-3', className)}>{children}</div>;
@@ -37,8 +37,8 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
     //o div onde fica o nome do palestrante (e tem o ID)
     useEffect(() => {
         const container = document.getElementById(lecture.id.toString());
-        setPortalElement(container)
-    }, [lecture.id])
+        setPortalElement(container);
+    }, [lecture.id]);
 
     return (
         <div
@@ -49,37 +49,30 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
         >
             <div className="flex items-start justify-between transition duration-200 group-hover/bento:translate-x-2">
                 <SpeakerDialog speaker={lecture.speaker}>
-                    <div className="relative overflow-hidden rounded-xl w-32 h-32">
+                    <div className="relative h-32 w-32 overflow-hidden rounded-xl">
                         <img
                             src={lecture.speaker?.image}
                             alt={lecture.speaker?.name}
-                                className="w-full h-full object-cover cursor-pointer transition duration-400 ease-in-out hover:brightness-60"
+                            className="h-full w-full cursor-pointer object-cover transition duration-400 ease-in-out hover:brightness-60"
                         />
                         <div
-                            className="absolute inset-0 rounded-xl pointer-events-none"
+                            className="pointer-events-none absolute inset-0 rounded-xl"
                             style={{
-                                background:
-                                    "linear-gradient(135deg, transparent 60%, rgba(255,255,255,0.1) 70%, rgba(0,0,0,0.4) 100%)",
-                                boxShadow: "inset -20px -20px 20px rgba(0,0,0,0.2)",
+                                background: 'linear-gradient(135deg, transparent 60%, rgba(255,255,255,0.1) 70%, rgba(0,0,0,0.4) 100%)',
+                                boxShadow: 'inset -20px -20px 20px rgba(0,0,0,0.2)',
                             }}
                         >
                             <div
-                                className="absolute bottom-1.5 right-1.5 w-6 h-6 rounded-full flex items-center justify-center"
-                                style={{ background: "rgba(255,255,255,0.2)", backdropFilter: "blur(8px)" }}
+                                className="absolute right-1.5 bottom-1.5 flex h-6 w-6 items-center justify-center rounded-full"
+                                style={{ background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)' }}
                             >
                                 <ArrowUpRight size={14} strokeWidth={2} color="#FFFFFF" />
                             </div>
                         </div>
 
                         {/* O nome do palestrante é enviado para baixo */}
-                        {portalElement && createPortal(
-                            <span>
-                                {lecture.speaker?.name}
-                            </span>,
-                            portalElement
-                        )}
+                        {portalElement && createPortal(<span>{lecture.speaker?.name}</span>, portalElement)}
                     </div>
-
                 </SpeakerDialog>
 
                 <div className="flex flex-col items-end gap-1">
@@ -128,9 +121,8 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                 <div className="mt-2 mb-auto text-lg font-bold">{lecture.title}</div>
                 <div>
                     <div className="font-normal">
-                        com <span
-                            id={lecture.id.toString()}
-                            className="text-primary-blue font-medium capitalize cursor-pointer hover:underline">
+                        com{' '}
+                        <span id={lecture.id.toString()} className="text-primary-blue cursor-pointer font-medium capitalize hover:underline">
                             {/*
                             O nome do palestrante tá vindo do portal dentro do trigger do speakerdialog...
                             nesse arquivo, aqui em cima
