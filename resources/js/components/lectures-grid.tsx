@@ -49,21 +49,37 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
         >
             <div className="flex items-start justify-between transition duration-200 group-hover/bento:translate-x-2">
                 <SpeakerDialog speaker={lecture.speaker}>
-                    <div>
+                    <div className="relative overflow-hidden rounded-xl w-32 h-32">
                         <img
-                            src={lecture.speaker?.image || "/placeholder.svg"}
+                            src={lecture.speaker?.image}
                             alt={lecture.speaker?.name}
-                            className="aspect-square w-40 cursor-pointer rounded-xl object-cover max-w-28 transition duration-200 hover:brightness-75"
+                                className="w-full h-full object-cover cursor-pointer transition duration-400 ease-in-out hover:brightness-60"
                         />
+                        <div
+                            className="absolute inset-0 rounded-xl pointer-events-none"
+                            style={{
+                                background:
+                                    "linear-gradient(135deg, transparent 60%, rgba(255,255,255,0.1) 70%, rgba(0,0,0,0.4) 100%)",
+                                boxShadow: "inset -20px -20px 20px rgba(0,0,0,0.2)",
+                            }}
+                        >
+                            <div
+                                className="absolute bottom-1.5 right-1.5 w-6 h-6 rounded-full flex items-center justify-center"
+                                style={{ background: "rgba(255,255,255,0.2)", backdropFilter: "blur(8px)" }}
+                            >
+                                <ArrowUpRight size={14} strokeWidth={2} color="#FFFFFF" />
+                            </div>
+                        </div>
+
                         {/* O nome do palestrante é enviado para baixo */}
                         {portalElement && createPortal(
                             <span>
                                 {lecture.speaker?.name}
-                                <ExternalLink className='inline align-text-top' size={14} strokeWidth={2} color="#6087FB" />
                             </span>,
                             portalElement
                         )}
                     </div>
+
                 </SpeakerDialog>
 
                 <div className="flex flex-col items-end gap-1">
