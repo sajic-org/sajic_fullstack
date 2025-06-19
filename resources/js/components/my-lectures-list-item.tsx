@@ -20,9 +20,9 @@ function MyLecturesListItem({ lecture }: { lecture: Lecture }) {
                             <p className="text-sm">
                                 {lecture.date}, {lecture.starts} - {lecture.ends}
                             </p>
-                            
+
                             {/* Buttons on Mobile */}
-                            {lecture.lecture_attendances.showed_up ? (
+                            {lecture.lecture_attendances?.showed_up ? (
                                 <a
                                     href={`/certificate/${lecture.lecture_attendances.id}`}
                                     className="ml-auto flex h-fit cursor-pointer items-center gap-3 rounded-sm bg-blue-500 p-2 text-sm font-semibold text-white sm:gap-2 md:hidden md:rounded-md md:px-4.5 md:py-2.5"
@@ -44,7 +44,7 @@ function MyLecturesListItem({ lecture }: { lecture: Lecture }) {
                 </div>
 
                 {/* Buttons on Desktop */}
-                {lecture.lecture_attendances.showed_up ? (
+                {lecture.lecture_attendances?.showed_up ? (
                     <a
                         href={`/certificate/${lecture.lecture_attendances.id}`}
                         className="text-md hidden h-fit cursor-pointer items-center gap-3 rounded-sm bg-blue-500 p-2 font-semibold text-white sm:gap-2 md:flex md:rounded-md md:px-4.5 md:py-2.5"
