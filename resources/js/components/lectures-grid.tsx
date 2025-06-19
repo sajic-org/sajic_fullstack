@@ -1,20 +1,11 @@
 import { cn } from '@/lib/utils';
 import { Lecture, User } from '@/types/models';
-<<<<<<< HEAD
 import { ArrowUpRight } from 'lucide-react';
 import SpeakerDialog from './speaker-drawer';
 import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
 import AdminButtons from './admin-buttons';
 import ButtonBasedOnAvailability from './buttons-based-on-availability';
-=======
-import { Link } from '@inertiajs/react';
-import { ArrowUpRight, CircleOff, CircleX, GraduationCap, ListChecks, SquarePen } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
-import ParticipateDialog from './participate-dialog';
-import SpeakerDialog from './speaker-drawer';
->>>>>>> ab66b68a4ec7ec31f163052fffc6de4ff3af2d16
 
 export const LecturesGrid = ({ className, children }: { className?: string; children?: React.ReactNode }) => {
     return <div className={cn('mx-auto my-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:max-w-7xl lg:grid-cols-3', className)}>{children}</div>;
