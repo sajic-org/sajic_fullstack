@@ -31,10 +31,10 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
         if (!isFull || lecture.is_open_for_enrollment) {
             return (
                 <ParticipateDialog lecture={lecture} user={user}>
-                    <Button className={`${buttonBaseClass} bg-primary-blue hover:bg-primary-blue hover:brightness-85`}>
+                    <a className={`${buttonBaseClass} text-white bg-primary-blue hover:bg-primary-blue hover:brightness-85`}>
                         Participar
                         <GraduationCap className="size-5.5" />
-                    </Button>
+                    </a>
                 </ParticipateDialog>
             );
         } else {
