@@ -1,8 +1,9 @@
 import { Lecture, User } from "@/types/models";
-import { Check, CircleOff, CircleX, FileText, GraduationCap, Link } from "lucide-react";
+import { CircleOff, CircleX, FileText, GraduationCap } from "lucide-react";
 import ParticipateDialog from "./participate-dialog";
 import { Button } from "./ui/button";
 import { unsubcribe } from "@/lib/utils";
+import { Link } from "@inertiajs/react"
 
 interface Props {
     isFull: boolean;
