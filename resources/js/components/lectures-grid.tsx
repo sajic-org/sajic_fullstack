@@ -1,34 +1,15 @@
-import { cn, unsubcribe } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { Lecture, User } from '@/types/models';
-import { Link } from '@inertiajs/react';
-import { ArrowUpRight, ChevronRight, CircleOff, CircleX, ExternalLink, GraduationCap, ListChecks, SquarePen } from 'lucide-react';
-import ParticipateDialog from './participate-dialog';
+import { ArrowUpRight } from 'lucide-react';
 import SpeakerDialog from './speaker-drawer';
 import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
+import AdminButtons from './admin-buttons';
+import ButtonBasedOnAvailability from './buttons-based-on-availability';
 
 export const LecturesGrid = ({ className, children }: { className?: string; children?: React.ReactNode }) => {
     return <div className={cn('mx-auto my-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:max-w-7xl lg:grid-cols-3', className)}>{children}</div>;
 };
-
-export function ButtonBasedOnAvailability({ isFull, lecture, user }: { isFull: boolean; lecture: Lecture; user: User }) {
-    return (
-        <>
-            {!isFull || lecture.is_open_for_enrollment ? (
-                <ParticipateDialog lecture={lecture} user={user}>
-                    <button className="bg-primary-blue flex cursor-pointer items-center gap-3 rounded-md px-4 py-2.5 font-medium text-white sm:gap-2">
-                        Participar
-                        <GraduationCap className="size-5.5" />
-                    </button>
-                </ParticipateDialog>
-            ) : (
-                <button className="text-light-text mb-1 flex cursor-pointer items-center rounded-md bg-gray-300 px-4 py-2.5 font-medium sm:gap-2">
-                    Esgotado <CircleOff className="size-5" />
-                </button>
-            )}
-        </>
-    );
-}
 
 export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user?: User }) => {
     const [portalElement, setPortalElement] = useState<HTMLElement | null>(null);
@@ -53,7 +34,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                         <img
                             src={lecture.speaker?.image}
                             alt={lecture.speaker?.name}
-                                className="w-full h-full object-cover cursor-pointer transition duration-400 ease-in-out hover:brightness-60"
+                            className="w-full h-full object-cover cursor-pointer transition duration-400 ease-in-out hover:brightness-60"
                         />
                         <div
                             className="absolute inset-0 rounded-xl pointer-events-none"
@@ -83,45 +64,15 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                 </SpeakerDialog>
 
                 <div className="flex flex-col items-end gap-1">
-                    {user && user.lectures.some((userLecture: Lecture) => userLecture.id === lecture.id) ? (
-                        <button
-                            className="text-md flex cursor-pointer items-center gap-3 rounded-md bg-red-600 px-4.5 py-2.5 font-semibold text-white sm:gap-2"
-                            onClick={() => unsubcribe(lecture)}
-                        >
-                            Cancelar
-                            <CircleX className="size-5.5" />
-                        </button>
-                    ) : (
-                        user && <ButtonBasedOnAvailability isFull={lecture.n_attendees >= lecture.room?.capacity} lecture={lecture} user={user} />
-                    )}
+                    <ButtonBasedOnAvailability
+                        isFull={lecture.n_attendees! >= lecture.room!.capacity}
+                        lecture={lecture}
+                        user={user}
+                    />
 
-                    {user?.is_admin ? (
-                        <div className="flex gap-1">
-                            <Link href={route('lectures.edit', { lecture: lecture })}>
-                                <button className="size-10 cursor-pointer rounded-md bg-orange-400 text-white">
-                                    <SquarePen className="m-auto size-5" />
-                                </button>
-                            </Link>
 
-                            <Link href={route('lectures.attendant_table', { lecture: lecture })}>
-                                <button className="size-10 cursor-pointer rounded-md bg-orange-400 text-white">
-                                    <ListChecks className="m-auto size-5.5" />
-                                </button>
-                            </Link>
-                        </div>
-                    ) : (
-                        ''
-                    )}
+                    {user?.is_admin && <AdminButtons lecture={lecture} />}
                 </div>
-
-                {!user && (
-                    <Link href={route('login')}>
-                        <button className="bg-primary-blue flex cursor-pointer items-center gap-3 rounded-md px-4 py-2.5 font-medium text-white shadow-md sm:gap-2">
-                            Participar
-                            <GraduationCap className="size-5.5" />
-                        </button>
-                    </Link>
-                )}
             </div>
 
             <div className="flex h-full flex-col justify-between transition duration-200 group-hover/bento:translate-x-2 dark:text-neutral-200">

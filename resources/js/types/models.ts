@@ -18,6 +18,7 @@ export interface Lecture {
     speaker?: Speaker;
     room?: Room;
     attendants?: User[];
+    lecture_attendances?: LectureAttendances; // Lecture and User pivot table
 }
 
 export interface Speaker {
@@ -52,6 +53,7 @@ export interface User {
 }
 
 export interface LectureAttendances {
+    id: string;
     lecture_id: number;
     user_id: number;
     showed_up: boolean | number; // This is actually a boolean tinyInt
