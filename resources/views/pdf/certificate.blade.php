@@ -29,7 +29,7 @@
         </style>
     </head>
     <body>
-        <img class="logo" src="/public/assets/logo_preto_com_bg_branco.jpg" alt="Logo da SAJIC"/>
+        <img class="logo" src="/public/assets/logo_preto_com_bg_branco.png" alt="Logo da SAJIC"/>
         <h1 class="title">Declaração de participação</h1>
         <p class="description">
             Declaramos para os devidos fins que o aluno <strong>{{ $name }}</strong>,
