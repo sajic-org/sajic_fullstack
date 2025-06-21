@@ -35,9 +35,9 @@ function Footer() {
                                     img="https://avatars.githubusercontent.com/u/144689188?s=96&v=4"
                                 />{' '}
                                 <DevCard
-                                    name="Marcelo Oscarberry"
-                                    link="https://github.com/Marce1in"
-                                    img="https://avatars.githubusercontent.com/u/98642728?v=4"
+                                    name="Lorenzo Gonçalves"
+                                    link="https://github.com/RenGDev"
+                                    img="https://avatars.githubusercontent.com/u/203111383?v=4"
                                 />{' '}
                             </ul>
                         </div>
