@@ -50,8 +50,8 @@ function generateTimelineDays(lecturesByDay: LecturesByDay) {
 
     const TimelineDays = Object.keys(lecturesByDay).map((day) => {
         const TimelineDay = Object.entries(lecturesByDay[day]).map(([period, lectures]) => {
-            if (lectures.length == 0){
-                return
+            if (lectures.length == 0) {
+                return;
             }
 
             const TimelinePeriod = (

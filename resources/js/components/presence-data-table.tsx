@@ -1,13 +1,12 @@
-import { LecturePresence } from "@/types/models";
-import { Table as T, flexRender, } from "@tanstack/react-table";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
+import { LecturePresence } from '@/types/models';
+import { Table as T, flexRender } from '@tanstack/react-table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
 
 interface DataTableProps {
-    table: T<LecturePresence>
+    table: T<LecturePresence>;
 }
 
 function PresenceDataTable({ table }: DataTableProps) {
-
     return (
         <div className="rounded-md border">
             <Table>
@@ -17,14 +16,9 @@ function PresenceDataTable({ table }: DataTableProps) {
                             {headerGroup.headers.map((header) => {
                                 return (
                                     <TableHead key={header.id}>
-                                        {header.isPlaceholder
-                                            ? null
-                                            : flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
+                                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                                     </TableHead>
-                                )
+                                );
                             })}
                         </TableRow>
                     ))}
@@ -34,13 +28,11 @@ function PresenceDataTable({ table }: DataTableProps) {
                         table.getRowModel().rows.map((row, i) => (
                             <TableRow
                                 key={row.id}
-                                data-state={row.getIsSelected() && "selected"}
+                                data-state={row.getIsSelected() && 'selected'}
                                 className={`${i % 2 == 0 && 'bg-primary-blue/15 hover:bg-primary-blue/25'}`}
                             >
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id}>
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </TableCell>
+                                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                                 ))}
                             </TableRow>
                         ))
@@ -54,7 +46,7 @@ function PresenceDataTable({ table }: DataTableProps) {
                 </TableBody>
             </Table>
         </div>
-    )
+    );
 }
 
-export default PresenceDataTable
+export default PresenceDataTable;

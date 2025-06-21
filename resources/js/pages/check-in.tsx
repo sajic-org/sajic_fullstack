@@ -5,12 +5,12 @@ import AppLayout from '@/layouts/app-layout';
 
 import { Head, InertiaFormProps, router, useForm, usePage } from '@inertiajs/react';
 
-import { CheckInColumnsType, ShowedUpType } from '@/lib/check-in-columns-factory';
+import { CheckInColumnsType } from '@/lib/check-in-columns-factory';
 import { SharedData, type BreadcrumbItem } from '@/types';
 import { Lecture } from '@/types/models';
 
-import { toast } from 'sonner';
 import checkInColumns from '@/lib/check-in-columns-factory';
+import { toast } from 'sonner';
 
 type checkInFormType = {
     checkedUsersIds: string[];
@@ -112,7 +112,7 @@ function generateColumnsData(lecture: Lecture) {
 
     const columnData: CheckInColumnsType[] = [];
 
-    for (let user of lecture.attendants) {
+    for (const user of lecture.attendants) {
         if (!user.lecture_attendances) {
             return [];
         }

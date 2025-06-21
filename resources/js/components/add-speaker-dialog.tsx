@@ -76,19 +76,13 @@ function AddSpeakerDialog({
                                 Foto
                             </Label>
 
-                            <div className="relative col-span-3 m-auto mt-4 flex aspect-square w-1/2 flex-col justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 shadow-sm transition-all hover:border-gray-400 hover:bg-gray-100 overflow-hidden">
+                            <div className="relative col-span-3 m-auto mt-4 flex aspect-square w-1/2 flex-col justify-center overflow-hidden rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 shadow-sm transition-all hover:border-gray-400 hover:bg-gray-100">
                                 {data.image ? (
-                                    <img
-                                        src={URL.createObjectURL(data.image)}
-                                        alt="Preview"
-                                        className="h-full w-full object-cover rounded-lg"
-                                    />
+                                    <img src={URL.createObjectURL(data.image)} alt="Preview" className="h-full w-full rounded-lg object-cover" />
                                 ) : (
                                     <>
                                         <UploadIcon className="m-auto h-8 w-8 text-gray-400" />
-                                        <p className="mt-2 text-center text-sm text-gray-500">
-                                            Clique para selecionar uma imagem
-                                        </p>
+                                        <p className="mt-2 text-center text-sm text-gray-500">Clique para selecionar uma imagem</p>
                                     </>
                                 )}
                                 <input

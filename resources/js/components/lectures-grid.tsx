@@ -1,11 +1,11 @@
 import { cn } from '@/lib/utils';
 import { Lecture, User } from '@/types/models';
 import { ArrowUpRight } from 'lucide-react';
-import SpeakerDialog from './speaker-drawer';
-import { createPortal } from 'react-dom';
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import AdminButtons from './admin-buttons';
 import ButtonBasedOnAvailability from './buttons-based-on-availability';
+import SpeakerDialog from './speaker-drawer';
 
 export const LecturesGrid = ({ className, children }: { className?: string; children?: React.ReactNode }) => {
     return <div className={cn('mx-auto my-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:max-w-7xl lg:grid-cols-3', className)}>{children}</div>;
@@ -34,7 +34,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                         <img
                             src={lecture.speaker?.image}
                             alt={lecture.speaker?.name}
-                            className="w-full h-full object-cover cursor-pointer transition duration-400 ease-in-out hover:brightness-60"
+                            className="h-full w-full cursor-pointer object-cover transition duration-400 ease-in-out hover:brightness-60"
                         />
                         <div
                             className="pointer-events-none absolute inset-0 rounded-xl"
@@ -57,12 +57,7 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                 </SpeakerDialog>
 
                 <div className="flex flex-col items-end gap-1">
-                    <ButtonBasedOnAvailability
-                        isFull={lecture.n_attendees! >= lecture.room!.capacity}
-                        lecture={lecture}
-                        user={user}
-                    />
-
+                    <ButtonBasedOnAvailability isFull={lecture.n_attendees! >= lecture.room!.capacity} lecture={lecture} user={user} />
 
                     {user?.is_admin && <AdminButtons lecture={lecture} />}
                 </div>

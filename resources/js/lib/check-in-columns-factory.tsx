@@ -1,5 +1,5 @@
 import { Checkbox } from '@/components/ui/checkbox';
-import { createColumnHelper, Row } from '@tanstack/react-table';
+import { createColumnHelper } from '@tanstack/react-table';
 import { useEffect } from 'react';
 
 export type ShowedUpType = {
@@ -31,9 +31,9 @@ const checkInColumns = [
         cell: ({ row }) => {
             useEffect(() => {
                 if (row.original.showed_up.presence) {
-                    row.toggleSelected()
+                    row.toggleSelected();
                 }
-            }, [])
+            }, []);
 
             return (
                 <div className="mr-7 flex justify-end md:mr-6 md:pr-[50%]">
@@ -42,7 +42,7 @@ const checkInColumns = [
                         checked={row.getIsSelected()}
                         onCheckedChange={row.getToggleSelectedHandler()}
                         disabled={row.original.showed_up.presence}
-                        className="data-[state=checked]:text-foreground data-[state=checked]:bg-green-300/85 h-5 w-5 border-black "
+                        className="data-[state=checked]:text-foreground h-5 w-5 border-black data-[state=checked]:bg-green-300/85"
                     />
                 </div>
             );

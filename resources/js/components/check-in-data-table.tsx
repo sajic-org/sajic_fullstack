@@ -1,22 +1,30 @@
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, RowSelectionState, useReactTable } from '@tanstack/react-table';
+import {
+    ColumnDef,
+    ColumnFiltersState,
+    flexRender,
+    getCoreRowModel,
+    getFilteredRowModel,
+    RowSelectionState,
+    useReactTable,
+} from '@tanstack/react-table';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { CheckInColumnsType } from '@/lib/check-in-columns-factory';
+import { checkInFormProps } from '@/pages/check-in';
 import { useEffect, useState } from 'react';
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { checkInFormProps } from '@/pages/check-in';
 
 interface DataTableProps {
     columns: ColumnDef<CheckInColumnsType, any>[];
     data: CheckInColumnsType[];
-    form: checkInFormProps
+    form: checkInFormProps;
 }
 
 function CheckInDataTable({ columns, data, form }: DataTableProps) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [filterColumn, setFilterColumn] = useState('name');
-    const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+    const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
     const table = useReactTable({
         data,
@@ -24,7 +32,7 @@ function CheckInDataTable({ columns, data, form }: DataTableProps) {
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
         getCoreRowModel: getCoreRowModel(),
-        getRowId: row => String(row.showed_up.userId),
+        getRowId: (row) => String(row.showed_up.userId),
         onRowSelectionChange: setRowSelection,
 
         state: {
@@ -34,10 +42,10 @@ function CheckInDataTable({ columns, data, form }: DataTableProps) {
     });
 
     useEffect(() => {
-        const ids = Object.keys(rowSelection)
+        const ids = Object.keys(rowSelection);
 
-        form.setData({ checkedUsersIds: ids })
-    }, [rowSelection])
+        form.setData({ checkedUsersIds: ids });
+    }, [rowSelection]);
 
     return (
         <div className="px-4 sm:px-6 md:max-w-7xl">
@@ -88,10 +96,7 @@ function CheckInDataTable({ columns, data, form }: DataTableProps) {
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && 'selected'}
-                                    className={
-                                        `${i % 2 == 0 && 'bg-primary-blue/15 hover:bg-primary-blue/25'}
-                                            data-[state=selected]:bg-green-100/50 data-[state=selected]:hover:bg-green-100
-                                            has-disabled:opacity-75 has-disabled:data-[state=selected]:bg-green-50/50`}
+                                    className={`${i % 2 == 0 && 'bg-primary-blue/15 hover:bg-primary-blue/25'} has-disabled:opacity-75 data-[state=selected]:bg-green-100/50 data-[state=selected]:hover:bg-green-100 has-disabled:data-[state=selected]:bg-green-50/50`}
                                 >
                                     {row.getVisibleCells().map((cell) => {
                                         const cellName = cell.column.id;

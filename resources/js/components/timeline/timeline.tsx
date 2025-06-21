@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 function Timeline({ children, section = 'white', date }: { children: ReactNode; section?: string; date: string }) {
-    let bgImage = section === 'blue' ? "bg-[url('/assets/timeline_blue_bg_plexus.webp')]" : "bg-[url('/assets/timeline_white_bg_plexus.webp')]";
+    const bgImage = section === 'blue' ? "bg-[url('/assets/timeline_blue_bg_plexus.webp')]" : "bg-[url('/assets/timeline_white_bg_plexus.webp')]";
 
     return (
         <div

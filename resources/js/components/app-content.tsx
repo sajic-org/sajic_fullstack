@@ -8,7 +8,7 @@ interface AppContentProps extends React.ComponentProps<'main'> {
 }
 
 export function AppContent({ variant = 'header', children, ...props }: AppContentProps) {
-    const { url } = usePage()
+    const { url } = usePage();
 
     if (variant === 'sidebar') {
         return <SidebarInset {...props}>{children}</SidebarInset>;
@@ -16,7 +16,10 @@ export function AppContent({ variant = 'header', children, ...props }: AppConten
 
     return (
         <>
-            <main className={`${url === '/' || url === '/detona-div' ? "" : 'max-w-7xl'} mx-auto flex h-full w-full flex-1 flex-col rounded-xl`} {...props}>
+            <main
+                className={`${url === '/' || url === '/detona-div' ? '' : 'max-w-7xl'} mx-auto flex h-full w-full flex-1 flex-col rounded-xl`}
+                {...props}
+            >
                 {children}
             </main>
             <Toaster />

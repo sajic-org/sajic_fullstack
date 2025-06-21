@@ -49,10 +49,10 @@ export default function Home({ lectures }: { lectures: Lecture[] }) {
 }
 
 function processLectures(lectures: Lecture[]) {
-    return lectures.map(lecture => ({
+    return lectures.map((lecture) => ({
         day: lecture.date,
         time: lecture.starts,
         name: lecture.title,
         speaker: lecture.speaker?.name,
-    }))
+    }));
 }

@@ -167,10 +167,10 @@ export default function Home() {
                     <div className="md:w-3/5 dark:text-white">
                         <h1 className="text-4xl font-semibold">Sajic 5ª Edição | outubro de 2025</h1>
                         <p className="mt-5 text-justify text-xl">
-                            A Semana Acadêmica do UniSenac é um evento que oferece uma série de atividades acadêmicas, culturais e profissionais, voltadas
-                            para o desenvolvimento de competências e a troca de conhecimentos entre alunos, professores e o público em geral. A
-                            programação inclui palestras, oficinas, debates e workshops sobre temas diversos, como tecnologia, inovação, diversidade,
-                            empreendedorismo, e tendências de mercado.
+                            A Semana Acadêmica do UniSenac é um evento que oferece uma série de atividades acadêmicas, culturais e profissionais,
+                            voltadas para o desenvolvimento de competências e a troca de conhecimentos entre alunos, professores e o público em geral.
+                            A programação inclui palestras, oficinas, debates e workshops sobre temas diversos, como tecnologia, inovação,
+                            diversidade, empreendedorismo, e tendências de mercado.
                         </p>
 
                         <Link

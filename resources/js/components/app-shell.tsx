@@ -12,11 +12,11 @@ export function AppShell({ children, variant = 'header' }: AppShellProps) {
 
     useEffect(() => {
         setIsOpen(localStorage.getItem('sidebar') !== 'false');
-        setHasMounted(true)
+        setHasMounted(true);
     }, []);
 
-    if (!hasMounted){
-        return null
+    if (!hasMounted) {
+        return null;
     }
 
     const handleSidebarChange = (open: boolean) => {

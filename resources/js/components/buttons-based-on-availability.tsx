@@ -1,9 +1,9 @@
-import { Lecture, User } from "@/types/models";
-import { CircleOff, CircleX, FileText, GraduationCap } from "lucide-react";
-import ParticipateDialog from "./participate-dialog";
-import { Button } from "./ui/button";
-import { unsubcribe } from "@/lib/utils";
-import { Link } from "@inertiajs/react"
+import { unsubcribe } from '@/lib/utils';
+import { Lecture, User } from '@/types/models';
+import { Link } from '@inertiajs/react';
+import { CircleOff, CircleX, FileText, GraduationCap } from 'lucide-react';
+import ParticipateDialog from './participate-dialog';
+import { Button } from './ui/button';
 
 interface Props {
     isFull: boolean;
@@ -12,12 +12,12 @@ interface Props {
 }
 
 function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
-    const buttonBaseClass = "h-10 w-36 flex cursor-pointer items-center justify-center gap-3 rounded-md font-semibold sm:gap-2";
+    const buttonBaseClass = 'h-10 w-36 flex cursor-pointer items-center justify-center gap-3 rounded-md font-semibold sm:gap-2';
 
     if (!user) {
         return (
             <Link href={route('login')}>
-                <Button className={`${buttonBaseClass} bg-primary-blue hover:bg-primary-blue hover:brightness-85 shadow-md`}>
+                <Button className={`${buttonBaseClass} bg-primary-blue hover:bg-primary-blue shadow-md hover:brightness-85`}>
                     Participar
                     <GraduationCap className="size-5.5" />
                 </Button>
@@ -25,13 +25,13 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
         );
     }
 
-    const userLecture = user.lectures.find(userLecture => lecture.id === userLecture.id);
+    const userLecture = user.lectures.find((userLecture) => lecture.id === userLecture.id);
 
     if (!userLecture) {
         if (!isFull || lecture.is_open_for_enrollment) {
             return (
                 <ParticipateDialog lecture={lecture} user={user}>
-                    <a className={`${buttonBaseClass} text-white bg-primary-blue hover:bg-primary-blue hover:brightness-85`}>
+                    <a className={`${buttonBaseClass} bg-primary-blue hover:bg-primary-blue text-white hover:brightness-85`}>
                         Participar
                         <GraduationCap className="size-5.5" />
                     </a>
@@ -39,7 +39,7 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
             );
         } else {
             return (
-                <Button disabled className={`${buttonBaseClass} bg-gray-300 text-light-text`}>
+                <Button disabled className={`${buttonBaseClass} text-light-text bg-gray-300`}>
                     Esgotado
                     <CircleOff className="size-5" />
                 </Button>
@@ -48,7 +48,7 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
     } else if (userLecture.lecture_attendances?.showed_up) {
         return (
             <a
-                className={`${buttonBaseClass} bg-green-600 hover:bg-green-600 hover:brightness-85 text-white`}
+                className={`${buttonBaseClass} bg-green-600 text-white hover:bg-green-600 hover:brightness-85`}
                 href={`/certificate/${userLecture.lecture_attendances.id}`}
             >
                 Certificado
@@ -57,10 +57,7 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
         );
     } else {
         return (
-            <Button
-                className={`${buttonBaseClass} bg-red-600 hover:bg-red-600 hover:brightness-85`}
-                onClick={() => unsubcribe(lecture)}
-            >
+            <Button className={`${buttonBaseClass} bg-red-600 hover:bg-red-600 hover:brightness-85`} onClick={() => unsubcribe(lecture)}>
                 Cancelar
                 <CircleX className="size-5.5" />
             </Button>
@@ -68,4 +65,4 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
     }
 }
 
-export default ButtonBasedOnAvailability
+export default ButtonBasedOnAvailability;
