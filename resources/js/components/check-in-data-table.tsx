@@ -1,5 +1,4 @@
 import {
-    ColumnDef,
     ColumnFiltersState,
     flexRender,
     getCoreRowModel,
@@ -9,19 +8,19 @@ import {
 } from '@tanstack/react-table';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { CheckInColumnsType } from '@/lib/check-in-columns-factory';
+import checkInColumns, { CheckInColumnsType } from '@/lib/check-in-columns-factory';
 import { checkInFormProps } from '@/pages/check-in';
 import { useEffect, useState } from 'react';
 import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 interface DataTableProps {
-    columns: ColumnDef<CheckInColumnsType, any>[];
+    columns: typeof checkInColumns;
     data: CheckInColumnsType[];
-    form: checkInFormProps;
+    setData: checkInFormProps["setData"]
 }
 
-function CheckInDataTable({ columns, data, form }: DataTableProps) {
+function CheckInDataTable({ columns, data, setData }: DataTableProps) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [filterColumn, setFilterColumn] = useState('name');
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -44,8 +43,8 @@ function CheckInDataTable({ columns, data, form }: DataTableProps) {
     useEffect(() => {
         const ids = Object.keys(rowSelection);
 
-        form.setData({ checkedUsersIds: ids });
-    }, [rowSelection]);
+        setData({ checkedUsersIds: ids });
+    }, [rowSelection, setData]);
 
     return (
         <div className="px-4 sm:px-6 md:max-w-7xl">

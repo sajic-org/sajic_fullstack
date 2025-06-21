@@ -100,7 +100,7 @@ function CheckIn({ lecture }: checkInPageProps) {
                 </div>
             </div>
 
-            <CheckInDataTable columns={checkInColumns} data={columnData} form={form} />
+            <CheckInDataTable columns={checkInColumns} data={columnData} setData={form.setData} />
         </AppLayout>
     );
 }

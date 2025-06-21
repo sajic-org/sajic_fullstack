@@ -19,17 +19,8 @@ import { SelectValue } from '@/components/ui/select';
 import { Speaker } from '@/types/models';
 import { FormEventHandler, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { LectureForm } from './new-lecture-form';
 
-export interface LectureForm {
-    speaker_id: number;
-    room_number: string;
-    title: string;
-    type: string;
-    date: string | Date;
-    starts: string;
-    ends: string;
-    [key: string]: any | unknown;
-}
 
 export interface Lecture extends LectureForm {
     id: number;
@@ -55,7 +46,7 @@ function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speak
     const currentSpeaker = speakers.find((speaker) => speaker.id === lecture.speaker_id);
     const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | undefined>(currentSpeaker);
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<LectureForm>({
+    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<Required<LectureForm>>({
         speaker_id: lecture.speaker_id,
         room_number: lecture.room_number,
         title: lecture.title,
@@ -63,6 +54,8 @@ function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speak
         date: lecture.date,
         starts: lecture.starts,
         ends: lecture.ends,
+
+        speaker: '',
     });
 
     useEffect(() => {

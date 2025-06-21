@@ -34,13 +34,13 @@ export default function Register() {
 
     useEffect(() => {
         if (!isUnisenacStudent) {
-            setData({
-                ...data,
+            setData(prev => ({
+                ...prev,
                 course: '',
                 semester: '',
-            });
+            }));
         }
-    }, [!isUnisenacStudent]);
+    }, [isUnisenacStudent, setData]);
 
     const cursos = ['ADS', 'MKT', 'PG', 'REDES', 'OUTRO'];
     const semestres = ['1', '2', '3', '4', '5', '6', '7', '8', '8+'];

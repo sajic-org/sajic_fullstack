@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { LectureForm } from '@/pages/new-lecture-form';
+import { NewLectureForm } from '@/pages/new-lecture-form';
 import { Speaker } from '@/types/models';
 import { InertiaFormProps, useForm, usePage } from '@inertiajs/react';
 import { PlusIcon, UploadIcon } from 'lucide-react';
@@ -17,7 +17,7 @@ function AddSpeakerDialog({
     onSetData,
 }: {
     onSetSelectedSpeaker: Dispatch<SetStateAction<Speaker | undefined>>;
-    onSetData: InertiaFormProps<LectureForm>['setData'];
+    onSetData: InertiaFormProps<NewLectureForm>['setData'];
 }) {
     interface SpeakerForm {
         image: string;
@@ -32,7 +32,7 @@ function AddSpeakerDialog({
             onSetData('speaker_id', flash.newSpeaker.id);
             onSetSelectedSpeaker(flash.newSpeaker);
         }
-    }, [flash.newSpeaker]);
+    }, [flash.newSpeaker, onSetData, onSetSelectedSpeaker]);
 
     const { data, setData, post, errors } = useForm<Required<SpeakerForm>>();
 
@@ -43,6 +43,7 @@ function AddSpeakerDialog({
             preserveScroll: true,
             onSuccess: () => {
                 if (Object.keys(errors).length === 0) {
+                    //@ts-expect-error não quero entender
                     document.querySelector('[data-dialog-close]')?.click();
                 }
                 toast('Palestrante adicionado!', {

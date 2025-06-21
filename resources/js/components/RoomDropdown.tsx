@@ -3,16 +3,27 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger } from '@/components/ui/select';
 import { isRoomAvailable, lecturesConflicting } from '@/lib/utils';
 import { Info } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import UnavailableRoomWarning from './unavailable-room-warning';
+import { useForm } from '@inertiajs/react';
+import { LectureForm } from '@/pages/new-lecture-form';
 
 export interface Room {
     number: string;
     capacity: number;
 }
 
-export function RoomDropdown({ children, rooms, onSetData, data }: { children: React.ReactNode; rooms: Room[]; onSetData: any; data: any }) {
+interface Props {
+    children: React.ReactNode;
+    rooms: Room[];
+    data: Required<LectureForm>
+
+    //Typescript voodoo
+    onSetData: ReturnType<typeof useForm<Required<LectureForm>>>['setData']
+}
+
+export function RoomDropdown({ children, rooms, onSetData, data }: Props) {
     const [showInfo, setShowInfo] = useState<string>();
     const [isAvailable, setIsAvailable] = useState<boolean>(true);
     const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
@@ -31,10 +42,9 @@ export function RoomDropdown({ children, rooms, onSetData, data }: { children: R
         return () => window.removeEventListener('resize', checkScreenSize);
     }, []);
 
-    function onSetRoom(number: string) {
+    const onSetRoom = useCallback((number: string) => {
         if (data.date && data.starts && data.ends) {
             const room = rooms.find((r) => r.number === number);
-
             if (room) {
                 const check = isRoomAvailable({
                     room: room,
@@ -42,24 +52,23 @@ export function RoomDropdown({ children, rooms, onSetData, data }: { children: R
                     starts: data.starts,
                     ends: data.ends,
                 });
-
                 setIsAvailable(check);
             }
         }
-    }
+    }, [data.date, data.starts, data.ends, rooms]);
 
     useEffect(() => {
         if (data.room_number) {
             onSetRoom(data.room_number);
         }
-    }, [data.date, data.starts, data.ends, data.room_number]);
+    }, [data.date, data.starts, data.ends, data.room_number, onSetRoom]);
 
     // Conditionally apply hover handlers only on medium+ screens
     const hoverHandlers = isScreenMedium
         ? {
-              onMouseEnter: () => setShowInfo(data.room_number),
-              onMouseLeave: () => setShowInfo(''),
-          }
+            onMouseEnter: () => setShowInfo(data.room_number),
+            onMouseLeave: () => setShowInfo(''),
+        }
         : {};
 
     // Determine if warning should be visible

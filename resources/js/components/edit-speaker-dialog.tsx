@@ -13,20 +13,16 @@ import InputError from './input-error';
 import { DialogTrigger } from './ui/dialog';
 import { Textarea } from './ui/textarea';
 
-export default function EditSpeakerDialog({
-    onSetSelectedSpeaker,
-    onSetData,
-    speaker,
-}: {
+interface Props {
     onSetSelectedSpeaker: Dispatch<SetStateAction<Speaker | undefined>>;
-    onSetData: InertiaFormProps<LectureForm>['setData'];
+    onSetData: InertiaFormProps<Required<LectureForm>>['setData'];
     speaker: Speaker;
-}) {
+}
+
+export default function EditSpeakerDialog({ onSetSelectedSpeaker, onSetData, speaker, }: Props) {
     interface SpeakerForm {
-        image: string;
         name: string;
         description: string;
-        [key: string]: any | unknown;
     }
 
     const { flash } = usePage().props;
@@ -36,9 +32,9 @@ export default function EditSpeakerDialog({
             onSetData('speaker_id', flash.newSpeaker.id);
             onSetSelectedSpeaker(flash.newSpeaker);
         }
-    }, [flash.newSpeaker]);
+    }, [flash.newSpeaker, onSetData, onSetSelectedSpeaker]);
 
-    const { data, setData, patch, errors } = useForm<SpeakerForm>({
+    const { data, setData, patch, errors } = useForm<Required<SpeakerForm>>({
         name: speaker.name,
         description: speaker.description,
     });
@@ -50,6 +46,7 @@ export default function EditSpeakerDialog({
             preserveScroll: true,
             onSuccess: () => {
                 if (Object.keys(errors).length === 0) {
+                    //@ts-expect-error não quero entender
                     document.querySelector('[data-dialog-close]')?.click();
                 }
                 toast('Palestrante atualizado!', {

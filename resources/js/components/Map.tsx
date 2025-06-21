@@ -55,7 +55,7 @@ const MapView = ({ center = [-31.770226, -52.338867] as LatLngTuple, zoom = 18 }
             }, 100);
             return () => clearTimeout(timer); // Cleanup timer
         }
-    }, [isClient, isLoaded, center, zoom, mapInstanceRef.current]); // Added mapInstanceRef.current as a dependency
+    }, [isClient, isLoaded, center, zoom]);
 
     // --- Conditional Rendering Logic (after all hooks) ---
 

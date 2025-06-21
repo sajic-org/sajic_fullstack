@@ -44,13 +44,13 @@ export default function Password() {
 
     useEffect(() => {
         if (!isUnisenacStudent) {
-            setData({
-                ...data,
+            setData(prev => ({
+                ...prev,
                 course: '',
                 semester: '',
-            });
+            }));
         }
-    }, [isUnisenacStudent]);
+    }, [isUnisenacStudent, setData]);
 
     const updatePassword: FormEventHandler = (e) => {
         e.preventDefault();

@@ -1,21 +1,21 @@
 import { Label } from '@radix-ui/react-label';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './ui/select';
+import { useForm } from '@inertiajs/react';
+import { LectureForm } from '@/pages/new-lecture-form';
 
-export function TimeSelectorGroup({
-    variant = 'starts',
-    onSetData,
-    defaultValue,
-}: {
+interface Props {
     defaultValue?: string;
-    variant?: string;
-    onSetData: Dispatch<SetStateAction<any>>;
-}) {
+    variant?: keyof LectureForm;
+    onSetData: ReturnType<typeof useForm<Required<LectureForm>>>['setData'];
+}
+
+export function TimeSelectorGroup({ variant = 'starts', onSetData, defaultValue, }: Props) {
     const [time, setTime] = useState<string[]>(['00', '00']);
 
     useEffect(() => {
         onSetData(`${variant}`, `${time[0]}:${time[1]}`);
-    }, [time]);
+    }, [time, variant, onSetData]);
     return (
         <div>
             <Label htmlFor="starts">{variant === 'starts' ? 'Das' : 'Às'}</Label>

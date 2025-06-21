@@ -1,5 +1,5 @@
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { LectureForm } from '@/pages/new-lecture-form';
+import { NewLectureForm } from '@/pages/new-lecture-form';
 import { Speaker } from '@/types/models';
 import { InertiaFormProps } from '@inertiajs/react';
 import { Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react';
@@ -12,7 +12,7 @@ function SpeakerSearchInput({
     onSetSelectedSpeaker,
     children,
 }: {
-    onSetData: InertiaFormProps<LectureForm>['setData'];
+    onSetData: InertiaFormProps<NewLectureForm>['setData'];
     speakers: Speaker[];
     onSetSelectedSpeaker: Dispatch<SetStateAction<Speaker | undefined>>;
     children: ReactNode;

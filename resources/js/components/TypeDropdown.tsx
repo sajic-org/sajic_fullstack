@@ -1,8 +1,18 @@
 'use client';
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger } from '@/components/ui/select';
+import { NewLectureForm } from '@/pages/new-lecture-form';
+import { useForm } from '@inertiajs/react';
 
-export function TypeDropdown({ children, onSetData, defaultValue }: { defaultValue?: string }) {
+interface Props{
+    defaultValue?: string;
+    children: React.ReactNode;
+
+    //Typescript voodoo
+    onSetData: ReturnType<typeof useForm<Required<NewLectureForm>>>['setData']
+}
+
+export function TypeDropdown({ children, onSetData, defaultValue }: Props) {
     return (
         <Select defaultValue={defaultValue} onValueChange={(value) => onSetData('type', value)}>
             <SelectTrigger className="w-full">{children}</SelectTrigger>

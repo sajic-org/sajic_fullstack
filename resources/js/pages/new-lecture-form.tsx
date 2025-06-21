@@ -21,14 +21,16 @@ import { FormEventHandler, useState } from 'react';
 import { toast } from 'sonner';
 
 export interface LectureForm {
-    speaker_id: number;
+    speaker_id: number | null;
     room_number: string;
     title: string;
     type: string;
     date: Date | string;
     starts: string;
     ends: string;
-    [key: string]: any | unknown;
+
+    //error message
+    speaker: string;
 }
 
 function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[] }) {
