@@ -7,7 +7,7 @@ function SpeakerDialog({ children, speaker }: { children: ReactNode; speaker: Sp
     return (
         <Dialog>
             <DialogTrigger asChild>{children}</DialogTrigger>
-            <DialogContent className="h-[95vh] overflow-y-scroll sm:max-w-[450px] md:max-w-3xl">
+            <DialogContent className="max-h-[95vh] overflow-y-scroll sm:max-w-[450px] md:max-w-3xl">
                 <DialogHeader className="p-4">
                     <DialogTitle className="text-primary-blue text-xl">{speaker?.name}</DialogTitle>
                     <div className="flex-col items-start gap-4 max-md:flex md:grid md:grid-cols-5">
