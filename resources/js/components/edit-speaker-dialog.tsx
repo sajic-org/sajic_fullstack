@@ -12,6 +12,7 @@ import ConfirmSpeakerDeletionAlert from './confirm-speaker-deletion-alert';
 import InputError from './input-error';
 import { DialogTrigger } from './ui/dialog';
 import { Textarea } from './ui/textarea';
+import { flashPage } from './add-speaker-dialog';
 
 interface Props {
     onSetSelectedSpeaker: Dispatch<SetStateAction<Speaker | undefined>>;
@@ -19,13 +20,13 @@ interface Props {
     speaker: Speaker;
 }
 
-export default function EditSpeakerDialog({ onSetSelectedSpeaker, onSetData, speaker, }: Props) {
-    interface SpeakerForm {
-        name: string;
-        description: string;
-    }
+interface PartialSpeakerForm {
+    name: string;
+    description: string;
+}
 
-    const { flash } = usePage().props;
+export default function EditSpeakerDialog({ onSetSelectedSpeaker, onSetData, speaker, }: Props) {
+    const { flash } = usePage<Required<flashPage>>().props;
 
     useEffect(() => {
         if (flash?.newSpeaker) {
@@ -34,7 +35,7 @@ export default function EditSpeakerDialog({ onSetSelectedSpeaker, onSetData, spe
         }
     }, [flash.newSpeaker, onSetData, onSetSelectedSpeaker]);
 
-    const { data, setData, patch, errors } = useForm<Required<SpeakerForm>>({
+    const { data, setData, patch, errors } = useForm<Required<PartialSpeakerForm>>({
         name: speaker.name,
         description: speaker.description,
     });

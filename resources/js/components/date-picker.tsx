@@ -8,7 +8,12 @@ import { format, parse } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import * as React from 'react';
 
-export function DatePicker({ onSetData, defaultDate }: { onSetData: (key: string, value: string) => void; defaultDate?: string | Date }) {
+interface Props {
+    onSetData: (key: string, value: string) => void;
+    defaultDate?: string | Date
+}
+
+export function DatePicker({ onSetData, defaultDate }: Props) {
     const getInitialDate = () => {
         if (!defaultDate) return now();
 

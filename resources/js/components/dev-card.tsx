@@ -1,4 +1,10 @@
-function DevCard({ name, img, link }) {
+interface Props {
+    name: string
+    img: string
+    link: string
+}
+
+function DevCard({ name, img, link }: Props) {
     return (
         <li className="">
             <a href={link} title={name} className="group flex items-center gap-2">

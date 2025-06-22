@@ -9,6 +9,8 @@ import { CheckInColumnsType } from '@/lib/check-in-columns-factory';
 import { SharedData, type BreadcrumbItem } from '@/types';
 import { Lecture } from '@/types/models';
 
+import { FormDataConvertible } from "@inertiajs/core"
+
 import checkInColumns from '@/lib/check-in-columns-factory';
 import { toast } from 'sonner';
 
@@ -18,11 +20,14 @@ type checkInFormType = {
 
 export type checkInFormProps = InertiaFormProps<checkInFormType>;
 
+// thank you typescript / inertiajs terrible typing
+type LectureFormDataConvertible = Lecture & FormDataConvertible
+
 interface checkInPageProps {
-    lecture: Lecture;
+    lecture: LectureFormDataConvertible;
 }
 
-function openAndCloseEnrollment(lecture: Lecture) {
+function openAndCloseEnrollment(lecture: LectureFormDataConvertible) {
     router.patch(
         route('lectures.reopen_enrollment', { lecture: lecture }),
         { lecture: lecture },

@@ -8,7 +8,7 @@ import AddSpeakerDialog from '@/components/add-speaker-dialog';
 import { DatePicker } from '@/components/date-picker';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
-import { Room, RoomDropdown } from '@/components/RoomDropdown';
+import { RoomDropdown } from '@/components/RoomDropdown';
 import SpeakerSearchInput from '@/components/speaker-search-input';
 import { TimeSelectorGroup } from '@/components/time-selector';
 import { TypeDropdown } from '@/components/TypeDropdown';
@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
-import { Speaker } from '@/types/models';
+import { Room, Speaker } from '@/types/models';
 import { FormEventHandler, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -25,7 +25,7 @@ export interface LectureForm {
     room_number: string;
     title: string;
     type: string;
-    date: Date | string;
+    date: string;
     starts: string;
     ends: string;
 
@@ -33,7 +33,12 @@ export interface LectureForm {
     speaker: string;
 }
 
-function NewLectureForm({ speakers, rooms }: { speakers: Speaker[]; rooms: Room[] }) {
+interface Props {
+    speakers: Speaker[];
+    rooms: Room[]
+}
+
+function NewLectureForm({ speakers, rooms }: Props) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
 

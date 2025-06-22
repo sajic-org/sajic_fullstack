@@ -8,11 +8,7 @@ import { createPortal } from 'react-dom';
 import UnavailableRoomWarning from './unavailable-room-warning';
 import { useForm } from '@inertiajs/react';
 import { LectureForm } from '@/pages/new-lecture-form';
-
-export interface Room {
-    number: string;
-    capacity: number;
-}
+import { Room } from '@/types/models';
 
 interface Props {
     children: React.ReactNode;
@@ -116,7 +112,7 @@ export function RoomDropdown({ children, rooms, onSetData, data }: Props) {
                         portalRoot &&
                         createPortal(
                             <UnavailableRoomWarning
-                                room={data.room_number}
+                                room_number={data.room_number}
                                 conflicts={lecturesConflicting({
                                     room: rooms.find((r) => r.number === data.room_number),
                                     date: data.date,

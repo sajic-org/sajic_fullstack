@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function now() {
-    return Date.now();
+    return new Date();
 }
 
 export function isRoomAvailable({ room, date, starts, ends }: { room: Room; date: string; starts: string; ends: string }): boolean {
@@ -26,7 +26,11 @@ export function isRoomAvailable({ room, date, starts, ends }: { room: Room; date
     return true;
 }
 
-export function lecturesConflicting({ room, date, starts, ends }: { room: Room; date: string; starts: string; ends: string }): Lecture[] {
+export function lecturesConflicting({ room, date, starts, ends }: { room: Room | undefined; date: string; starts: string; ends: string }): Lecture[] {
+    if (!room){
+        return []
+    }
+
     const sameDateLectures = room.lectures!.filter((lecture) => lecture.date === date);
 
     const arr = [];

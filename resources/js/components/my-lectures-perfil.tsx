@@ -1,6 +1,6 @@
 import { useInitials } from '@/hooks/use-initials';
-import { User } from '@/types';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { User } from '@/types/models';
 
 function MyLecturesPerfil({ user }: { user: User }) {
     const getInitials = useInitials();

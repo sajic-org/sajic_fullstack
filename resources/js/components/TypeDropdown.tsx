@@ -1,7 +1,7 @@
 'use client';
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger } from '@/components/ui/select';
-import { NewLectureForm } from '@/pages/new-lecture-form';
+import { LectureForm } from '@/pages/new-lecture-form';
 import { useForm } from '@inertiajs/react';
 
 interface Props{
@@ -9,7 +9,7 @@ interface Props{
     children: React.ReactNode;
 
     //Typescript voodoo
-    onSetData: ReturnType<typeof useForm<Required<NewLectureForm>>>['setData']
+    onSetData: ReturnType<typeof useForm<Required<LectureForm>>>['setData']
 }
 
 export function TypeDropdown({ children, onSetData, defaultValue }: Props) {

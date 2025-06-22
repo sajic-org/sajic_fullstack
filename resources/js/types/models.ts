@@ -30,7 +30,6 @@ export interface Speaker {
 }
 
 export interface Room {
-    id: number;
     number: string;
     capacity: number;
     lectures?: Lecture[];
@@ -48,8 +47,8 @@ export interface User {
     updated_at: string;
     lectures: Lecture[];
     lecture_attendances?: LectureAttendances; // Lecture and User pivot table
-
-    [key: string]: unknown; // This allows for additional properties...
+    course?: string;
+    semester?: string;
 }
 
 export interface LectureAttendances {

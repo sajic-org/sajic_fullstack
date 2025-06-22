@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { NewLectureForm } from '@/pages/new-lecture-form';
+import { LectureForm } from '@/pages/new-lecture-form';
 import { Speaker } from '@/types/models';
 import { InertiaFormProps, useForm, usePage } from '@inertiajs/react';
 import { PlusIcon, UploadIcon } from 'lucide-react';
@@ -12,20 +12,32 @@ import InputError from './input-error';
 import { DialogTrigger } from './ui/dialog';
 import { Textarea } from './ui/textarea';
 
-function AddSpeakerDialog({
-    onSetSelectedSpeaker,
-    onSetData,
-}: {
+interface Props {
     onSetSelectedSpeaker: Dispatch<SetStateAction<Speaker | undefined>>;
-    onSetData: InertiaFormProps<NewLectureForm>['setData'];
-}) {
-    interface SpeakerForm {
-        image: string;
-        name: string;
-        description: string;
-    }
+    onSetData: InertiaFormProps<Required<LectureForm>>['setData'];
+}
 
-    const { flash } = usePage().props;
+interface SpeakerForm {
+    id: number;
+    image: File | null;
+    name: string;
+    description: string;
+}
+
+export interface flashPage {
+    flash: {
+        newSpeaker: {
+            id: number
+            image: string
+            name: string
+            description: string
+        }
+    }
+}
+
+function AddSpeakerDialog({ onSetSelectedSpeaker, onSetData, }: Props) {
+
+    const { flash } = usePage<Required<flashPage>>().props;
 
     useEffect(() => {
         if (flash?.newSpeaker) {
