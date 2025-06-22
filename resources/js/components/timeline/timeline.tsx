@@ -1,14 +1,24 @@
 import React from 'react';
 import { ReactNode, isValidElement, cloneElement } from 'react';
-import TimelineContent from './timeline-content'; 
+import TimelineContent from './timeline-content';
 
-function Timeline({ children, section = 'white', date }: { children: ReactNode; section?: string; date: string }) {
+interface Props {
+    children: ReactNode;
+    section?: string;
+    date: string
+}
+
+interface TimelineContentProps {
+  lineColor: string;
+}
+
+function Timeline({ children, section = 'white', date }: Props) {
     const bgImage = section === 'blue' ? "bg-[url('/assets/timeline_blue_bg_plexus.webp')]" : "bg-[url('/assets/timeline_white_bg_plexus.webp')]";
     const lineColor = section === 'blue' ? 'white' : 'primary-blue';
 
     const childrenWithProps = React.Children.map(children, child =>
         isValidElement(child) && child.type === TimelineContent
-            ? cloneElement(child as React.ReactElement<any>, { lineColor })
+            ? cloneElement(child as React.ReactElement<TimelineContentProps>, { lineColor })
             : child
     );
 
