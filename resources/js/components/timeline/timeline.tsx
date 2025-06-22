@@ -1,7 +1,16 @@
-import { ReactNode } from 'react';
+import React from 'react';
+import { ReactNode, isValidElement, cloneElement } from 'react';
+import TimelineContent from './timeline-content'; 
 
 function Timeline({ children, section = 'white', date }: { children: ReactNode; section?: string; date: string }) {
     const bgImage = section === 'blue' ? "bg-[url('/assets/timeline_blue_bg_plexus.webp')]" : "bg-[url('/assets/timeline_white_bg_plexus.webp')]";
+    const lineColor = section === 'blue' ? 'white' : 'primary-blue';
+
+    const childrenWithProps = React.Children.map(children, child =>
+        isValidElement(child) && child.type === TimelineContent
+            ? cloneElement(child as React.ReactElement<any>, { lineColor })
+            : child
+    );
 
     return (
         <div
@@ -12,7 +21,7 @@ function Timeline({ children, section = 'white', date }: { children: ReactNode; 
             >
                 {date}
             </h2>
-            <ul className={`relative mx-auto grid w-fit grid-cols-4 gap-x-3`}>{children}</ul>
+            <ul className={`relative mx-auto grid w-fit grid-cols-4 gap-x-3`}>{childrenWithProps}</ul>
         </div>
     );
 }
