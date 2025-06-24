@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Room extends Model
 {
     public $incrementing = false;
+
     protected $fillable = [
         'number',
         'capacity',

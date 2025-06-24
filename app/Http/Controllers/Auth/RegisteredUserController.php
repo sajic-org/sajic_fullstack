@@ -9,7 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+use Illuminate\Validation\Rules\Password as PasswordRules;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -33,7 +33,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', PasswordRules::defaults()],
             'course' => ['nullable', 'in:ADS,REDES,MKT,PG,ETC'],
             'semester' => ['nullable', 'in:1,2,3,4,5,6,7,8,8+'],
         ]);
