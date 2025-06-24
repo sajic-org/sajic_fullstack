@@ -4,7 +4,12 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import {
+    Carousel,
+    CarouselApi,
+    CarouselContent,
+    CarouselItem,
+} from '@/components/ui/carousel';
 
 interface PastEditionsItem {
     image: string;
@@ -61,9 +66,12 @@ const PastEditions = () => {
             <div className="container mx-auto px-4 sm:px-6 md:max-w-7xl">
                 <div className="mb-8 flex items-end justify-between md:mb-14 lg:mb-16">
                     <div className="flex flex-col gap-4">
-                        <h2 className="text-4xl font-semibold">Eventos Passados</h2>
+                        <h2 className="text-4xl font-semibold">
+                            Eventos Passados
+                        </h2>
                         <p className="text-muted-foreground max-w-lg text-xl">
-                            A SAJIC é um evento que ocorre anualmente desde 2300 AC. Confira alguns registros de edições passadas:
+                            A SAJIC é um evento que ocorre anualmente desde 2300
+                            AC. Confira alguns registros de edições passadas:
                         </p>
                     </div>
                     <div className="hidden shrink-0 gap-2 md:flex">
@@ -106,7 +114,10 @@ const PastEditions = () => {
                 >
                     <CarouselContent className="ml-0 2xl:mr-[max(0rem,calc(50vw-700px))] 2xl:ml-[max(8rem,calc(50vw-700px))]">
                         {data.map((item, index) => (
-                            <CarouselItem key={index} className="max-w-[320px] pl-[20px] lg:max-w-[360px]">
+                            <CarouselItem
+                                key={index}
+                                className="max-w-[320px] pl-[20px] lg:max-w-[360px]"
+                            >
                                 <div className="group rounded-xl">
                                     <div className="group relative h-full min-h-[27rem] max-w-full overflow-hidden rounded-xl md:aspect-[5/4] lg:aspect-[16/9]">
                                         <img
@@ -116,7 +127,11 @@ const PastEditions = () => {
                                         <div className="absolute inset-0 h-full bg-[linear-gradient(transparent_20%,var(--primary)_100%)] mix-blend-multiply" />
                                         <div className="text-primary-foreground absolute inset-x-0 bottom-0 flex flex-col items-start p-6 md:p-8">
                                             <div className="flex items-center text-sm">
-                                                <img src="/assets/logo_branco.webp" alt="" className="w-21" />
+                                                <img
+                                                    src="/assets/logo_branco.webp"
+                                                    alt=""
+                                                    className="w-21"
+                                                />
                                                 <span className="mt-4 ml-2 size-5 w-fit transition-transform group-hover:translate-x-1">
                                                     {' '}
                                                     {item.year}

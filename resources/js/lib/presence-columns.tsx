@@ -16,7 +16,9 @@ export const presenceColumns = [
 
     columnHelper.accessor('course', {
         header: () => <div className="text-right">Curso</div>,
-        cell: (row) => <div className="pr-1.5 text-right">{row.getValue()}</div>,
+        cell: (row) => (
+            <div className="pr-1.5 text-right">{row.getValue()}</div>
+        ),
     }),
 
     columnHelper.accessor('semester', {

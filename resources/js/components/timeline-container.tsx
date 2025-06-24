@@ -1,9 +1,9 @@
+import { parse } from 'date-fns';
 import React from 'react';
 import Timeline from './timeline/timeline';
 import TimelineContent from './timeline/timeline-content';
 import TimelineHour from './timeline/timeline-hour';
 import TimelineLecture from './timeline/timeline-lecture';
-import { parse } from 'date-fns';
 
 interface LectureTimeline {
     day: string;
@@ -50,41 +50,50 @@ function generateTimelineDays(lecturesByDay: LecturesByDay) {
     let isBlue = false;
 
     const TimelineDays = Object.keys(lecturesByDay).map((day) => {
-        const TimelineDay = Object.entries(lecturesByDay[day]).map(([period, lectures]) => {
-            if (lectures.length == 0) {
-                return;
-            }
+        const TimelineDay = Object.entries(lecturesByDay[day]).map(
+            ([period, lectures]) => {
+                if (lectures.length == 0) {
+                    return;
+                }
 
-            const TimelinePeriod = (
-                <TimelineContent
-                    key={period}
-                    date={day}
-                    turno={period}
-                    lineColor={isBlue ? 'primary-blue' : 'white'}
-                    variant={isRight ? 'right' : 'left'}
-                >
-                    {lectures.map((lecture) => {
-                        const TimelineFragment = (
-                            <React.Fragment key={lecture.name}>
-                                <TimelineHour h={lecture.time} />
-                                <TimelineLecture title={lecture.name} lecturer={lecture.speaker} />
-                            </React.Fragment>
-                        );
+                const TimelinePeriod = (
+                    <TimelineContent
+                        key={period}
+                        date={day}
+                        turno={period}
+                        lineColor={isBlue ? 'primary-blue' : 'white'}
+                        variant={isRight ? 'right' : 'left'}
+                    >
+                        {lectures.map((lecture) => {
+                            const TimelineFragment = (
+                                <React.Fragment key={lecture.name}>
+                                    <TimelineHour h={lecture.time} />
+                                    <TimelineLecture
+                                        title={lecture.name}
+                                        lecturer={lecture.speaker}
+                                    />
+                                </React.Fragment>
+                            );
 
-                        return TimelineFragment;
-                    })}
-                </TimelineContent>
-            );
+                            return TimelineFragment;
+                        })}
+                    </TimelineContent>
+                );
 
-            isRight = !isRight;
+                isRight = !isRight;
 
-            return TimelinePeriod;
-        });
+                return TimelinePeriod;
+            },
+        );
 
         isBlue = !isBlue;
 
         return (
-            <Timeline date={day} key={day} section={isBlue ? 'blue' : 'white'}>
+            <Timeline
+                date={day}
+                key={day}
+                section={isBlue ? 'blue' : 'white'}
+            >
                 {TimelineDay}
             </Timeline>
         );
@@ -97,17 +106,19 @@ function TimelineContainer({ timelineData }: TimelineProps) {
     const lecturesByDay = timelineData.reduce(groupByDayReducer, {});
 
     //Sort the dates
-    const sortedLectures = Object.entries(lecturesByDay).sort((a, b) =>
-        dateToMiliseconds(a[0]) - dateToMiliseconds(b[0])
-    )
+    const sortedLectures = Object.entries(lecturesByDay).sort(
+        (a, b) => dateToMiliseconds(a[0]) - dateToMiliseconds(b[0]),
+    );
 
-    const TimelineDays = generateTimelineDays(Object.fromEntries(sortedLectures));
+    const TimelineDays = generateTimelineDays(
+        Object.fromEntries(sortedLectures),
+    );
 
     return <section>{TimelineDays}</section>;
 }
 
 function dateToMiliseconds(date: string): number {
-    return parse(date, 'dd/MM', new Date).getTime()
+    return parse(date, 'dd/MM', new Date()).getTime();
 }
 
 export default TimelineContainer;

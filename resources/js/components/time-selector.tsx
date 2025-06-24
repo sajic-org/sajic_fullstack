@@ -1,33 +1,61 @@
+import { LectureForm } from '@/pages/new-lecture-form';
+import { useForm } from '@inertiajs/react';
 import { Label } from '@radix-ui/react-label';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './ui/select';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from './ui/select';
+
+interface Props {
+    defaultValue?: string;
+    variant?: keyof LectureForm;
+    onSetData: ReturnType<typeof useForm<Required<LectureForm>>>['setData'];
+}
 
 export function TimeSelectorGroup({
     variant = 'starts',
     onSetData,
     defaultValue,
-}: {
-    defaultValue?: string;
-    variant?: string;
-    onSetData: Dispatch<SetStateAction<any>>;
-}) {
+}: Props) {
     const [time, setTime] = useState<string[]>(['00', '00']);
 
     useEffect(() => {
         onSetData(`${variant}`, `${time[0]}:${time[1]}`);
-    }, [time]);
+    }, [time, variant, onSetData]);
     return (
         <div>
-            <Label htmlFor="starts">{variant === 'starts' ? 'Das' : 'Às'}</Label>
+            <Label htmlFor="starts">
+                {variant === 'starts' ? 'Das' : 'Às'}
+            </Label>
 
             <div className="flex items-center gap-1 pt-1">
                 {/* Horas */}
-                <TimeSelector maxNum={22} placeholder="hh" onSetTime={setTime} time={time} minNum={8} defaultValue={defaultValue?.split(':')[0]} />
+                <TimeSelector
+                    maxNum={22}
+                    placeholder="hh"
+                    onSetTime={setTime}
+                    time={time}
+                    minNum={8}
+                    defaultValue={defaultValue?.split(':')[0]}
+                />
 
                 <span className="text-xl">:</span>
 
                 {/* Minutos */}
-                <TimeSelector step={15} placeholder="mm" label="Minutos" onSetTime={setTime} time={time} defaultValue={defaultValue?.split(':')[1]} />
+                <TimeSelector
+                    step={15}
+                    placeholder="mm"
+                    label="Minutos"
+                    onSetTime={setTime}
+                    time={time}
+                    defaultValue={defaultValue?.split(':')[1]}
+                />
             </div>
         </div>
     );
@@ -44,7 +72,16 @@ interface TimeSelectorProps {
     onSetTime: Dispatch<SetStateAction<string[]>>;
 }
 
-function TimeSelector({ step = 1, maxNum = 60, minNum = 0, placeholder, label = 'Horas', onSetTime, time, defaultValue }: TimeSelectorProps) {
+function TimeSelector({
+    step = 1,
+    maxNum = 60,
+    minNum = 0,
+    placeholder,
+    label = 'Horas',
+    onSetTime,
+    time,
+    defaultValue,
+}: TimeSelectorProps) {
     const timeArr = genTimeArray(step, maxNum, minNum);
 
     return (
@@ -65,7 +102,10 @@ function TimeSelector({ step = 1, maxNum = 60, minNum = 0, placeholder, label = 
                 <SelectGroup>
                     <SelectLabel>{label}</SelectLabel>
                     {timeArr.map((time) => (
-                        <SelectItem value={time} key={time}>
+                        <SelectItem
+                            value={time}
+                            key={time}
+                        >
                             {time}
                         </SelectItem>
                     ))}

@@ -18,10 +18,13 @@ function SecondHero() {
 
                 <div className="mt-3 w-fit space-y-2 text-right">
                     <h2 className="text-xl font-semibold">Palestras</h2>
-                    <h3 className="text-4xl font-semibold">Veja o que esse ano oferece</h3>
+                    <h3 className="text-4xl font-semibold">
+                        Veja o que esse ano oferece
+                    </h3>
                     <p className="mb-5 ml-auto w-4/5 text-xl">
-                        Palestras, oficinas, debates e workshops sobre temas diversos, como tecnologia, design, inovação, diversidade,
-                        empreendedorismo, e tendências de mercado.
+                        Palestras, oficinas, debates e workshops sobre temas
+                        diversos, como tecnologia, design, inovação,
+                        diversidade, empreendedorismo, e tendências de mercado.
                     </p>
                     <Link
                         prefetch

@@ -1,6 +1,13 @@
 import { LecturePresence } from '@/types/models';
 import { Table as T, flexRender } from '@tanstack/react-table';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from './ui/table';
 
 interface DataTableProps {
     table: T<LecturePresence>;
@@ -16,7 +23,13 @@ function PresenceDataTable({ table }: DataTableProps) {
                             {headerGroup.headers.map((header) => {
                                 return (
                                     <TableHead key={header.id}>
-                                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(
+                                                  header.column.columnDef
+                                                      .header,
+                                                  header.getContext(),
+                                              )}
                                     </TableHead>
                                 );
                             })}
@@ -32,13 +45,21 @@ function PresenceDataTable({ table }: DataTableProps) {
                                 className={`${i % 2 == 0 && 'bg-primary-blue/15 hover:bg-primary-blue/25'}`}
                             >
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                                    <TableCell key={cell.id}>
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext(),
+                                        )}
+                                    </TableCell>
                                 ))}
                             </TableRow>
                         ))
                     ) : (
                         <TableRow>
-                            <TableCell colSpan={5} className="h-24 text-center">
+                            <TableCell
+                                colSpan={5}
+                                className="h-24 text-center"
+                            >
                                 Nenhum aluno encontrado :(
                             </TableCell>
                         </TableRow>

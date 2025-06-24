@@ -9,12 +9,24 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function now() {
-    return Date.now();
+    return new Date();
 }
 
-export function isRoomAvailable({ room, date, starts, ends }: { room: Room; date: string; starts: string; ends: string }): boolean {
+export function isRoomAvailable({
+    room,
+    date,
+    starts,
+    ends,
+}: {
+    room: Room;
+    date: string;
+    starts: string;
+    ends: string;
+}): boolean {
     if (room.lectures) {
-        const sameDateLectures = room.lectures.filter((lecture) => lecture.date === date);
+        const sameDateLectures = room.lectures.filter(
+            (lecture) => lecture.date === date,
+        );
 
         for (const lecture of sameDateLectures) {
             if (starts < lecture.ends && lecture.starts < ends) {
@@ -26,8 +38,24 @@ export function isRoomAvailable({ room, date, starts, ends }: { room: Room; date
     return true;
 }
 
-export function lecturesConflicting({ room, date, starts, ends }: { room: Room; date: string; starts: string; ends: string }): Lecture[] {
-    const sameDateLectures = room.lectures!.filter((lecture) => lecture.date === date);
+export function lecturesConflicting({
+    room,
+    date,
+    starts,
+    ends,
+}: {
+    room: Room | undefined;
+    date: string;
+    starts: string;
+    ends: string;
+}): Lecture[] {
+    if (!room) {
+        return [];
+    }
+
+    const sameDateLectures = room.lectures!.filter(
+        (lecture) => lecture.date === date,
+    );
 
     const arr = [];
     for (const lecture of sameDateLectures) {
@@ -39,12 +67,20 @@ export function lecturesConflicting({ room, date, starts, ends }: { room: Room; 
     return arr;
 }
 
-export function isUserAlreadyEnrolledAtThatTime(user: User, lectureToBeJoined: Lecture): Lecture[] {
-    const sameDateLectures = user.lectures!.filter((lecture: Lecture) => lecture.date === lectureToBeJoined.date);
+export function isUserAlreadyEnrolledAtThatTime(
+    user: User,
+    lectureToBeJoined: Lecture,
+): Lecture[] {
+    const sameDateLectures = user.lectures!.filter(
+        (lecture: Lecture) => lecture.date === lectureToBeJoined.date,
+    );
 
     const arr = [];
     for (const lecture of sameDateLectures) {
-        if (lectureToBeJoined.starts < lecture.ends && lecture.starts < lectureToBeJoined.ends) {
+        if (
+            lectureToBeJoined.starts < lecture.ends &&
+            lecture.starts < lectureToBeJoined.ends
+        ) {
             arr.push(lecture);
         }
     }

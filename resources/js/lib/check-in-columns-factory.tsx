@@ -1,5 +1,5 @@
 import { Checkbox } from '@/components/ui/checkbox';
-import { createColumnHelper } from '@tanstack/react-table';
+import { createColumnHelper, Row } from '@tanstack/react-table';
 import { useEffect } from 'react';
 
 export type ShowedUpType = {
@@ -28,26 +28,32 @@ const checkInColumns = [
 
     columnHelper.accessor('showed_up.presence', {
         header: () => <div className="text-right md:pr-[50%]">Presença</div>,
-        cell: ({ row }) => {
-            useEffect(() => {
-                if (row.original.showed_up.presence) {
-                    row.toggleSelected();
-                }
-            }, []);
-
-            return (
-                <div className="mr-7 flex justify-end md:mr-6 md:pr-[50%]">
-                    <Checkbox
-                        aria-label="Dê a presença"
-                        checked={row.getIsSelected()}
-                        onCheckedChange={row.getToggleSelectedHandler()}
-                        disabled={row.original.showed_up.presence}
-                        className="data-[state=checked]:text-foreground h-5 w-5 border-black data-[state=checked]:bg-green-300/85"
-                    />
-                </div>
-            );
-        },
+        cell: ({ row }) => <PresenceCell row={row} />,
     }),
 ];
+
+//Checkbox component
+const PresenceCell = ({ row }: { row: Row<CheckInColumnsType> }) => {
+    useEffect(() => {
+        if (row.original.showed_up.presence) {
+            row.toggleSelected();
+        }
+
+        // disable eslint here because I know that row.original is static
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return (
+        <div className="mr-7 flex justify-end md:mr-6 md:pr-[50%]">
+            <Checkbox
+                aria-label="Dê a presença"
+                checked={row.getIsSelected()}
+                onCheckedChange={row.getToggleSelectedHandler()}
+                disabled={row.original.showed_up.presence}
+                className="data-[state=checked]:text-foreground h-5 w-5 border-black data-[state=checked]:bg-green-300/85"
+            />
+        </div>
+    );
+};
 
 export default checkInColumns;

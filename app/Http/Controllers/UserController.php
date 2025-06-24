@@ -6,18 +6,17 @@ use App\Models\LectureAttendance;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
-use Str;
 
 class UserController extends Controller
 {
     public function attendance_list()
     {
         $attendants = LectureAttendance::whereShowedUp(true)
-            ->join("lectures", "lecture_attendances.lecture_id", "=", "lectures.id")
-            ->join("users", "lecture_attendances.user_id", "=", "users.id")
-            ->where("users.course", '!=', 'NULL')
+            ->join('lectures', 'lecture_attendances.lecture_id', '=', 'lectures.id')
+            ->join('users', 'lecture_attendances.user_id', '=', 'users.id')
+            ->where('users.course', '!=', 'NULL')
             ->select(
                 'users.name',
                 'lectures.date',

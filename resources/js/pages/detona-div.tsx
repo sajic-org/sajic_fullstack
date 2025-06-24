@@ -1,10 +1,20 @@
 import TimelineContainer from '@/components/timeline-container';
 import { Button } from '@/components/ui/button';
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import {
+    Carousel,
+    CarouselApi,
+    CarouselContent,
+    CarouselItem,
+} from '@/components/ui/carousel';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, ArrowRight, BadgePlus, MousePointerClick } from 'lucide-react';
+import {
+    ArrowLeft,
+    ArrowRight,
+    BadgePlus,
+    MousePointerClick,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -69,9 +79,12 @@ const PastEditions = () => {
             <div className="container mx-auto px-4 sm:px-6 md:max-w-7xl">
                 <div className="mb-8 flex items-end justify-between md:mb-14 lg:mb-16">
                     <div className="flex flex-col gap-4">
-                        <h2 className="text-4xl font-semibold">Eventos Passados</h2>
+                        <h2 className="text-4xl font-semibold">
+                            Eventos Passados
+                        </h2>
                         <p className="text-muted-foreground max-w-lg text-xl">
-                            A SAJIC é um evento que ocorre anualmente desde 2300 AC. Confira alguns registros de edições passadas:
+                            A SAJIC é um evento que ocorre anualmente desde 2300
+                            AC. Confira alguns registros de edições passadas:
                         </p>
                     </div>
                     <div className="hidden shrink-0 gap-2 md:flex">
@@ -114,7 +127,10 @@ const PastEditions = () => {
                 >
                     <CarouselContent className="ml-0 2xl:mr-[max(0rem,calc(50vw-700px))] 2xl:ml-[max(8rem,calc(50vw-700px))]">
                         {data.map((item, index) => (
-                            <CarouselItem key={index} className="max-w-[320px] pl-[20px] lg:max-w-[360px]">
+                            <CarouselItem
+                                key={index}
+                                className="max-w-[320px] pl-[20px] lg:max-w-[360px]"
+                            >
                                 <div className="group rounded-xl">
                                     <div className="group relative h-full min-h-[27rem] max-w-full overflow-hidden rounded-xl md:aspect-[5/4] lg:aspect-[16/9]">
                                         <img
@@ -124,7 +140,11 @@ const PastEditions = () => {
                                         <div className="absolute inset-0 h-full bg-[linear-gradient(transparent_20%,var(--primary)_100%)] mix-blend-multiply" />
                                         <div className="text-primary-foreground absolute inset-x-0 bottom-0 flex flex-col items-start p-6 md:p-8">
                                             <div className="flex items-center text-sm">
-                                                <img src="../assets/logo_branco.webp" alt="" className="w-21" />
+                                                <img
+                                                    src="../assets/logo_branco.webp"
+                                                    alt=""
+                                                    className="w-21"
+                                                />
                                                 <span className="mt-4 ml-2 size-5 w-fit transition-transform group-hover:translate-x-1">
                                                     {' '}
                                                     {item.year}
@@ -165,12 +185,19 @@ export default function Home() {
             <section className="min-h-screen bg-[url('/assets/hero_bg_plexus.webp')] bg-cover bg-right bg-no-repeat md:bg-contain">
                 <div className="mx-auto px-4 max-sm:my-28 sm:mt-36 sm:px-6 md:max-w-7xl">
                     <div className="md:w-3/5 dark:text-white">
-                        <h1 className="text-4xl font-semibold">Sajic 5ª Edição | outubro de 2025</h1>
+                        <h1 className="text-4xl font-semibold">
+                            Sajic 5ª Edição | outubro de 2025
+                        </h1>
                         <p className="mt-5 text-justify text-xl">
-                            A Semana Acadêmica do UniSenac é um evento que oferece uma série de atividades acadêmicas, culturais e profissionais,
-                            voltadas para o desenvolvimento de competências e a troca de conhecimentos entre alunos, professores e o público em geral.
-                            A programação inclui palestras, oficinas, debates e workshops sobre temas diversos, como tecnologia, inovação,
-                            diversidade, empreendedorismo, e tendências de mercado.
+                            A Semana Acadêmica do UniSenac é um evento que
+                            oferece uma série de atividades acadêmicas,
+                            culturais e profissionais, voltadas para o
+                            desenvolvimento de competências e a troca de
+                            conhecimentos entre alunos, professores e o público
+                            em geral. A programação inclui palestras, oficinas,
+                            debates e workshops sobre temas diversos, como
+                            tecnologia, inovação, diversidade, empreendedorismo,
+                            e tendências de mercado.
                         </p>
 
                         <Link
@@ -179,7 +206,10 @@ export default function Home() {
                             className="bg-primary-blue mt-8 flex h-fit w-fit items-center gap-3 rounded-lg px-3 py-3.5 text-xl text-white shadow-lg drop-shadow-md max-[30rem]:mx-auto sm:px-9"
                         >
                             Veja nossas palestras
-                            <MousePointerClick size={23} className="mt-px" />
+                            <MousePointerClick
+                                size={23}
+                                className="mt-px"
+                            />
                         </Link>
                     </div>
                 </div>
@@ -202,10 +232,14 @@ export default function Home() {
 
                     <div className="mt-3 w-fit space-y-2 text-right">
                         <h2 className="text-xl font-semibold">Palestras</h2>
-                        <h3 className="text-4xl font-semibold">Veja o que esse ano oferece</h3>
+                        <h3 className="text-4xl font-semibold">
+                            Veja o que esse ano oferece
+                        </h3>
                         <p className="mb-5 ml-auto w-4/5 text-xl">
-                            Palestras, oficinas, debates e workshops sobre temas diversos, como tecnologia, design, inovação, diversidade,
-                            empreendedorismo, e tendências de mercado.
+                            Palestras, oficinas, debates e workshops sobre temas
+                            diversos, como tecnologia, design, inovação,
+                            diversidade, empreendedorismo, e tendências de
+                            mercado.
                         </p>
                         <Link
                             prefetch
@@ -405,6 +439,7 @@ const timeLineMockData = [
         day: '16/10',
         time: '23:00',
         name: 'After das palestras: mesa redonda sobre memes e política',
-        speaker: 'Mesa redonda com Gregório Duvivier, Pablo Marçal e um estagiário',
+        speaker:
+            'Mesa redonda com Gregório Duvivier, Pablo Marçal e um estagiário',
     },
 ];

@@ -7,12 +7,37 @@ import AdminButtons from './admin-buttons';
 import ButtonBasedOnAvailability from './buttons-based-on-availability';
 import SpeakerDialog from './speaker-drawer';
 
-export const LecturesGrid = ({ className, children }: { className?: string; children?: React.ReactNode }) => {
-    return <div className={cn('mx-auto my-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:max-w-7xl lg:grid-cols-3', className)}>{children}</div>;
+export const LecturesGrid = ({
+    className,
+    children,
+}: {
+    className?: string;
+    children?: React.ReactNode;
+}) => {
+    return (
+        <div
+            className={cn(
+                'mx-auto my-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:max-w-7xl lg:grid-cols-3',
+                className,
+            )}
+        >
+            {children}
+        </div>
+    );
 };
 
-export const LecturesGridItem = ({ className, lecture, user }: { className?: string; lecture: Lecture; user?: User }) => {
-    const [portalElement, setPortalElement] = useState<HTMLElement | null>(null);
+export const LecturesGridItem = ({
+    className,
+    lecture,
+    user,
+}: {
+    className?: string;
+    lecture: Lecture;
+    user?: User;
+}) => {
+    const [portalElement, setPortalElement] = useState<HTMLElement | null>(
+        null,
+    );
 
     //Precisa ter useEffect pq o elemento que abre o dialog renderiza antes doq
     //o div onde fica o nome do palestrante (e tem o ID)
@@ -39,36 +64,58 @@ export const LecturesGridItem = ({ className, lecture, user }: { className?: str
                         <div
                             className="pointer-events-none absolute inset-0 rounded-xl"
                             style={{
-                                background: 'linear-gradient(135deg, transparent 60%, rgba(255,255,255,0.1) 70%, rgba(0,0,0,0.4) 100%)',
-                                boxShadow: 'inset -20px -20px 20px rgba(0,0,0,0.2)',
+                                background:
+                                    'linear-gradient(135deg, transparent 60%, rgba(255,255,255,0.1) 70%, rgba(0,0,0,0.4) 100%)',
+                                boxShadow:
+                                    'inset -20px -20px 20px rgba(0,0,0,0.2)',
                             }}
                         >
                             <div
                                 className="absolute right-1.5 bottom-1.5 flex h-6 w-6 items-center justify-center rounded-full"
-                                style={{ background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)' }}
+                                style={{
+                                    background: 'rgba(255,255,255,0.2)',
+                                    backdropFilter: 'blur(8px)',
+                                }}
                             >
-                                <ArrowUpRight size={14} strokeWidth={2} color="#FFFFFF" />
+                                <ArrowUpRight
+                                    size={14}
+                                    strokeWidth={2}
+                                    color="#FFFFFF"
+                                />
                             </div>
                         </div>
 
                         {/* O nome do palestrante é enviado para baixo */}
-                        {portalElement && createPortal(<span>{lecture.speaker?.name}</span>, portalElement)}
+                        {portalElement &&
+                            createPortal(
+                                <span>{lecture.speaker?.name}</span>,
+                                portalElement,
+                            )}
                     </div>
                 </SpeakerDialog>
 
                 <div className="flex flex-col items-end gap-1">
-                    <ButtonBasedOnAvailability isFull={lecture.n_attendees! >= lecture.room!.capacity} lecture={lecture} user={user} />
+                    <ButtonBasedOnAvailability
+                        isFull={lecture.n_attendees! >= lecture.room!.capacity}
+                        lecture={lecture}
+                        user={user}
+                    />
 
                     {user?.is_admin && <AdminButtons lecture={lecture} />}
                 </div>
             </div>
 
             <div className="flex h-full flex-col justify-between transition duration-200 group-hover/bento:translate-x-2 dark:text-neutral-200">
-                <div className="mt-2 mb-auto text-lg font-bold">{lecture.title}</div>
+                <div className="mt-2 mb-auto text-lg font-bold">
+                    {lecture.title}
+                </div>
                 <div>
                     <div className="font-normal">
                         com{' '}
-                        <span id={lecture.id.toString()} className="text-primary-blue cursor-pointer font-medium capitalize hover:underline">
+                        <span
+                            id={lecture.id.toString()}
+                            className="text-primary-blue cursor-pointer font-medium capitalize hover:underline"
+                        >
                             {/*
                             O nome do palestrante tá vindo do portal dentro do trigger do speakerdialog...
                             nesse arquivo, aqui em cima

@@ -12,12 +12,15 @@ interface Props {
 }
 
 function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
-    const buttonBaseClass = 'h-10 w-36 flex cursor-pointer items-center justify-center gap-3 rounded-md font-semibold sm:gap-2';
+    const buttonBaseClass =
+        'h-10 w-36 flex cursor-pointer items-center justify-center gap-3 rounded-md font-semibold sm:gap-2';
 
     if (!user) {
         return (
             <Link href={route('login')}>
-                <Button className={`${buttonBaseClass} bg-primary-blue hover:bg-primary-blue shadow-md hover:brightness-85`}>
+                <Button
+                    className={`${buttonBaseClass} bg-primary-blue hover:bg-primary-blue shadow-md hover:brightness-85`}
+                >
                     Participar
                     <GraduationCap className="size-5.5" />
                 </Button>
@@ -25,13 +28,20 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
         );
     }
 
-    const userLecture = user.lectures.find((userLecture) => lecture.id === userLecture.id);
+    const userLecture = user.lectures.find(
+        (userLecture) => lecture.id === userLecture.id,
+    );
 
     if (!userLecture) {
         if (!isFull || lecture.is_open_for_enrollment) {
             return (
-                <ParticipateDialog lecture={lecture} user={user}>
-                    <a className={`${buttonBaseClass} bg-primary-blue hover:bg-primary-blue text-white hover:brightness-85`}>
+                <ParticipateDialog
+                    lecture={lecture}
+                    user={user}
+                >
+                    <a
+                        className={`${buttonBaseClass} bg-primary-blue hover:bg-primary-blue text-white hover:brightness-85`}
+                    >
                         Participar
                         <GraduationCap className="size-5.5" />
                     </a>
@@ -39,7 +49,10 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
             );
         } else {
             return (
-                <Button disabled className={`${buttonBaseClass} text-light-text bg-gray-300`}>
+                <Button
+                    disabled
+                    className={`${buttonBaseClass} text-light-text bg-gray-300`}
+                >
                     Esgotado
                     <CircleOff className="size-5" />
                 </Button>
@@ -57,7 +70,10 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
         );
     } else {
         return (
-            <Button className={`${buttonBaseClass} bg-red-600 hover:bg-red-600 hover:brightness-85`} onClick={() => unsubcribe(lecture)}>
+            <Button
+                className={`${buttonBaseClass} bg-red-600 hover:bg-red-600 hover:brightness-85`}
+                onClick={() => unsubcribe(lecture)}
+            >
                 Cancelar
                 <CircleX className="size-5.5" />
             </Button>

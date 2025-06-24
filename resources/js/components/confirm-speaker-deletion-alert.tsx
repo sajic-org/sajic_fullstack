@@ -14,7 +14,11 @@ import {
     AlertDialogTrigger,
 } from './ui/alert-dialog';
 
-export default function ConfirmSpeakerDeletionAlert({ speaker }: { speaker: Speaker }) {
+export default function ConfirmSpeakerDeletionAlert({
+    speaker,
+}: {
+    speaker: Speaker;
+}) {
     function confirmDeletion() {
         router.delete(route('speakers.destroy', { speaker: speaker }), {
             preserveScroll: true,
@@ -41,12 +45,17 @@ export default function ConfirmSpeakerDeletionAlert({ speaker }: { speaker: Spea
                 <AlertDialogHeader>
                     <AlertDialogTitle>Tens Certeza</AlertDialogTitle>
                     <AlertDialogDescription>
-                        Essa ação não pode ser desfeita. Isso irá permanentemente excluir o(a) palestrante e todas as palestras atreladas a ele(a).
+                        Essa ação não pode ser desfeita. Isso irá
+                        permanentemente excluir o(a) palestrante e todas as
+                        palestras atreladas a ele(a).
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                    <Button variant="destructive" onClick={confirmDeletion}>
+                    <Button
+                        variant="destructive"
+                        onClick={confirmDeletion}
+                    >
                         Remover
                     </Button>
                 </AlertDialogFooter>

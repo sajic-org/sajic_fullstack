@@ -31,7 +31,15 @@ export default function Password() {
     const passwordInput = useRef<HTMLInputElement>(null);
     const currentPasswordInput = useRef<HTMLInputElement>(null);
 
-    const { data, setData, errors, put, reset, processing, recentlySuccessful } = useForm({
+    const {
+        data,
+        setData,
+        errors,
+        put,
+        reset,
+        processing,
+        recentlySuccessful,
+    } = useForm({
         current_password: '',
         password: '',
         password_confirmation: '',
@@ -40,17 +48,19 @@ export default function Password() {
         semester: auth.user.semester || '',
     });
 
-    const [isUnisenacStudent, setIsUnisenacStudent] = useState<boolean>(data.course || data.semester ? true : false);
+    const [isUnisenacStudent, setIsUnisenacStudent] = useState<boolean>(
+        data.course || data.semester ? true : false,
+    );
 
     useEffect(() => {
         if (!isUnisenacStudent) {
-            setData({
-                ...data,
+            setData((prev) => ({
+                ...prev,
                 course: '',
                 semester: '',
-            });
+            }));
         }
-    }, [isUnisenacStudent]);
+    }, [isUnisenacStudent, setData]);
 
     const updatePassword: FormEventHandler = (e) => {
         e.preventDefault();
@@ -87,11 +97,15 @@ export default function Password() {
                                 id="alunoUnisenac"
                                 type="checkbox"
                                 checked={isUnisenacStudent}
-                                onChange={(e) => setIsUnisenacStudent(e.target.checked)}
+                                onChange={(e) =>
+                                    setIsUnisenacStudent(e.target.checked)
+                                }
                                 disabled={processing}
                                 className="max-w-4"
                             />
-                            <Label htmlFor="alunoUnisenac">Aluno UniSenac</Label>
+                            <Label htmlFor="alunoUnisenac">
+                                Aluno UniSenac
+                            </Label>
 
                             {isUnisenacStudent && (
                                 <div className="flex space-x-2">
@@ -99,7 +113,9 @@ export default function Password() {
                                         <CoursesDropdown
                                             courses={cursos}
                                             value={data.course}
-                                            onValueChange={(value: string) => setData('course', value)}
+                                            onValueChange={(value: string) =>
+                                                setData('course', value)
+                                            }
                                         />
                                     </div>
 
@@ -108,9 +124,13 @@ export default function Password() {
                                             <SemesterDropdown
                                                 semesters={semestres}
                                                 value={data.semester}
-                                                onValueChange={(value) => setData('semester', value)}
+                                                onValueChange={(value) =>
+                                                    setData('semester', value)
+                                                }
                                             />
-                                            <InputError message={errors.semester} />
+                                            <InputError
+                                                message={errors.semester}
+                                            />
                                         </div>
                                     ) : (
                                         ''
@@ -124,15 +144,22 @@ export default function Password() {
                         description="Certifique-se que sua conta esta usando uma senha longa e aleatória para manter-se seguro"
                     />
 
-                    <form onSubmit={updatePassword} className="space-y-6">
+                    <form
+                        onSubmit={updatePassword}
+                        className="space-y-6"
+                    >
                         <div className="grid gap-2">
-                            <Label htmlFor="current_password">Senha Atual</Label>
+                            <Label htmlFor="current_password">
+                                Senha Atual
+                            </Label>
 
                             <Input
                                 id="current_password"
                                 ref={currentPasswordInput}
                                 value={data.current_password}
-                                onChange={(e) => setData('current_password', e.target.value)}
+                                onChange={(e) =>
+                                    setData('current_password', e.target.value)
+                                }
                                 type="password"
                                 className="mt-1 block w-full"
                                 autoComplete="current-password"
@@ -149,7 +176,9 @@ export default function Password() {
                                 id="password"
                                 ref={passwordInput}
                                 value={data.password}
-                                onChange={(e) => setData('password', e.target.value)}
+                                onChange={(e) =>
+                                    setData('password', e.target.value)
+                                }
                                 type="password"
                                 className="mt-1 block w-full"
                                 autoComplete="new-password"
@@ -160,23 +189,34 @@ export default function Password() {
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="password_confirmation">Confirmar Senha</Label>
+                            <Label htmlFor="password_confirmation">
+                                Confirmar Senha
+                            </Label>
 
                             <Input
                                 id="password_confirmation"
                                 value={data.password_confirmation}
-                                onChange={(e) => setData('password_confirmation', e.target.value)}
+                                onChange={(e) =>
+                                    setData(
+                                        'password_confirmation',
+                                        e.target.value,
+                                    )
+                                }
                                 type="password"
                                 className="mt-1 block w-full"
                                 autoComplete="new-password"
                                 placeholder="Confirmar Senha"
                             />
 
-                            <InputError message={errors.password_confirmation} />
+                            <InputError
+                                message={errors.password_confirmation}
+                            />
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <Button disabled={processing}>Salvar Mudanças</Button>
+                            <Button disabled={processing}>
+                                Salvar Mudanças
+                            </Button>
 
                             <Transition
                                 show={recentlySuccessful}
@@ -185,7 +225,9 @@ export default function Password() {
                                 leave="transition ease-in-out"
                                 leaveTo="opacity-0"
                             >
-                                <p className="text-sm text-neutral-600">Salvo</p>
+                                <p className="text-sm text-neutral-600">
+                                    Salvo
+                                </p>
                             </Transition>
                         </div>
                     </form>

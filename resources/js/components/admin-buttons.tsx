@@ -15,7 +15,9 @@ function AdminButtons({ lecture }: props) {
                 </button>
             </Link>
 
-            <Link href={route('lectures.attendant_table', { lecture: lecture })}>
+            <Link
+                href={route('lectures.attendant_table', { lecture: lecture })}
+            >
                 <button className="size-10 cursor-pointer rounded-md bg-orange-400 text-white hover:bg-orange-400 hover:brightness-85">
                     <ListChecks className="m-auto size-5.5" />
                 </button>

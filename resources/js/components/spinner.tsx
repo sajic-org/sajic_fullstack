@@ -4,7 +4,10 @@ interface SpinnerProps {
 
 export default function Spinner({ size = 12 }: SpinnerProps) {
     return (
-        <div role="status" className="mx-auto my-48">
+        <div
+            role="status"
+            className="mx-auto my-48"
+        >
             <svg
                 aria-hidden="true"
                 className={`inline size-${size} animate-spin fill-orange-600 text-gray-200 dark:text-gray-600`}

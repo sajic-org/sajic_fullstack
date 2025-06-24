@@ -1,14 +1,31 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { UserMenuContent } from '@/components/user-menu-content';
 import { useInitials } from '@/hooks/use-initials';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 import { SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookMarked, BookPlus, GraduationCap, ListChecks, Menu, Settings } from 'lucide-react';
+import {
+    BookMarked,
+    BookPlus,
+    GraduationCap,
+    ListChecks,
+    Menu,
+    Settings,
+} from 'lucide-react';
 import AppLogo from './app-logo';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from './ui/sheet';
 
 function MobileSidebarMenu() {
     const page = usePage<SharedData>();
@@ -24,16 +41,27 @@ function MobileSidebarMenu() {
         <div className="ml-auto md:hidden">
             <Sheet>
                 <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon" className="mr-2 h-[34px] w-[34px]">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="mr-2 h-[34px] w-[34px]"
+                    >
                         <Menu className="h-5 w-5" />
                     </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="bg-sidebar border-sidebar-border w-60">
+                <SheetContent
+                    side="right"
+                    className="bg-sidebar border-sidebar-border w-60"
+                >
                     <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
 
                     {/* Header with logo */}
                     <SheetHeader className="border-sidebar-border items-left flex h-16 shrink-0 border-b px-4">
-                        <Link href="/" prefetch className="flex items-center space-x-2">
+                        <Link
+                            href="/"
+                            prefetch
+                            className="flex items-center space-x-2"
+                        >
                             <AppLogo className="w-20" />
                         </Link>
                     </SheetHeader>
@@ -52,7 +80,10 @@ function MobileSidebarMenu() {
                                 onClick={cleanup}
                             >
                                 Palestras
-                                <GraduationCap className="mr-2" size={20} />
+                                <GraduationCap
+                                    className="mr-2"
+                                    size={20}
+                                />
                             </Link>
 
                             <Link
@@ -63,7 +94,10 @@ function MobileSidebarMenu() {
                                 onClick={cleanup}
                             >
                                 Minhas Palestras
-                                <BookMarked className="mr-2" size={20} />
+                                <BookMarked
+                                    className="mr-2"
+                                    size={20}
+                                />
                             </Link>
 
                             {auth.user?.is_admin && (
@@ -76,7 +110,10 @@ function MobileSidebarMenu() {
                                         onClick={cleanup}
                                     >
                                         Novas Palestras
-                                        <BookPlus className="mr-2" size={20} />
+                                        <BookPlus
+                                            className="mr-2"
+                                            size={20}
+                                        />
                                     </Link>
 
                                     <Link
@@ -87,7 +124,10 @@ function MobileSidebarMenu() {
                                         onClick={cleanup}
                                     >
                                         Presenças
-                                        <ListChecks className="mr-2" size={20} />
+                                        <ListChecks
+                                            className="mr-2"
+                                            size={20}
+                                        />
                                     </Link>
                                 </>
                             )}
@@ -100,7 +140,10 @@ function MobileSidebarMenu() {
                                 onClick={cleanup}
                             >
                                 Configurações
-                                <Settings className="mr-2" size={20} />
+                                <Settings
+                                    className="mr-2"
+                                    size={20}
+                                />
                             </Link>
                         </div>
 
@@ -129,18 +172,30 @@ function MobileSidebarMenu() {
                                             className="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground h-auto w-full justify-end gap-3 px-3 py-2"
                                         >
                                             <div className="flex min-w-0 flex-col items-end text-left">
-                                                <span className="text-sidebar-foreground truncate text-sm font-medium">{auth.user.name}</span>
-                                                <span className="text-sidebar-foreground/70 truncate text-xs">{auth.user.email}</span>
+                                                <span className="text-sidebar-foreground truncate text-sm font-medium">
+                                                    {auth.user.name}
+                                                </span>
+                                                <span className="text-sidebar-foreground/70 truncate text-xs">
+                                                    {auth.user.email}
+                                                </span>
                                             </div>
                                             <Avatar className="h-8 w-8 rounded-lg">
-                                                <AvatarImage src={auth.user.avatar} alt={auth.user.name} />
+                                                <AvatarImage
+                                                    src={auth.user.avatar}
+                                                    alt={auth.user.name}
+                                                />
                                                 <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                    {getInitials(auth.user.name)}
+                                                    {getInitials(
+                                                        auth.user.name,
+                                                    )}
                                                 </AvatarFallback>
                                             </Avatar>
                                         </Button>
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent className="w-56" align="end">
+                                    <DropdownMenuContent
+                                        className="w-56"
+                                        align="end"
+                                    >
                                         <UserMenuContent user={auth.user} />
                                     </DropdownMenuContent>
                                 </DropdownMenu>

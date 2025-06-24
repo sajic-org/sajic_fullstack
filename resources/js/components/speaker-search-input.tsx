@@ -2,7 +2,13 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { LectureForm } from '@/pages/new-lecture-form';
 import { Speaker } from '@/types/models';
 import { InertiaFormProps } from '@inertiajs/react';
-import { Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react';
+import {
+    Dispatch,
+    ReactNode,
+    SetStateAction,
+    useEffect,
+    useState,
+} from 'react';
 import EditSpeakerDialog from './edit-speaker-dialog';
 import { Input } from './ui/input';
 
@@ -12,7 +18,7 @@ function SpeakerSearchInput({
     onSetSelectedSpeaker,
     children,
 }: {
-    onSetData: InertiaFormProps<LectureForm>['setData'];
+    onSetData: InertiaFormProps<Required<LectureForm>>['setData'];
     speakers: Speaker[];
     onSetSelectedSpeaker: Dispatch<SetStateAction<Speaker | undefined>>;
     children: ReactNode;
@@ -21,7 +27,9 @@ function SpeakerSearchInput({
     const [filteredSpeakers, setFilteredSpeakers] = useState<Speaker[]>([]);
 
     useEffect(() => {
-        const results = speakers.filter((s: Speaker) => s.name.toLowerCase().includes(query.toLowerCase()));
+        const results = speakers.filter((s: Speaker) =>
+            s.name.toLowerCase().includes(query.toLowerCase()),
+        );
         setFilteredSpeakers(results);
     }, [query, speakers]);
 
@@ -54,10 +62,18 @@ function SpeakerSearchInput({
                                 }}
                             >
                                 <div className="flex items-center gap-2">
-                                    <img src={s.image} className="size-7 rounded-full object-cover" /> <span>{s.name}</span>
+                                    <img
+                                        src={s.image}
+                                        className="size-7 rounded-full object-cover"
+                                    />{' '}
+                                    <span>{s.name}</span>
                                 </div>
 
-                                <EditSpeakerDialog onSetSelectedSpeaker={onSetSelectedSpeaker} onSetData={onSetData} speaker={s} />
+                                <EditSpeakerDialog
+                                    onSetSelectedSpeaker={onSetSelectedSpeaker}
+                                    onSetData={onSetData}
+                                    speaker={s}
+                                />
                             </AlertDescription>
                         );
                     })}

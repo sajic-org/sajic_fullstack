@@ -9,16 +9,25 @@ function MyLecturesListItem({ lecture }: { lecture: Lecture }) {
             <div className="flex">
                 <div className="flex w-full gap-3">
                     <SpeakerDialog speaker={lecture.speaker}>
-                        <img src={lecture.speaker?.image} alt="" className="my-auto aspect-square max-w-20 cursor-pointer rounded-md object-cover" />
+                        <img
+                            src={lecture.speaker?.image}
+                            alt=""
+                            className="my-auto aspect-square max-w-20 cursor-pointer rounded-md object-cover"
+                        />
                     </SpeakerDialog>
 
                     <div className="my-auto w-full text-nowrap">
-                        <p className="text-primary-blue text-sm font-medium">{lecture.speaker?.name}</p>
-                        <p className="text-md font-bold text-wrap md:max-w-72">{lecture.title}</p>
+                        <p className="text-primary-blue text-sm font-medium">
+                            {lecture.speaker?.name}
+                        </p>
+                        <p className="text-md font-bold text-wrap md:max-w-72">
+                            {lecture.title}
+                        </p>
 
                         <div className="flex items-center justify-between">
                             <p className="text-sm">
-                                {lecture.date}, {lecture.starts} - {lecture.ends}
+                                {lecture.date}, {lecture.starts} -{' '}
+                                {lecture.ends}
                             </p>
 
                             {/* Buttons on Mobile */}

@@ -10,7 +10,9 @@ import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 
 export default function ConfirmPassword() {
-    const { data, setData, post, processing, errors, reset } = useForm<Required<{ password: string }>>({
+    const { data, setData, post, processing, errors, reset } = useForm<
+        Required<{ password: string }>
+    >({
         password: '',
     });
 
@@ -23,7 +25,10 @@ export default function ConfirmPassword() {
     };
 
     return (
-        <AuthLayout title="Confirme sua Senha" description="Esta é uma área segura do aplicativo. Por favor, confirme sua senha antes de continuar.">
+        <AuthLayout
+            title="Confirme sua Senha"
+            description="Esta é uma área segura do aplicativo. Por favor, confirme sua senha antes de continuar."
+        >
             <Head title="Confirmar Senha" />
 
             <form onSubmit={submit}>
@@ -38,15 +43,22 @@ export default function ConfirmPassword() {
                             autoComplete="current-password"
                             value={data.password}
                             autoFocus
-                            onChange={(e) => setData('password', e.target.value)}
+                            onChange={(e) =>
+                                setData('password', e.target.value)
+                            }
                         />
 
                         <InputError message={errors.password} />
                     </div>
 
                     <div className="flex items-center">
-                        <Button className="w-full" disabled={processing}>
-                            {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                        <Button
+                            className="w-full"
+                            disabled={processing}
+                        >
+                            {processing && (
+                                <LoaderCircle className="h-4 w-4 animate-spin" />
+                            )}
                             Confirmar Senha
                         </Button>
                     </div>

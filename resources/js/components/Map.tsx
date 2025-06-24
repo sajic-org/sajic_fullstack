@@ -7,7 +7,13 @@ import { useEffect, useRef, useState } from 'react';
 let LModule: typeof import('leaflet') | null = null;
 let ReactLeafletModule: typeof import('react-leaflet') | null = null;
 
-const MapView = ({ center = [-31.770226, -52.338867] as LatLngTuple, zoom = 18 }: { center?: LatLngTuple; zoom?: number }) => {
+const MapView = ({
+    center = [-31.770226, -52.338867] as LatLngTuple,
+    zoom = 18,
+}: {
+    center?: LatLngTuple;
+    zoom?: number;
+}) => {
     // --- Hooks (must be called in the same order every render) ---
     const [isClient, setIsClient] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -28,7 +34,11 @@ const MapView = ({ center = [-31.770226, -52.338867] as LatLngTuple, zoom = 18 }
             let importInProgress = true;
             if (!importInProgress) return; // Should not happen with current deps, but as a safeguard.
 
-            Promise.all([import('leaflet'), import('react-leaflet'), import('leaflet/dist/leaflet.css')])
+            Promise.all([
+                import('leaflet'),
+                import('react-leaflet'),
+                import('leaflet/dist/leaflet.css'),
+            ])
                 .then(([L, RL]) => {
                     LModule = L;
                     ReactLeafletModule = RL;
@@ -36,7 +46,9 @@ const MapView = ({ center = [-31.770226, -52.338867] as LatLngTuple, zoom = 18 }
                 })
                 .catch((err) => {
                     console.error('Failed to load map modules:', err);
-                    setError('Could not load map components. Please try again later.');
+                    setError(
+                        'Could not load map components. Please try again later.',
+                    );
                 })
                 .finally(() => {
                     importInProgress = false;
@@ -55,7 +67,7 @@ const MapView = ({ center = [-31.770226, -52.338867] as LatLngTuple, zoom = 18 }
             }, 100);
             return () => clearTimeout(timer); // Cleanup timer
         }
-    }, [isClient, isLoaded, center, zoom, mapInstanceRef.current]); // Added mapInstanceRef.current as a dependency
+    }, [isClient, isLoaded, center, zoom]);
 
     // --- Conditional Rendering Logic (after all hooks) ---
 
@@ -129,7 +141,10 @@ const MapView = ({ center = [-31.770226, -52.338867] as LatLngTuple, zoom = 18 }
                     attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <RL.Marker position={center} icon={customMarkerIcon}>
+                <RL.Marker
+                    position={center}
+                    icon={customMarkerIcon}
+                >
                     <RL.Popup>Você está aqui!</RL.Popup>
                 </RL.Marker>
             </RL.MapContainer>
