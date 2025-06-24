@@ -7,24 +7,28 @@ import { type RouteName, route } from 'ziggy-js';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createServer((page) =>
-    createInertiaApp({
-        page,
-        render: ReactDOMServer.renderToString,
-        title: (title) => `${title} - ${appName}`,
-        resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
-        setup: ({ App, props }) => {
-            /* eslint-disable */
-            // @ts-expect-error
-            global.route<RouteName> = (name, params, absolute) =>
-                route(name, params as any, absolute, {
-                    // @ts-expect-error
-                    ...page.props.ziggy,
-                    // @ts-expect-error
-                    location: new URL(page.props.ziggy.url),
-                });
-            /* eslint-enable */
+  createInertiaApp({
+    page,
+    render: ReactDOMServer.renderToString,
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) =>
+      resolvePageComponent(
+        `./pages/${name}.tsx`,
+        import.meta.glob('./pages/**/*.tsx'),
+      ),
+    setup: ({ App, props }) => {
+      /* eslint-disable */
+      // @ts-expect-error
+      global.route<RouteName> = (name, params, absolute) =>
+        route(name, params as any, absolute, {
+          // @ts-expect-error
+          ...page.props.ziggy,
+          // @ts-expect-error
+          location: new URL(page.props.ziggy.url),
+        });
+      /* eslint-enable */
 
-            return <App {...props} />;
-        },
-    }),
+      return <App {...props} />;
+    },
+  }),
 );
