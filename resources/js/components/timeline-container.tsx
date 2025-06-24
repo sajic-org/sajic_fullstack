@@ -3,6 +3,7 @@ import Timeline from './timeline/timeline';
 import TimelineContent from './timeline/timeline-content';
 import TimelineHour from './timeline/timeline-hour';
 import TimelineLecture from './timeline/timeline-lecture';
+import { parse } from 'date-fns';
 
 interface LectureTimeline {
     day: string;
@@ -104,9 +105,18 @@ function generateTimelineDays(lecturesByDay: LecturesByDay) {
 function TimelineContainer({ timelineData }: TimelineProps) {
     const lecturesByDay = timelineData.reduce(groupByDayReducer, {});
 
-    const TimelineDays = generateTimelineDays(lecturesByDay);
+    //Sort the dates
+    const sortedLectures = Object.entries(lecturesByDay).sort((a, b) =>
+        dateToMiliseconds(a[0]) - dateToMiliseconds(b[0])
+    )
+
+    const TimelineDays = generateTimelineDays(Object.fromEntries(sortedLectures));
 
     return <section>{TimelineDays}</section>;
+}
+
+function dateToMiliseconds(date: string): number {
+    return parse(date, 'dd/MM', new Date).getTime()
 }
 
 export default TimelineContainer;
