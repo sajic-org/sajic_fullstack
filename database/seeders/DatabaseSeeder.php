@@ -8,7 +8,7 @@ use App\Models\Speaker;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Str;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {

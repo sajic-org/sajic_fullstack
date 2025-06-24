@@ -7,7 +7,6 @@ use App\Models\Lecture;
 use App\Models\LectureAttendance;
 use App\Models\Room;
 use App\Models\Speaker;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -69,39 +68,6 @@ class LectureController extends Controller
         return to_route('lectures.index');
     }
 
-    // GET Check In
-    public function attendant_table(Lecture $lecture)
-    {
-        $lecture->load('attendants', 'speaker');
-
-        return Inertia::render('check-in', ['lecture' => $lecture]);
-    }
-
-    // POST realiza o Check In
-    public function checkin(Request $request, Lecture $lecture)
-    {
-        $validated = $request->validate([
-            'checkedUsersIds' => 'required|array',
-            'checkedUsersIds.*' => 'string',
-        ]);
-
-        $attendances = LectureAttendance::whereBelongsTo($lecture)
-            ->whereIn('user_id', $validated['checkedUsersIds'])
-            ->with('user')
-            ->get();
-
-        LectureAttendance::whereIn('id', $attendances->pluck('id'))
-            ->update(['showed_up' => true]);
-
-
-        foreach ($attendances as $attendance) {
-            Mail::to($attendance->user->email)
-                ->send(new SendCertificate($attendance->id));
-        }
-
-        return to_route('lectures.index');
-    }
-
     // GET do Form de Edição de Palestra
     public function edit(Lecture $lecture)
     {
@@ -130,6 +96,38 @@ class LectureController extends Controller
     public function destroy(Lecture $lecture)
     {
         Lecture::destroy($lecture->id);
+
+        return to_route('lectures.index');
+    }
+
+    // GET Check In
+    public function attendant_table(Lecture $lecture)
+    {
+        $lecture->load('attendants', 'speaker');
+
+        return Inertia::render('check-in', ['lecture' => $lecture]);
+    }
+
+    // POST realiza o Check In
+    public function checkin(Request $request, Lecture $lecture)
+    {
+        $validated = $request->validate([
+            'checkedUsersIds' => 'required|array',
+            'checkedUsersIds.*' => 'string',
+        ]);
+
+        $attendances = LectureAttendance::whereBelongsTo($lecture)
+            ->whereIn('user_id', $validated['checkedUsersIds'])
+            ->with('user')
+            ->get();
+
+        LectureAttendance::whereIn('id', $attendances->pluck('id'))
+            ->update(['showed_up' => true]);
+
+        foreach ($attendances as $attendance) {
+            Mail::to($attendance->user->email)
+                ->send(new SendCertificate($attendance->id));
+        }
 
         return to_route('lectures.index');
     }

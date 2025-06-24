@@ -37,19 +37,18 @@ class PasswordController extends Controller
 
         ]);
 
-        if (!empty($request->current_password) || !empty($request->password)) {
+        if (! empty($request->current_password) || ! empty($request->password)) {
             $request->user()->update([
-            'password' => Hash::make($validated['password']),
-            'course' => $request->course,
-            'semester' => $request->semester,
-        ]);
-        } else{
+                'password' => Hash::make($validated['password']),
+                'course' => $request->course,
+                'semester' => $request->semester,
+            ]);
+        } else {
             $request->user()->update([
-            'course' => $request->course,
-            'semester' => $request->semester,
-        ]);
+                'course' => $request->course,
+                'semester' => $request->semester,
+            ]);
         }
-     
 
         return back();
     }

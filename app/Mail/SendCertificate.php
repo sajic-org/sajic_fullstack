@@ -7,18 +7,12 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Str;
 
 class SendCertificate extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct(
-        protected string $pdfId,
-    ) {}
+    public function __construct(protected string $pdfId) {}
 
     /**
      * Get the message envelope.
