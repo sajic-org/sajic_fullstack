@@ -15,16 +15,21 @@ export function AppShell({ children, variant = 'header' }: AppShellProps) {
         setHasMounted(true);
     }, []);
 
-    if (!hasMounted) {
-        return null;
-    }
-
     const handleSidebarChange = (open: boolean) => {
         setIsOpen(open);
         if (typeof window !== 'undefined') {
             localStorage.setItem('sidebar', String(open));
         }
     };
+
+    if (!hasMounted) {
+        return (<SidebarProvider
+            open={true}
+            onOpenChange={handleSidebarChange}
+        >
+            {children}
+        </SidebarProvider>)
+    }
 
     if (variant === 'header') {
         return (
