@@ -11,7 +11,9 @@ import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 
 export default function ForgotPassword({ status }: { status?: string }) {
-    const { data, setData, post, processing, errors } = useForm<Required<{ email: string }>>({
+    const { data, setData, post, processing, errors } = useForm<
+        Required<{ email: string }>
+    >({
         email: '',
     });
 
@@ -22,10 +24,17 @@ export default function ForgotPassword({ status }: { status?: string }) {
     };
 
     return (
-        <AuthLayout title="Esqueci minha senha" description="Insira seu endereço de e-mail abaixo e enviaremos um link para redefinir sua senha.">
+        <AuthLayout
+            title="Esqueci minha senha"
+            description="Insira seu endereço de e-mail abaixo e enviaremos um link para redefinir sua senha."
+        >
             <Head title="Esqueci minha Senha" />
 
-            {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
+            {status && (
+                <div className="mb-4 text-center text-sm font-medium text-green-600">
+                    {status}
+                </div>
+            )}
 
             <div className="space-y-6">
                 <form onSubmit={submit}>
@@ -46,8 +55,13 @@ export default function ForgotPassword({ status }: { status?: string }) {
                     </div>
 
                     <div className="my-6 flex items-center justify-start">
-                        <Button className="w-full" disabled={processing}>
-                            {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                        <Button
+                            className="w-full"
+                            disabled={processing}
+                        >
+                            {processing && (
+                                <LoaderCircle className="h-4 w-4 animate-spin" />
+                            )}
                             Link para redefinir senha
                         </Button>
                     </div>

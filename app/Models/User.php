@@ -25,14 +25,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'is_admin', // REMOVE
-        'is_unisenac_student',
+        'course',
+        'semester',
     ];
-
-    public function lectures(): BelongsToMany
-    {
-        return $this->belongsToMany(Lecture::class, LectureAttendance::class);
-    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -43,6 +38,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'remember_token',
     ];
+
+    public function lectures(): BelongsToMany
+    {
+        return $this->belongsToMany(Lecture::class, LectureAttendance::class)
+            ->as('lecture_attendances')
+            ->withPivot('id', 'showed_up');
+    }
 
     /**
      * Get the attributes that should be cast.

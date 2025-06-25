@@ -1,5 +1,11 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { LectureForm } from '@/pages/new-lecture-form';
@@ -8,37 +14,40 @@ import { InertiaFormProps, useForm, usePage } from '@inertiajs/react';
 import { SquarePen } from 'lucide-react';
 import { Dispatch, FormEventHandler, SetStateAction, useEffect } from 'react';
 import { toast } from 'sonner';
+import { flashPage } from './add-speaker-dialog';
 import ConfirmSpeakerDeletionAlert from './confirm-speaker-deletion-alert';
 import InputError from './input-error';
 import { DialogTrigger } from './ui/dialog';
 import { Textarea } from './ui/textarea';
 
+interface Props {
+    onSetSelectedSpeaker: Dispatch<SetStateAction<Speaker | undefined>>;
+    onSetData: InertiaFormProps<Required<LectureForm>>['setData'];
+    speaker: Speaker;
+}
+
+interface PartialSpeakerForm {
+    name: string;
+    description: string;
+}
+
 export default function EditSpeakerDialog({
     onSetSelectedSpeaker,
     onSetData,
     speaker,
-}: {
-    onSetSelectedSpeaker: Dispatch<SetStateAction<Speaker | undefined>>;
-    onSetData: InertiaFormProps<LectureForm>['setData'];
-    speaker: Speaker;
-}) {
-    interface SpeakerForm {
-        image: string;
-        name: string;
-        description: string;
-        [key: string]: any | unknown;
-    }
-
-    const { flash } = usePage().props;
+}: Props) {
+    const { flash } = usePage<Required<flashPage>>().props;
 
     useEffect(() => {
         if (flash?.newSpeaker) {
             onSetData('speaker_id', flash.newSpeaker.id);
             onSetSelectedSpeaker(flash.newSpeaker);
         }
-    }, [flash.newSpeaker]);
+    }, [flash.newSpeaker, onSetData, onSetSelectedSpeaker]);
 
-    const { data, setData, patch, errors } = useForm<SpeakerForm>({
+    const { data, setData, patch, errors } = useForm<
+        Required<PartialSpeakerForm>
+    >({
         name: speaker.name,
         description: speaker.description,
     });
@@ -50,6 +59,7 @@ export default function EditSpeakerDialog({
             preserveScroll: true,
             onSuccess: () => {
                 if (Object.keys(errors).length === 0) {
+                    //@ts-expect-error não quero entender
                     document.querySelector('[data-dialog-close]')?.click();
                 }
                 toast('Palestrante atualizado!', {
@@ -65,12 +75,18 @@ export default function EditSpeakerDialog({
 
     return (
         <Dialog>
-            <DialogTrigger asChild className="mt-2">
+            <DialogTrigger
+                asChild
+                className="mt-2"
+            >
                 <div onClick={(e) => e.stopPropagation()}>
                     <SquarePen className="size-5 cursor-pointer" />
                 </div>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]" onClick={(e) => e.stopPropagation()}>
+            <DialogContent
+                className="sm:max-w-[425px]"
+                onClick={(e) => e.stopPropagation()}
+            >
                 <DialogHeader>
                     <DialogTitle>Editar Palestrante</DialogTitle>
                 </DialogHeader>
@@ -78,20 +94,31 @@ export default function EditSpeakerDialog({
                 <form onSubmit={submit}>
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="name" className="text-right">
+                            <Label
+                                htmlFor="name"
+                                className="text-right"
+                            >
                                 Nome
                             </Label>
                             <Input
                                 id="name"
                                 defaultValue={speaker.name}
                                 required
-                                onChange={(e) => setData('name', e.target.value)}
+                                onChange={(e) =>
+                                    setData('name', e.target.value)
+                                }
                                 className="col-span-3"
                             />
-                            <InputError message={errors.name} className="col-span-3 col-start-2" />
+                            <InputError
+                                message={errors.name}
+                                className="col-span-3 col-start-2"
+                            />
                         </div>
                         <div className="grid grid-cols-4 items-start gap-4">
-                            <Label htmlFor="description" className="mt-2 text-right">
+                            <Label
+                                htmlFor="description"
+                                className="mt-2 text-right"
+                            >
                                 Sobre
                             </Label>
                             <Textarea
@@ -100,9 +127,14 @@ export default function EditSpeakerDialog({
                                 name="description"
                                 className="col-span-3"
                                 defaultValue={speaker.description}
-                                onChange={(e) => setData('description', e.target.value)}
+                                onChange={(e) =>
+                                    setData('description', e.target.value)
+                                }
                             />
-                            <InputError message={errors.description} className="col-span-3 col-start-2" />
+                            <InputError
+                                message={errors.description}
+                                className="col-span-3 col-start-2"
+                            />
                         </div>
                     </div>
                     <DialogFooter>

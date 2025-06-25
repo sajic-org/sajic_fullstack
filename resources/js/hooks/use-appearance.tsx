@@ -2,12 +2,17 @@ import { useCallback, useEffect, useState } from 'react';
 
 export type Appearance = 'light' | 'dark' | 'system';
 
-const prefersDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+const prefersDark = () =>
+    window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 const applyTheme = (appearance: Appearance) => {
-    const isDark = appearance === 'dark' || (appearance === 'system' && prefersDark());
+    let isDark =
+        appearance === 'dark' || (appearance === 'system' && prefersDark());
 
-    // document.documentElement.classList.toggle('dark', isDark);
+    //This disable darkmode and shutup eslint
+    isDark = false;
+
+    document.documentElement.classList.toggle('dark', isDark);
 };
 
 const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -18,7 +23,8 @@ const handleSystemThemeChange = () => {
 };
 
 export function initializeTheme() {
-    const savedAppearance = (localStorage.getItem('appearance') as Appearance) || 'system';
+    const savedAppearance =
+        (localStorage.getItem('appearance') as Appearance) || 'system';
 
     applyTheme(savedAppearance);
 
@@ -36,10 +42,13 @@ export function useAppearance() {
     }, []);
 
     useEffect(() => {
-        const savedAppearance = localStorage.getItem('appearance') as Appearance | null;
+        const savedAppearance = localStorage.getItem(
+            'appearance',
+        ) as Appearance | null;
         updateAppearance(savedAppearance || 'system');
 
-        return () => mediaQuery.removeEventListener('change', handleSystemThemeChange);
+        return () =>
+            mediaQuery.removeEventListener('change', handleSystemThemeChange);
     }, [updateAppearance]);
 
     return { appearance, updateAppearance } as const;

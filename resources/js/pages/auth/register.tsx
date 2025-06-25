@@ -1,8 +1,10 @@
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 
+import { CoursesDropdown } from '@/components/CoursesDropdown';
 import InputError from '@/components/input-error';
+import { SemesterDropdown } from '@/components/SemesterDropdown';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,17 +16,38 @@ type RegisterForm = {
     email: string;
     password: string;
     password_confirmation: string;
-    is_unisenac_student: boolean;
+    course: string;
+    semester: string;
 };
 
 export default function Register() {
-    const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
+    const { data, setData, post, processing, errors, reset } = useForm<
+        Required<RegisterForm>
+    >({
         name: '',
         email: '',
         password: '',
         password_confirmation: '',
-        is_unisenac_student: false,
+        course: '',
+        semester: '',
     });
+
+    const [isUnisenacStudent, setIsUnisenacStudent] = useState<boolean>(
+        data.course || data.semester ? true : false,
+    );
+
+    useEffect(() => {
+        if (!isUnisenacStudent) {
+            setData((prev) => ({
+                ...prev,
+                course: '',
+                semester: '',
+            }));
+        }
+    }, [isUnisenacStudent, setData]);
+
+    const cursos = ['ADS', 'MKT', 'PG', 'REDES', 'OUTRO'];
+    const semestres = ['1', '2', '3', '4', '5', '6', '7', '8', '8+'];
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -34,12 +57,18 @@ export default function Register() {
     };
 
     return (
-        <AuthLayout title="Criar uma Conta" description="Insira seus detalhes abaixo para criar uma conta">
+        <AuthLayout
+            title="Criar uma Conta"
+            description="Insira seus detalhes abaixo para criar uma conta"
+        >
             <Head title="Register" />
-            <form className="flex flex-col gap-6" onSubmit={submit}>
+            <form
+                className="flex flex-col gap-6"
+                onSubmit={submit}
+            >
                 <div className="grid gap-6">
                     <div className="grid gap-2">
-                        <Label htmlFor="name">Nome</Label>
+                        <Label htmlFor="name">Nome Completo</Label>
                         <Input
                             id="name"
                             type="text"
@@ -52,7 +81,10 @@ export default function Register() {
                             disabled={processing}
                             placeholder="Nome Completo"
                         />
-                        <InputError message={errors.name} className="mt-2" />
+                        <InputError
+                            message={errors.name}
+                            className="mt-2"
+                        />
                     </div>
 
                     <div className="grid gap-2">
@@ -80,7 +112,9 @@ export default function Register() {
                             tabIndex={3}
                             autoComplete="new-password"
                             value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
+                            onChange={(e) =>
+                                setData('password', e.target.value)
+                            }
                             disabled={processing}
                             placeholder="Senha"
                         />
@@ -88,7 +122,9 @@ export default function Register() {
                     </div>
 
                     <div className="grid gap-2">
-                        <Label htmlFor="password_confirmation">Confirmar Senha</Label>
+                        <Label htmlFor="password_confirmation">
+                            Confirmar Senha
+                        </Label>
                         <Input
                             id="password_confirmation"
                             type="password"
@@ -96,34 +132,81 @@ export default function Register() {
                             tabIndex={4}
                             autoComplete="new-password"
                             value={data.password_confirmation}
-                            onChange={(e) => setData('password_confirmation', e.target.value)}
+                            onChange={(e) =>
+                                setData('password_confirmation', e.target.value)
+                            }
                             disabled={processing}
                             placeholder="Confirmar Senha"
                         />
                         <InputError message={errors.password_confirmation} />
                     </div>
 
-                    <div className="flex items-center gap-2">
-                        <Input
-                            id="alunoUnisenac"
-                            type="checkbox"
-                            checked={data.is_unisenac_student}
-                            onChange={(e) => setData('is_unisenac_student', e.target.checked)}
-                            disabled={processing}
-                            className='max-w-4'
-                        />
-                        <Label htmlFor="alunoUnisenac">Aluno UniSenac?</Label>
+                    <div>
+                        <div className="flex items-center gap-2">
+                            <Input
+                                id="alunoUnisenac"
+                                type="checkbox"
+                                checked={isUnisenacStudent}
+                                onChange={(e) =>
+                                    setIsUnisenacStudent(e.target.checked)
+                                }
+                                disabled={processing}
+                                className="max-w-4"
+                            />
+                            <Label htmlFor="alunoUnisenac">
+                                Aluno UniSenac
+                            </Label>
+                        </div>
+                        {isUnisenacStudent && (
+                            <div className="flex space-x-2">
+                                <div>
+                                    <CoursesDropdown
+                                        courses={cursos}
+                                        value={data.course}
+                                        onValueChange={(value: string) =>
+                                            setData('course', value)
+                                        }
+                                    />
+                                    <InputError message={errors.course} />
+                                </div>
+
+                                {data.course && data.course != 'Outro' ? (
+                                    <div>
+                                        <SemesterDropdown
+                                            semesters={semestres}
+                                            value={data.semester}
+                                            onValueChange={(value) =>
+                                                setData('semester', value)
+                                            }
+                                        />
+                                        <InputError message={errors.semester} />
+                                    </div>
+                                ) : (
+                                    ''
+                                )}
+                            </div>
+                        )}
                     </div>
 
-                    <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
-                        {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                    <Button
+                        type="submit"
+                        className="mt-2 w-full"
+                        tabIndex={5}
+                        disabled={processing}
+                    >
+                        {processing && (
+                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                        )}
                         Criar Conta
                     </Button>
                 </div>
 
                 <div className="text-muted-foreground text-center text-sm">
                     Já tem uma conta?{' '}
-                    <TextLink href={route('login')} tabIndex={6}>
+                    <TextLink
+                        href={route('login')}
+                        tabIndex={6}
+                    >
                         Login
                     </TextLink>
                 </div>

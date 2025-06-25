@@ -36,14 +36,23 @@ const Banner = ({
                         <span className="font-medium">{title}</span>{' '}
                         <span className="text-muted-foreground">
                             {description}{' '}
-                            <a href={linkUrl} className="hover:text-foreground underline underline-offset-4" target="_blank">
+                            <a
+                                href={linkUrl}
+                                className="hover:text-foreground underline underline-offset-4"
+                                target="_blank"
+                            >
                                 {linkText}
                             </a>
                         </span>
                     </span>
                 </div>
 
-                <Button variant="ghost" size="icon" className="-mr-2 h-8 w-8 flex-none" onClick={handleClose}>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="-mr-2 h-8 w-8 flex-none"
+                    onClick={handleClose}
+                >
                     <X className="h-4 w-4" />
                 </Button>
             </div>

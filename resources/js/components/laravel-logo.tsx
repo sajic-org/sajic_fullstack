@@ -3,7 +3,11 @@ function MadeWithLaravel() {
         <div className="group relative hidden items-center gap-2 md:flex">
             <div className="peer absolute right-[140px] z-20 w-40 bg-white dark:bg-[#0A0A0A]">
                 <div className="peer bg-sidebar-primary text-sidebar-primary-foreground ml-auto flex aspect-square size-8 items-center justify-center rounded-md">
-                    <svg viewBox="0 0 40 42" xmlns="http://www.w3.org/2000/svg" className="size-5 fill-current text-white dark:text-black">
+                    <svg
+                        viewBox="0 0 40 42"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="size-5 fill-current text-white dark:text-black"
+                    >
                         <path
                             fillRule="evenodd"
                             clipRule="evenodd"
@@ -14,7 +18,9 @@ function MadeWithLaravel() {
             </div>
 
             <div className="-translate-x-[72%] transform text-left text-sm opacity-0 transition-transform duration-500 ease-in-out peer-hover:translate-x-10 peer-hover:opacity-100">
-                <span className="mb-0.5 truncate leading-none font-semibold">Desenvolvido com Laravel</span>
+                <span className="mb-0.5 truncate leading-none font-semibold">
+                    Desenvolvido com Laravel
+                </span>
             </div>
         </div>
     );

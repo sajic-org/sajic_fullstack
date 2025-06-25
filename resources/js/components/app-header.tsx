@@ -2,8 +2,17 @@ import { Breadcrumbs } from '@/components/breadcrumbs';
 import { Icon } from '@/components/icon';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { UserMenuContent } from '@/components/user-menu-content';
 import { useInitials } from '@/hooks/use-initials';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
@@ -32,7 +41,11 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
         <header className="sticky top-0 z-50 bg-white">
             <div className="border-sidebar-border/80 border-b">
                 <div className="mx-auto flex h-16 items-center px-4 sm:px-6 md:max-w-7xl">
-                    <Link href="/" prefetch className="flex items-center space-x-2">
+                    <Link
+                        href="/"
+                        prefetch
+                        className="flex items-center space-x-2"
+                    >
                         <AppLogo />
                     </Link>
 
@@ -43,7 +56,10 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                         <div className="relative flex items-center space-x-1">
                             <div className="hidden border-r px-2 lg:flex">
                                 {rightNavItems.map((item) => (
-                                    <TooltipProvider key={item.title} delayDuration={0}>
+                                    <TooltipProvider
+                                        key={item.title}
+                                        delayDuration={0}
+                                    >
                                         <Tooltip>
                                             <TooltipTrigger className="flex items-center text-sm font-medium">
                                                 <Link
@@ -51,9 +67,16 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                     rel="noopener noreferrer"
                                                     className="group text-accent-foreground ring-offset-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring ml-1 inline-flex items-center justify-center gap-2 rounded-md bg-transparent p-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
                                                 >
-                                                    <span className="sr-only">{item.title}</span>
+                                                    <span className="sr-only">
+                                                        {item.title}
+                                                    </span>
                                                     <span>{item.title}</span>
-                                                    {item.icon && <Icon iconNode={item.icon} className="size-5 opacity-80 group-hover:opacity-100" />}
+                                                    {item.icon && (
+                                                        <Icon
+                                                            iconNode={item.icon}
+                                                            className="size-5 opacity-80 group-hover:opacity-100"
+                                                        />
+                                                    )}
                                                 </Link>
                                             </TooltipTrigger>
                                             <TooltipContent>
@@ -85,16 +108,25 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                         {auth.user && (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" className="size-10 rounded-full p-1">
+                                    <Button
+                                        variant="ghost"
+                                        className="size-10 rounded-full p-1"
+                                    >
                                         <Avatar className="size-8 overflow-hidden rounded-full">
-                                            <AvatarImage src={auth.user.avatar} alt={auth.user.name} />
+                                            <AvatarImage
+                                                src={auth.user.avatar}
+                                                alt={auth.user.name}
+                                            />
                                             <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
                                                 {getInitials(auth.user.name)}
                                             </AvatarFallback>
                                         </Avatar>
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-56" align="end">
+                                <DropdownMenuContent
+                                    className="w-56"
+                                    align="end"
+                                >
                                     <UserMenuContent user={auth.user} />
                                 </DropdownMenuContent>
                             </DropdownMenu>

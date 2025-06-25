@@ -25,7 +25,7 @@ class SpeakerController extends Controller
 
         $imagePath = Storage::disk('public')->putFile('speakers', $request->image);
 
-        $assetPath = asset(Storage::url('public/'.$imagePath));
+        $assetPath = asset(Storage::url($imagePath));
 
         $speaker = Speaker::create([
             'image' => $assetPath,

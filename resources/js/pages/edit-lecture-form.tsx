@@ -8,7 +8,7 @@ import AddSpeakerDialog from '@/components/add-speaker-dialog';
 import { DatePicker } from '@/components/date-picker';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
-import { Room, RoomDropdown } from '@/components/RoomDropdown';
+import { RoomDropdown } from '@/components/RoomDropdown';
 import SpeakerSearchInput from '@/components/speaker-search-input';
 import { TimeSelectorGroup } from '@/components/time-selector';
 import { TypeDropdown } from '@/components/TypeDropdown';
@@ -16,20 +16,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
-import { Speaker } from '@/types/models';
+import { Room, Speaker } from '@/types/models';
 import { FormEventHandler, useEffect, useState } from 'react';
 import { toast } from 'sonner';
-
-export interface LectureForm {
-    speaker_id: number;
-    room_number: string;
-    title: string;
-    type: string;
-    date: string | Date;
-    starts: string;
-    ends: string;
-    [key: string]: any | unknown;
-}
+import { LectureForm } from './new-lecture-form';
 
 export interface Lecture extends LectureForm {
     id: number;
@@ -37,7 +27,15 @@ export interface Lecture extends LectureForm {
     updated_at: string;
 }
 
-function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speakers: Speaker[]; rooms: Room[] }) {
+function EditLectureForm({
+    lecture,
+    speakers,
+    rooms,
+}: {
+    lecture: Lecture;
+    speakers: Speaker[];
+    rooms: Room[];
+}) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
 
@@ -52,23 +50,33 @@ function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speak
         },
     ];
 
-    const currentSpeaker = speakers.find((speaker) => speaker.id === lecture.speaker_id);
-    const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | undefined>(currentSpeaker);
+    const currentSpeaker = speakers.find(
+        (speaker) => speaker.id === lecture.speaker_id,
+    );
+    const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | undefined>(
+        currentSpeaker,
+    );
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<LectureForm>({
-        speaker_id: lecture.speaker_id,
-        room_number: lecture.room_number,
-        title: lecture.title,
-        type: lecture.type,
-        date: lecture.date,
-        starts: lecture.starts,
-        ends: lecture.ends,
-    });
+    const { data, setData, patch, errors, processing, recentlySuccessful } =
+        useForm<Required<LectureForm>>({
+            speaker_id: lecture.speaker_id,
+            room_number: lecture.room_number,
+            title: lecture.title,
+            type: lecture.type,
+            date: lecture.date,
+            starts: lecture.starts,
+            ends: lecture.ends,
+
+            speaker: '',
+        });
 
     useEffect(() => {
         if (data.speaker_id) {
             const speaker = speakers.find((s) => s.id === data.speaker_id);
-            if (speaker && (!selectedSpeaker || selectedSpeaker.id !== speaker.id)) {
+            if (
+                speaker &&
+                (!selectedSpeaker || selectedSpeaker.id !== speaker.id)
+            ) {
                 setSelectedSpeaker(speaker);
             }
         }
@@ -112,9 +120,15 @@ function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speak
 
             <div className="mx-auto mb-20 w-full space-y-4 px-4 pt-12 sm:px-6 md:w-9/12 lg:w-2/3">
                 <div className="flex justify-between">
-                    <HeadingSmall title="Editar Palestra" description="Atualize os detalhes da palestra" />
+                    <HeadingSmall
+                        title="Editar Palestra"
+                        description="Atualize os detalhes da palestra"
+                    />
 
-                    <button className="cursor-pointer underline" onClick={onDelete}>
+                    <button
+                        className="cursor-pointer underline"
+                        onClick={onDelete}
+                    >
                         Excluir Palestra
                     </button>
                 </div>
@@ -124,7 +138,11 @@ function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speak
                     {selectedSpeaker ? (
                         <div className="flex items-center justify-between gap-5">
                             <div className="mt-2 flex items-center gap-4 font-light">
-                                <img src={selectedSpeaker.image} alt={selectedSpeaker.name} className="size-10 rounded-full object-cover shadow-md" />
+                                <img
+                                    src={selectedSpeaker.image}
+                                    alt={selectedSpeaker.name}
+                                    className="size-10 rounded-full object-cover shadow-md"
+                                />
                                 <span>{selectedSpeaker.name}</span>
                             </div>
 
@@ -141,15 +159,28 @@ function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speak
                         </div>
                     ) : (
                         <>
-                            <SpeakerSearchInput onSetData={setData} onSetSelectedSpeaker={setSelectedSpeaker} speakers={speakers}>
-                                <AddSpeakerDialog onSetSelectedSpeaker={setSelectedSpeaker} onSetData={setData} />
+                            <SpeakerSearchInput
+                                onSetData={setData}
+                                onSetSelectedSpeaker={setSelectedSpeaker}
+                                speakers={speakers}
+                            >
+                                <AddSpeakerDialog
+                                    onSetSelectedSpeaker={setSelectedSpeaker}
+                                    onSetData={setData}
+                                />
                             </SpeakerSearchInput>
-                            <InputError className="mt-2" message={errors.speaker} />
+                            <InputError
+                                className="mt-2"
+                                message={errors.speaker}
+                            />
                         </>
                     )}
                 </div>
 
-                <form onSubmit={submit} className="">
+                <form
+                    onSubmit={submit}
+                    className=""
+                >
                     <div className="grid grid-cols-8 space-y-4 space-x-2">
                         <div className="col-span-8 sm:col-span-4">
                             <Label htmlFor="title">Título</Label>
@@ -158,11 +189,16 @@ function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speak
                                 id="title"
                                 className="mt-1 block w-full"
                                 value={data.title || ''}
-                                onChange={(e) => setData('title', e.target.value)}
+                                onChange={(e) =>
+                                    setData('title', e.target.value)
+                                }
                                 placeholder="Título da Palestra"
                             />
 
-                            <InputError className="mt-2" message={errors.title} />
+                            <InputError
+                                className="mt-2"
+                                message={errors.title}
+                            />
                         </div>
 
                         <div className="relative col-span-4 flex flex-col gap-[14px] sm:col-span-2">
@@ -171,46 +207,87 @@ function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speak
                                 <div id="portal-root"></div>
                             </div>
 
-                            <RoomDropdown rooms={rooms} onSetData={setData} data={data}>
-                                <SelectValue className="flex w-full justify-between" placeholder="Sala" />
+                            <RoomDropdown
+                                rooms={rooms}
+                                onSetData={setData}
+                                data={data}
+                            >
+                                <SelectValue
+                                    className="flex w-full justify-between"
+                                    placeholder="Sala"
+                                />
                             </RoomDropdown>
-                            <InputError className="mt-2" message={errors.room_number} />
+                            <InputError
+                                className="mt-2"
+                                message={errors.room_number}
+                            />
                         </div>
 
                         <div className="col-span-4 flex flex-col gap-[14px] sm:col-span-2">
                             <Label>Tipo</Label>
 
-                            <TypeDropdown onSetData={setData} defaultValue={data.type}>
-                                <SelectValue className="w-full" placeholder="Categoria" />
+                            <TypeDropdown
+                                onSetData={setData}
+                                defaultValue={data.type}
+                            >
+                                <SelectValue
+                                    className="w-full"
+                                    placeholder="Categoria"
+                                />
                             </TypeDropdown>
-                            <InputError className="mt-2" message={errors.type} />
+                            <InputError
+                                className="mt-2"
+                                message={errors.type}
+                            />
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 space-y-4 space-x-2">
                         <div className="col-span-2 md:col-span-1">
                             <Label htmlFor="data">Data</Label>
-                            <DatePicker onSetData={setData} defaultDate={lecture.date} />
-                            <InputError className="mt-2" message={errors.date} />
+                            <DatePicker
+                                onSetData={setData}
+                                defaultDate={lecture.date}
+                            />
+                            <InputError
+                                className="mt-2"
+                                message={errors.date}
+                            />
                         </div>
 
                         <div className="col-span-2 flex flex-wrap gap-2 sm:flex-nowrap md:col-span-1">
                             {/* Das */}
                             <div className="w-full sm:w-1/2">
-                                <TimeSelectorGroup onSetData={setData} defaultValue={data.starts} />
-                                <InputError className="mt-2" message={errors.starts} />
+                                <TimeSelectorGroup
+                                    onSetData={setData}
+                                    defaultValue={data.starts}
+                                />
+                                <InputError
+                                    className="mt-2"
+                                    message={errors.starts}
+                                />
                             </div>
 
                             {/* às */}
                             <div className="w-full sm:w-1/2">
-                                <TimeSelectorGroup onSetData={setData} variant="ends" defaultValue={data.ends} />
-                                <InputError className="mt-2" message={errors.ends} />
+                                <TimeSelectorGroup
+                                    onSetData={setData}
+                                    variant="ends"
+                                    defaultValue={data.ends}
+                                />
+                                <InputError
+                                    className="mt-2"
+                                    message={errors.ends}
+                                />
                             </div>
                         </div>
                     </div>
 
                     <div className="mt-7 ml-auto flex w-fit items-center gap-4">
-                        <Button disabled={processing} className="px-8 py-5 text-base font-semibold">
+                        <Button
+                            disabled={processing}
+                            className="px-8 py-5 text-base font-semibold"
+                        >
                             Atualizar
                         </Button>
 
@@ -221,7 +298,9 @@ function EditLectureForm({ lecture, speakers, rooms }: { lecture: Lecture; speak
                             leave="transition ease-in-out"
                             leaveTo="opacity-0"
                         >
-                            <p className="text-sm text-neutral-600">Atualizado</p>
+                            <p className="text-sm text-neutral-600">
+                                Atualizado
+                            </p>
                         </Transition>
                     </div>
                 </form>
