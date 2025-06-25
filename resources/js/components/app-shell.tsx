@@ -23,12 +23,14 @@ export function AppShell({ children, variant = 'header' }: AppShellProps) {
     };
 
     if (!hasMounted) {
-        return (<SidebarProvider
-            open={true}
-            onOpenChange={handleSidebarChange}
-        >
-            {children}
-        </SidebarProvider>)
+        return (
+            <SidebarProvider
+                open={true}
+                onOpenChange={handleSidebarChange}
+            >
+                {children}
+            </SidebarProvider>
+        );
     }
 
     if (variant === 'header') {
