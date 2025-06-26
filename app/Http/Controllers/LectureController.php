@@ -7,6 +7,7 @@ use App\Models\Lecture;
 use App\Models\LectureAttendance;
 use App\Models\Room;
 use App\Models\Speaker;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,12 @@ class LectureController extends Controller
         }
 
         $lectures = Lecture::with(['speaker.lectures', 'room'])->get();
+
+        $lectures = $lectures->sortBy(function ($lecture) {
+            $date = Carbon::createFromFormat('d/m', $lecture->date);
+            $startTime = Carbon::createFromFormat('H:i', $lecture->starts);
+            return [$date->timestamp, $startTime->timestamp];
+        })->values();
 
         foreach ($lectures as $l) {
             $l['n_attendees'] = DB::table('lecture_attendances')->where('lecture_id', $l->id)->count();
