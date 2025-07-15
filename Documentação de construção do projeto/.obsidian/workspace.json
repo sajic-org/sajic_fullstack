@@ -1,0 +1,220 @@
+{
+  "main": {
+    "id": "f5da9f351ceb717b",
+    "type": "split",
+    "children": [
+      {
+        "id": "5a2377009f204c8e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8101d99ff40b5d16",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Tecnologias/Desenvolvimento.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Desenvolvimento"
+            }
+          },
+          {
+            "id": "4a256ea02977a575",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Prototipação/Personas.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Personas"
+            }
+          },
+          {
+            "id": "603efff46086c325",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Propostas/Levantamento de Requisitos.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Levantamento de Requisitos"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "639f28446ee31a34",
+    "type": "split",
+    "children": [
+      {
+        "id": "e4dd95f43cfadee0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "83a83c58c8a4e48b",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "0bbbf315192d533b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "7ebc7b3ee74bccf7",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "eb3672d91529d260",
+    "type": "split",
+    "children": [
+      {
+        "id": "3287672ecda3737e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "da21fabb02041acb",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Propostas/Problemas.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Problemas"
+            }
+          },
+          {
+            "id": "0740838256fc4bb2",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Propostas/Problemas.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Problemas"
+            }
+          },
+          {
+            "id": "410861c3aa15da24",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "979a6a93716a8a26",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Propostas/Problemas.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Problemas"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "graph:Open graph view": false,
+      "switcher:Open quick switcher": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "83a83c58c8a4e48b",
+  "lastOpenFiles": [
+    "Prototipação/Personas.md",
+    "Prototipação/Protótipo.md",
+    "Propostas/Proposta.md",
+    "Propostas/Problemas.md",
+    "Propostas/Levantamento de Requisitos.md",
+    "MVP.md",
+    "Tecnologias/Desenvolvimento.md",
+    "Untitled",
+    "User stories/User stories.md",
+    "Datas de entrega.md",
+    "User stories",
+    "Prototipação/Diagramas.md",
+    "Prototipação/Páginas para transcrever no figma.md",
+    "Prototipação/Casos de uso.md",
+    "Prototipação",
+    "Tecnologias",
+    "Propostas"
+  ]
+}

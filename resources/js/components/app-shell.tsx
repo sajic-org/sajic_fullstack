@@ -25,7 +25,7 @@ export function AppShell({ children, variant = 'header' }: AppShellProps) {
     if (!hasMounted) {
         return (
             <SidebarProvider
-                open={true}
+                open={false}
                 onOpenChange={handleSidebarChange}
             >
                 {children}

@@ -172,7 +172,7 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
                     <LecturesGridHeading
                         title="Gestão e Mercado"
                         image="https://www.ziprecruiter.com/svc/fotomat/public-ziprecruiter/cms/929029342ArchitecturalEngineer.jpg=ws1280x960"
-                        description="Explore the birth of groundbreaking ideas and inventions."
+                        description="Explore o nascimento de ideias e invenções inovadoras."
                         className={
                             'bg-primary-blue mt-8 ml-auto aspect-[3/2] text-white md:max-w-lg'
                         }
