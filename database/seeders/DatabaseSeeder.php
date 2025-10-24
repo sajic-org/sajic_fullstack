@@ -115,29 +115,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Guilherme é um fantasma, uma lenda. Ele domina a onipresença quântica, conseguindo estar matriculado sem nunca ser visto. Mestre na arte de obter atestados, seus métodos são tão avançados que já estão sendo estudados para aplicações em computação na nuvem e teletransporte. Dizem que ele não falta, apenas "realoca sua presença para um plano astral superior".',
         ]);
 
-        Room::create(['number' => 'Biblioteca', 'capacity' => 24]);
-        Room::create(['number' => 'Idiomas', 'capacity' => 21]);
-        Room::create(['number' => 'LabTec', 'capacity' => 60]);
-        Room::create(['number' => '102', 'capacity' => 85]);
-        Room::create(['number' => '201', 'capacity' => 50]);
-        Room::create(['number' => '202', 'capacity' => 50]);
-        Room::create(['number' => '203', 'capacity' => 30]);
-        Room::create(['number' => '204', 'capacity' => 50]);
-        Room::create(['number' => '205', 'capacity' => 53]);
-        Room::create(['number' => '206', 'capacity' => 50]);
-        Room::create(['number' => '207', 'capacity' => 50]);
-        Room::create(['number' => '208', 'capacity' => 50]);
-        Room::create(['number' => '209', 'capacity' => 12]);
-        Room::create(['number' => '210', 'capacity' => 25]);
-        Room::create(['number' => 'Labin 101', 'capacity' => 20]);
-        Room::create(['number' => 'Labin 102', 'capacity' => 20]);
-        Room::create(['number' => 'Labin 103', 'capacity' => 23]);
-        Room::create(['number' => 'Labin 104', 'capacity' => 5]);
-        Room::create(['number' => 'Labin 105', 'capacity' => 25]);
-        Room::create(['number' => 'Labin 201', 'capacity' => 35]);
-        Room::create(['number' => 'Labin 204', 'capacity' => 50]);
-        Room::create(['number' => 'MultiUso 201', 'capacity' => 60]);
-
         // Pablito Velhito (ID: 1)
         Lecture::factory(1)->create([
             'title' => 'Redes Ancestrais e Protocolos Perdidos',
@@ -145,6 +122,7 @@ class DatabaseSeeder extends Seeder
             'speaker_id' => 1,
             'room_number' => '102',
         ]);
+        
         Lecture::factory(1)->create([
             'title' => 'Scrum Sem Frescura: Como Gerir Equipes com Planilha, Rock e Café',
             'type' => 'Gestão e Mercado',
