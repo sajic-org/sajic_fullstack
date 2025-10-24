@@ -129,7 +129,14 @@ class DatabaseSeeder extends Seeder
         Room::create(['number' => '208', 'capacity' => 50]);
         Room::create(['number' => '209', 'capacity' => 12]);
         Room::create(['number' => '210', 'capacity' => 25]);
-        Room::create(['number' => 'teste', 'capacity' => 1]);
+        Room::create(['number' => 'Labin 101', 'capacity' => 20]);
+        Room::create(['number' => 'Labin 102', 'capacity' => 20]);
+        Room::create(['number' => 'Labin 103', 'capacity' => 23]);
+        Room::create(['number' => 'Labin 104', 'capacity' => 5]);
+        Room::create(['number' => 'Labin 105', 'capacity' => 25]);
+        Room::create(['number' => 'Labin 201', 'capacity' => 35]);
+        Room::create(['number' => 'Labin 204', 'capacity' => 50]);
+        Room::create(['number' => 'MultiUso 201', 'capacity' => 60]);
 
         // Pablito Velhito (ID: 1)
         Lecture::factory(1)->create([
