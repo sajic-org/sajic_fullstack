@@ -32,7 +32,7 @@ class RoomSeeder extends Seeder
         Room::create(['number' => 'Labin 104', 'capacity' => 5]);
         Room::create(['number' => 'Labin 105', 'capacity' => 25]);
         Room::create(['number' => 'Labin 201', 'capacity' => 35]);
-        Room::create(['number' => 'Labin 204', 'capacity' => 50]);
-        Room::create(['number' => 'MultiUso 201', 'capacity' => 60]);
+        Room::create(['number' => 'Labin 204', 'capacity' => 60]);
+        Room::create(['number' => 'MultiUso 201', 'capacity' => 50]);
     }
 }
