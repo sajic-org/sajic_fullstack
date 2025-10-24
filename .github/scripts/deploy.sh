@@ -21,6 +21,8 @@ php artisan optimize
 
 php artisan migrate --force
 
+php artisan octane:reload
+
 php artisan up
 
 echo "Deploy foi um sucesso!!! >:D"
