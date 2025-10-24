@@ -12,7 +12,13 @@ import { LectureForm } from '@/pages/new-lecture-form';
 import { Speaker } from '@/types/models';
 import { InertiaFormProps, useForm, usePage } from '@inertiajs/react';
 import { PlusIcon, UploadIcon } from 'lucide-react';
-import { Dispatch, FormEventHandler, SetStateAction, useEffect } from 'react';
+import {
+    Dispatch,
+    FormEventHandler,
+    SetStateAction,
+    useEffect,
+    useState,
+} from 'react';
 import { toast } from 'sonner';
 import InputError from './input-error';
 import { DialogTrigger } from './ui/dialog';
@@ -25,7 +31,8 @@ interface Props {
 
 interface SpeakerForm {
     id: number;
-    image: File | null;
+    image?: File;
+    image_link?: string;
     name: string;
     description: string;
 }
@@ -34,14 +41,17 @@ export interface flashPage {
     flash: {
         newSpeaker: {
             id: number;
-            image: string;
+            image?: string;
             name: string;
+            image_link?: string;
             description: string;
         };
     };
 }
 
 function AddSpeakerDialog({ onSetSelectedSpeaker, onSetData }: Props) {
+    const [areImageOrLinkSelected, setAreImageOrLinkSelected] = useState(false);
+
     const { flash } = usePage<Required<flashPage>>().props;
 
     useEffect(() => {
@@ -56,22 +66,28 @@ function AddSpeakerDialog({ onSetSelectedSpeaker, onSetData }: Props) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('speakers.store', data), {
-            preserveScroll: true,
-            onSuccess: () => {
-                if (Object.keys(errors).length === 0) {
-                    //@ts-expect-error não quero entender
-                    document.querySelector('[data-dialog-close]')?.click();
-                }
-                toast('Palestrante adicionado!', {
-                    description: `Palestrante ${data.name} foi adicionado com sucesso!`,
-                });
-            },
-            onError: (errors) => {
-                toast.error('Erro ao adicionar palestrante.');
-                console.error(errors);
-            },
-        });
+        if (!areImageOrLinkSelected) {
+            toast.error('Erro ao criar palestrante!', {
+                description: `Uma imagem ou um link de uma imagem devem ser inseridos.`,
+            });
+        } else {
+            post(route('speakers.store', data), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    if (Object.keys(errors).length === 0) {
+                        //@ts-expect-error não quero entender
+                        document.querySelector('[data-dialog-close]')?.click();
+                    }
+                    toast('Palestrante adicionado!', {
+                        description: `Palestrante ${data.name} foi adicionado com sucesso!`,
+                    });
+                },
+                onError: (errors) => {
+                    toast.error('Erro ao adicionar palestrante.');
+                    console.error(errors);
+                },
+            });
+        }
     };
 
     return (
@@ -94,8 +110,8 @@ function AddSpeakerDialog({ onSetSelectedSpeaker, onSetData }: Props) {
                 </DialogHeader>
 
                 <form onSubmit={submit}>
-                    <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-4 items-start gap-4">
+                    <div className="grid gap-8 py-4">
+                        <div className="grid grid-cols-4 items-start gap-2">
                             <Label
                                 htmlFor="image"
                                 className="mt-6 text-right"
@@ -113,7 +129,7 @@ function AddSpeakerDialog({ onSetSelectedSpeaker, onSetData }: Props) {
                                 ) : (
                                     <>
                                         <UploadIcon className="m-auto h-8 w-8 text-gray-400" />
-                                        <p className="mt-2 text-center text-sm text-gray-500">
+                                        <p className="mb-2 text-center text-xs text-gray-500">
                                             Clique para selecionar uma imagem
                                         </p>
                                     </>
@@ -122,17 +138,35 @@ function AddSpeakerDialog({ onSetSelectedSpeaker, onSetData }: Props) {
                                     type="file"
                                     id="image"
                                     name="image"
-                                    required
                                     accept="image/*"
-                                    onChange={(e) =>
+                                    onChange={(e) => {
                                         setData(
                                             'image',
                                             e.target.files?.[0] || null,
-                                        )
-                                    }
+                                        );
+
+                                        data.image &&
+                                            setAreImageOrLinkSelected(true);
+                                    }}
                                     className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                                 />
                             </div>
+                            <div className="text-muted-foreground col-span-3 col-start-2 grid grid-cols-3 items-center gap-1 text-center">
+                                <hr />
+                                <p>OU</p>
+                                <hr />
+                            </div>
+
+                            <Input
+                                className="col-span-3 col-start-2"
+                                placeholder="Cole o link da imagem"
+                                onChange={(e) => {
+                                    setData('image_link', e.target.value);
+                                    e.target.value &&
+                                        setAreImageOrLinkSelected(true);
+                                }}
+                            />
+
                             <InputError
                                 message={errors.image}
                                 className="col-span-3 col-start-2"

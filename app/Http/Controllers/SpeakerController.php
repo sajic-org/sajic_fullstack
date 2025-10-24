@@ -18,16 +18,22 @@ class SpeakerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'image' => 'required|image',
+            'image' => 'image|nullable',
+            'image_link'=>'nullable|string',
             'name' => 'required|min:8|max:30',
             'description' => 'required|min:150|max:1500',
         ]);
 
-        $imagePath = Storage::disk('public')->putFile('speakers', $request->image);
+        if($request->hasFile('image')){
 
-        $assetPath = asset(Storage::url($imagePath));
-
-        $speaker = Speaker::create([
+            $imagePath = Storage::disk('public')->putFile('speakers', $request->image);
+            
+            $assetPath = asset(Storage::url($imagePath));
+            
+        } elseif($request->image_link){
+            $assetPath = $request->image_link;
+        }
+            $speaker = Speaker::create([
             'image' => $assetPath,
             'name' => $request['name'],
             'description' => $request['description'],
