@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
@@ -37,6 +38,11 @@ class LectureController extends Controller
             $l['n_attendees'] = DB::table('lecture_attendances')->where('lecture_id', $l->id)->count();
         }
 
+        $admin = Auth::user();
+        if ($admin && ($admin->is_admin ?? false)) {
+            Log::info('Admin [' . $admin->email . '] acessou a listagem de palestras.');
+        }
+
         return Inertia::render('lectures', [
             'lectures' => $lectures,
             'user' => $user,
@@ -46,6 +52,10 @@ class LectureController extends Controller
     // GET do Form de criação de Palestras
     public function create(bool $speakerJustCreated = false)
     {
+        $admin = Auth::user();
+        if ($admin && ($admin->is_admin ?? false)) {
+            Log::info('Admin [' . $admin->email . '] acessou o formulário de criação de palestra.');
+        }
         return Inertia::render('new-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get()]);
     }
 
@@ -62,7 +72,7 @@ class LectureController extends Controller
             'ends' => 'required|min:5|max:5',
         ]);
 
-        Lecture::create([
+        $lecture = Lecture::create([
             'speaker_id' => $request['speaker_id'],
             'room_number' => $request['room_number'],
             'type' => $request['type'],
@@ -72,12 +82,21 @@ class LectureController extends Controller
             'ends' => $request['ends'],
         ]);
 
+        $user = Auth::user();
+        if ($user && ($user->is_admin ?? false)) {
+            Log::info('Admin [' . $user->email . '] adicionou palestra [' . $lecture->title . ']');
+        }
+
         return to_route('lectures.index');
     }
 
     // GET do Form de Edição de Palestra
     public function edit(Lecture $lecture)
     {
+        $admin = Auth::user();
+        if ($admin && ($admin->is_admin ?? false)) {
+            Log::info('Admin [' . $admin->email . '] acessou o formulário de edição da palestra [' . $lecture->title . '].');
+        }
         return Inertia::render('edit-lecture-form', ['lecture' => $lecture, 'speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get()]);
     }
 
@@ -94,7 +113,13 @@ class LectureController extends Controller
             'ends' => 'required|min:5|max:5',
         ]);
 
+        $oldData = $lecture->toArray();
         Lecture::whereId($lecture->id)->update($validated);
+
+        $admin = Auth::user();
+        if ($admin && ($admin->is_admin ?? false)) {
+            Log::info('Admin [' . $admin->email . '] alterou a palestra [' . $oldData['title'] . '] -> ' . json_encode($validated));
+        }
 
         return back();
     }
@@ -102,8 +127,12 @@ class LectureController extends Controller
     // Deleta Palestra
     public function destroy(Lecture $lecture)
     {
+        $admin = Auth::user();
+        $lectureTitle = $lecture->title;
         Lecture::destroy($lecture->id);
-
+        if ($admin && ($admin->is_admin ?? false)) {
+            Log::info('Admin [' . $admin->email . '] deletou a palestra [' . $lectureTitle . ']');
+        }
         return to_route('lectures.index');
     }
 
