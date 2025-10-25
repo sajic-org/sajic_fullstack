@@ -32,6 +32,7 @@ export interface Speaker {
 export interface Room {
     number: string;
     capacity: number;
+    building: 'felix' | 'goncalves';
     lectures?: Lecture[];
 }
 

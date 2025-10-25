@@ -123,7 +123,15 @@ export const LecturesGridItem = ({
                         </span>
                     </div>
                     <div className="flex items-center justify-between">
-                        <span>Sala {lecture.room_number}</span>
+                        <span>
+                            Sala {lecture.room_number}{' '}
+                            <span className="text-muted-foreground font-medium">
+                                -{' '}
+                                {lecture.room?.building === 'goncalves'
+                                    ? 'Gonçalves'
+                                    : 'Félix'}
+                            </span>
+                        </span>
 
                         <span className="text-sm font-medium">
                             {lecture.date}, {lecture.starts} - {lecture.ends}

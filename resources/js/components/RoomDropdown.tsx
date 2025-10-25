@@ -84,6 +84,8 @@ export function RoomDropdown({ children, rooms, onSetData, data }: Props) {
         (!isScreenMedium || // Always show on small screens
             showInfo === data.room_number); // Show on hover for medium+ screens
 
+    console.log(rooms);
+
     return (
         <Select
             defaultValue={data.room_number}
@@ -95,21 +97,41 @@ export function RoomDropdown({ children, rooms, onSetData, data }: Props) {
             <SelectTrigger className="w-full">{children}</SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    <SelectLabel>Salas</SelectLabel>
-                    {rooms.map((room: Room) => (
-                        <div key={room.number}>
-                            <SelectItem value={room.number}>
-                                <div className="pointer-events-none flex w-full items-center justify-between">
-                                    <div className="pointer-events-auto mr-2 flex items-center gap-1">
-                                        {room.number}
-                                        <p className="text-xs font-medium">
-                                            cap.: {room.capacity}
-                                        </p>
+                    <SelectLabel>Principal (Gonçalves)</SelectLabel>
+                    {rooms
+                        .filter((room) => room.building === 'goncalves')
+                        .map((room: Room) => (
+                            <div key={room.number}>
+                                <SelectItem value={room.number}>
+                                    <div className="pointer-events-none flex w-full items-center justify-between">
+                                        <div className="pointer-events-auto mr-2 flex items-center gap-1">
+                                            {room.number}
+                                            <p className="text-xs font-medium">
+                                                cap.: {room.capacity}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </SelectItem>
-                        </div>
-                    ))}
+                                </SelectItem>
+                            </div>
+                        ))}
+
+                    <SelectLabel>Tech (Félix)</SelectLabel>
+                    {rooms
+                        .filter((room) => room.building === 'felix')
+                        .map((room: Room) => (
+                            <div key={room.number}>
+                                <SelectItem value={room.number}>
+                                    <div className="pointer-events-none flex w-full items-center justify-between">
+                                        <div className="pointer-events-auto mr-2 flex items-center gap-1">
+                                            {room.number}
+                                            <p className="text-xs font-medium">
+                                                cap.: {room.capacity}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </SelectItem>
+                            </div>
+                        ))}
 
                     {!isAvailable &&
                         portalRoot &&
