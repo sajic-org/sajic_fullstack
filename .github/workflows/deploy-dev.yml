@@ -6,16 +6,16 @@ on:
     branches:
       - main
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - name: Deploy in ec2
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSHKEY }}
-          port: ${{ secrets.PORT }}
-          script: "cd /var/www/sajic.marce1in.com.br && ./.github/scripts/deploy.sh"
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     environment: production
+#     steps:
+#       - name: Deploy in ec2
+#         uses: appleboy/ssh-action@v1
+#         with:
+#           host: ${{ secrets.HOST }}
+#           username: ${{ secrets.USERNAME }}
+#           key: ${{ secrets.SSHKEY }}
+#           port: ${{ secrets.PORT }}
+#           script: "cd /var/www/sajic.marce1in.com.br && ./.github/scripts/deploy.sh"
