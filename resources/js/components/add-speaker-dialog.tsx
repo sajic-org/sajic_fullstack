@@ -145,8 +145,7 @@ function AddSpeakerDialog({ onSetSelectedSpeaker, onSetData }: Props) {
                                             e.target.files?.[0] || null,
                                         );
 
-                                        data.image &&
-                                            setAreImageOrLinkSelected(true);
+                                        setAreImageOrLinkSelected(true);
                                     }}
                                     className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                                 />
