@@ -5,7 +5,7 @@ echo "Deploy começou... (O_o)!"
 
 (php artisan down) || true
 
-git pull origin dev
+git pull origin main
 
 php artisan optimize:clear
 
