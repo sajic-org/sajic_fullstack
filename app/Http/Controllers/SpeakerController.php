@@ -25,8 +25,8 @@ class SpeakerController extends Controller
         $request->validate([
             'image' => 'image|nullable',
             'image_link'=>'nullable|string',
-            'name' => 'required|min:8|max:30',
-            'description' => 'required|min:150|max:1500',
+            'name' => 'required|min:5|max:30',
+            'description' => 'required|min:50|max:1500',
         ]);
 
         if($request->hasFile('image')){

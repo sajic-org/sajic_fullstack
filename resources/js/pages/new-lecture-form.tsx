@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
-import { Room, Speaker } from '@/types/models';
+import { LectureType, Room, Speaker } from '@/types/models';
 import { FormEventHandler, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -34,11 +34,12 @@ export interface LectureForm {
 }
 
 interface Props {
+    types: LectureType[];
     speakers: Speaker[];
     rooms: Room[];
 }
 
-function NewLectureForm({ speakers, rooms }: Props) {
+function NewLectureForm({ speakers, rooms, types }: Props) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
 
@@ -54,6 +55,9 @@ function NewLectureForm({ speakers, rooms }: Props) {
     ];
 
     const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker>();
+    const [availableTypes, setAvailableTypes] = useState<string[]>(
+        types.map((type) => type.title),
+    );
 
     const { data, setData, post, errors, processing, recentlySuccessful } =
         useForm<Required<LectureForm>>();
@@ -170,10 +174,13 @@ function NewLectureForm({ speakers, rooms }: Props) {
                             />
                         </div>
 
+                        {/* CATEGORIA // TIPO */}
                         <div className="col-span-4 flex flex-col gap-[14px] sm:col-span-2">
-                            <Label>Tipo</Label>
+                            <Label>Categoria</Label>
 
                             <TypeDropdown
+                                availableTypes={availableTypes}
+                                onSetAvailableTypes={setAvailableTypes}
                                 onSetData={setData}
                                 defaultValue={data.type}
                             >
