@@ -1,12 +1,6 @@
-enum LectureType {
-    TECNOLOGIA = 'Tecnologia',
-    GESTAO_E_MERCADO = 'Gestão e Mercado',
-}
-
 export interface Lecture {
     id: number;
     title: string;
-    type: LectureType;
     date: string;
     starts: string;
     ends: string;
@@ -16,6 +10,7 @@ export interface Lecture {
     is_active?: boolean | number;
     speaker_id?: number;
     speaker?: Speaker;
+    type: LectureType;
     room?: Room;
     attendants?: User[];
     lecture_attendances?: LectureAttendances; // Lecture and User pivot table

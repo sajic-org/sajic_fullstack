@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
+use function PHPSTORM_META\type;
+
 class LectureController extends Controller
 {
     // Listagem de Palestras
@@ -27,7 +29,7 @@ class LectureController extends Controller
             $user = Auth::user()->load(['lectures']);
         }
 
-        $lectures = Lecture::with(['speaker.lectures', 'room'])->get();
+        $lectures = Lecture::with(['speaker.lectures', 'room', 'type'])->get();
 
         $lectures = $lectures->sortBy(function ($lecture) {
             $date = Carbon::createFromFormat('d/m', $lecture->date);
