@@ -64,7 +64,7 @@ class LectureController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|max:75|min:10',
+            'title' => 'required|max:75',
             'speaker_id' => 'required',
             'room_number' => 'required|min:3',
             'type' => 'required',
@@ -103,14 +103,17 @@ class LectureController extends Controller
     public function update(Request $request, Lecture $lecture)
     {
         $validated = $request->validate([
-            'title' => 'required|max:75|min:10',
+            'title' => 'required|max:75',
             'speaker_id' => 'required',
             'room_number' => 'required|min:3',
-            'type' => 'required|in:Tecnologia,Gestão e Mercado',
+            'type' => 'required',
             'date' => 'required|min:5|max:5',
             'starts' => 'required|min:5|max:5',
             'ends' => 'required|min:5|max:5',
         ]);
+
+        $lectureType = LectureType::firstOrCreate(['title'=>$request['type']]);
+        $validated['type'] = $lectureType->id;
 
         $oldData = $lecture->toArray();
         Lecture::whereId($lecture->id)->update($validated);
@@ -124,7 +127,6 @@ class LectureController extends Controller
     public function destroy(Lecture $lecture)
     {
         Lecture::destroy($lecture->id);
-
         
         Log::info('Admin [' . Auth::user()->email . '] deletou a palestra [' . $lecture->title . ']');
 
@@ -160,9 +162,7 @@ class LectureController extends Controller
                 ->send(new SendCertificate($attendance->id));
         }
 
-
         Log::info('Admin [' . Auth::user()->email . '] fez o checkin da palestra [' . $lecture->title . ']');
-
 
         return to_route('lectures.index');
     }
