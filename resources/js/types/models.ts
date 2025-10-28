@@ -36,6 +36,11 @@ export interface Room {
     lectures?: Lecture[];
 }
 
+export interface LectureType {
+    id: number;
+    title: string;
+}
+
 export interface User {
     id: number;
     name: string;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\SendCertificate;
 use App\Models\Lecture;
 use App\Models\LectureAttendance;
+use App\Models\LectureType;
 use App\Models\Room;
 use App\Models\Speaker;
 use Carbon\Carbon;
@@ -38,10 +39,7 @@ class LectureController extends Controller
             $l['n_attendees'] = DB::table('lecture_attendances')->where('lecture_id', $l->id)->count();
         }
 
-        $admin = Auth::user();
-        if ($admin && ($admin->is_admin ?? false)) {
-            Log::info('Admin [' . $admin->email . '] acessou a listagem de palestras.');
-        }
+
 
         return Inertia::render('lectures', [
             'lectures' => $lectures,
@@ -49,15 +47,16 @@ class LectureController extends Controller
         ]);
     }
 
+
+
     // GET do Form de criação de Palestras
     public function create(bool $speakerJustCreated = false)
     {
-        $admin = Auth::user();
-        if ($admin && ($admin->is_admin ?? false)) {
-            Log::info('Admin [' . $admin->email . '] acessou o formulário de criação de palestra.');
-        }
-        return Inertia::render('new-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get()]);
+        return Inertia::render('new-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get(), 'types'=> LectureType::get()]);
     }
+
+
+
 
     //  POST de criação de Palestras
     public function store(Request $request)
@@ -66,26 +65,27 @@ class LectureController extends Controller
             'title' => 'required|max:75|min:10',
             'speaker_id' => 'required',
             'room_number' => 'required|min:3',
-            'type' => 'required|in:Tecnologia,Gestão e Mercado',
+            'type' => 'required',
             'date' => 'required|min:5|max:5',
             'starts' => 'required|min:5|max:5',
             'ends' => 'required|min:5|max:5',
         ]);
 
+        $lectureType = LectureType::firstOrCreate(['title'=>$request['type']]);
+
+
         $lecture = Lecture::create([
             'speaker_id' => $request['speaker_id'],
             'room_number' => $request['room_number'],
-            'type' => $request['type'],
+            'type_id' => $lectureType->id,
             'title' => $request['title'],
             'date' => $request['date'],
             'starts' => $request['starts'],
             'ends' => $request['ends'],
         ]);
 
-        $user = Auth::user();
-        if ($user && ($user->is_admin ?? false)) {
-            Log::info('Admin [' . $user->email . '] adicionou palestra [' . $lecture->title . ']');
-        }
+        
+        Log::info('Admin [' . Auth::user()->email . '] adicionou palestra [' . $lecture->title . ']');
 
         return to_route('lectures.index');
     }
@@ -93,10 +93,7 @@ class LectureController extends Controller
     // GET do Form de Edição de Palestra
     public function edit(Lecture $lecture)
     {
-        $admin = Auth::user();
-        if ($admin && ($admin->is_admin ?? false)) {
-            Log::info('Admin [' . $admin->email . '] acessou o formulário de edição da palestra [' . $lecture->title . '].');
-        }
+
         return Inertia::render('edit-lecture-form', ['lecture' => $lecture, 'speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get()]);
     }
 
@@ -116,10 +113,7 @@ class LectureController extends Controller
         $oldData = $lecture->toArray();
         Lecture::whereId($lecture->id)->update($validated);
 
-        $admin = Auth::user();
-        if ($admin && ($admin->is_admin ?? false)) {
-            Log::info('Admin [' . $admin->email . '] alterou a palestra [' . $oldData['title'] . '] -> ' . json_encode($validated));
-        }
+        Log::info('Admin [' . Auth::user()->email . '] alterou a palestra [' . $oldData['title'] . '] -> ' . json_encode($validated));
 
         return back();
     }
@@ -127,12 +121,11 @@ class LectureController extends Controller
     // Deleta Palestra
     public function destroy(Lecture $lecture)
     {
-        $admin = Auth::user();
-        $lectureTitle = $lecture->title;
         Lecture::destroy($lecture->id);
-        if ($admin && ($admin->is_admin ?? false)) {
-            Log::info('Admin [' . $admin->email . '] deletou a palestra [' . $lectureTitle . ']');
-        }
+
+        
+        Log::info('Admin [' . Auth::user()->email . '] deletou a palestra [' . $lecture->title . ']');
+
         return to_route('lectures.index');
     }
 
@@ -146,7 +139,7 @@ class LectureController extends Controller
 
     // POST realiza o Check In
     public function checkin(Request $request, Lecture $lecture)
-    {
+    {        
         $validated = $request->validate([
             'checkedUsersIds' => 'required|array',
             'checkedUsersIds.*' => 'string',
@@ -165,6 +158,10 @@ class LectureController extends Controller
                 ->send(new SendCertificate($attendance->id));
         }
 
+
+        Log::info('Admin [' . Auth::user()->email . '] fez o checkin da palestra [' . $lecture->title . ']');
+
+
         return to_route('lectures.index');
     }
 
@@ -173,6 +170,8 @@ class LectureController extends Controller
     {
         $lecture->is_open_for_enrollment = ! $lecture->is_open_for_enrollment;
         $lecture->save();
+
+        Log::info('Admin [' . Auth::user()->email. '] reabriu as inscrições para a palestra [' . $lecture->title . ']');
 
         return back();
     }
