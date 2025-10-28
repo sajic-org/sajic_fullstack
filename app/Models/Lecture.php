@@ -16,15 +16,19 @@ class Lecture extends Model
 
     protected $fillable = [
         'title',
-        'type',
         'date',
         'starts',
         'ends',
         'is_active',
+        'type_id',
         'speaker_id',
         'room_number',
         'is_open_for_enrollment',
     ];
+
+    public function type(): BelongsTo {
+        return $this->belongsTo(LectureType::class);
+    }
 
     public function speaker(): BelongsTo
     {
