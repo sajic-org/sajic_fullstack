@@ -8,7 +8,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  laravel-tests:
+  build:
 
     runs-on: ubuntu-latest
 
@@ -27,10 +27,10 @@ jobs:
         php-version: '8.4'
 
     - name: "Install project depedencies"
-      run: \
-        "composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts"
-        "php artisan package:discover --ansi"
-        "npm ci"
+      run: |
+        composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+        php artisan package:discover --ansi
+        npm ci
 
     - name: "Build front-end"
       run: "npm run build:ssr"
