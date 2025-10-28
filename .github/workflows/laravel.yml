@@ -13,18 +13,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v6
+    - name: Checkout
+      uses: actions/checkout@v5
+
+    - name: Setup Node
+      uses: actions/setup-node@v6
       with:
         node-version: '24'
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+
+    - name: Setup php
+      uses: shivammathur/setup-php@v2
       with:
         php-version: '8.4'
-    - name: "Install depedencies"
-    - run: \
+
+    - name: "Install project depedencies"
+      run: \
         "composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts"
         "php artisan package:discover --ansi"
         "npm ci"
+
     - name: "Build front-end"
-    - run: "npm run build:ssr"
+      run: "npm run build:ssr"
 
