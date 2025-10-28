@@ -35,3 +35,13 @@ jobs:
     - name: "Build front-end"
       run: "npm run build:ssr"
 
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "run pre deploy script"
+      - name: "deploy files in ec2"
+      - name: "run post deploy script"
+
+
