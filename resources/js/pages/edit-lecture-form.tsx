@@ -8,8 +8,8 @@ import AddSpeakerDialog from '@/components/add-speaker-dialog';
 import { DatePicker } from '@/components/date-picker';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
+import MultipleSpeakersInput from '@/components/multiple-speakers-input';
 import { RoomDropdown } from '@/components/RoomDropdown';
-import SpeakerSearchInput from '@/components/speaker-search-input';
 import { TimeSelectorGroup } from '@/components/time-selector';
 import { TypeDropdown } from '@/components/TypeDropdown';
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
 import { LectureType, Room, Speaker } from '@/types/models';
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FormEventHandler, SetStateAction, useState } from 'react';
 import { toast } from 'sonner';
 import { LectureForm } from './new-lecture-form';
 
@@ -52,41 +52,65 @@ function EditLectureForm({
         },
     ];
 
-    const currentSpeaker = speakers.find(
-        (speaker) => speaker.id === lecture.speaker_id,
-    );
-    const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | undefined>(
-        currentSpeaker,
-    );
+    const lectureWithSpeakers = lecture as Lecture & { speakers?: Speaker[] };
+    const initialSpeakers =
+        lectureWithSpeakers.speakers &&
+        Array.isArray(lectureWithSpeakers.speakers) &&
+        lectureWithSpeakers.speakers.length > 0
+            ? lectureWithSpeakers.speakers
+            : lecture.speaker
+              ? [lecture.speaker]
+              : [];
+
+    const [selectedSpeakers, setSelectedSpeakers] =
+        useState<Speaker[]>(initialSpeakers);
 
     const [availableTypes, setAvailableTypes] = useState<string[]>(
         types.map((type) => type.title),
     );
 
+    // Função segura para obter o tipo da palestra
+    const getLectureType = (): string => {
+        if (!lecture || !lecture.type) return '';
+        if (
+            typeof lecture.type === 'object' &&
+            lecture.type !== null &&
+            'title' in lecture.type
+        ) {
+            return (lecture.type as { title: string }).title || '';
+        }
+        if (typeof lecture.type === 'string') {
+            return lecture.type;
+        }
+        return '';
+    };
+
     const { data, setData, patch, errors, processing, recentlySuccessful } =
-        useForm<Required<LectureForm>>({
-            speaker_id: lecture.speaker_id,
-            room_number: lecture.room_number,
-            title: lecture.title,
-            type: lecture.type?.title || lecture.type || '',
-            date: lecture.date,
-            starts: lecture.starts,
-            ends: lecture.ends,
+        useForm<LectureForm>({
+            speaker_ids:
+                initialSpeakers.length > 0
+                    ? initialSpeakers.map((s: Speaker) => s.id)
+                    : [],
+            room_number: lecture.room_number || '',
+            title: lecture.title || '',
+            type: getLectureType(),
+            date: lecture.date || '',
+            starts: lecture.starts || '',
+            ends: lecture.ends || '',
 
             speaker: '',
         });
 
-    useEffect(() => {
-        if (data.speaker_id) {
-            const speaker = speakers.find((s) => s.id === data.speaker_id);
-            if (
-                speaker &&
-                (!selectedSpeaker || selectedSpeaker.id !== speaker.id)
-            ) {
-                setSelectedSpeaker(speaker);
-            }
+    const handleAddSpeaker = (speaker: Speaker) => {
+        if (!selectedSpeakers.find((s) => s.id === speaker.id)) {
+            const newSelected = [...selectedSpeakers, speaker];
+            setSelectedSpeakers(newSelected);
+            setData(
+                'speaker_ids',
+                newSelected.map((s) => s.id),
+            );
         }
-    }, [data.speaker_id, speakers, selectedSpeaker]);
+    };
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -140,47 +164,38 @@ function EditLectureForm({
                 </div>
 
                 <div className="mt-7 grid gap-2">
-                    <Label htmlFor="title">Palestrante</Label>
-                    {selectedSpeaker ? (
-                        <div className="flex items-center justify-between gap-5">
-                            <div className="mt-2 flex items-center gap-4 font-light">
-                                <img
-                                    src={selectedSpeaker.image}
-                                    alt={selectedSpeaker.name}
-                                    className="size-10 rounded-full object-cover shadow-md"
-                                />
-                                <span>{selectedSpeaker.name}</span>
-                            </div>
-
-                            <Button
-                                variant="outline"
-                                className="w-fit"
-                                onClick={() => {
-                                    setSelectedSpeaker(undefined);
-                                    setData('speaker_id', null);
-                                }}
-                            >
-                                Outro Palestrante?
-                            </Button>
-                        </div>
-                    ) : (
-                        <>
-                            <SpeakerSearchInput
-                                onSetData={setData}
-                                onSetSelectedSpeaker={setSelectedSpeaker}
-                                speakers={speakers}
-                            >
-                                <AddSpeakerDialog
-                                    onSetSelectedSpeaker={setSelectedSpeaker}
-                                    onSetData={setData}
-                                />
-                            </SpeakerSearchInput>
-                            <InputError
-                                className="mt-2"
-                                message={errors.speaker}
-                            />
-                        </>
-                    )}
+                    <Label htmlFor="title">
+                        Palestrantes{' '}
+                        {selectedSpeakers.length > 0 &&
+                            `(${selectedSpeakers.length})`}
+                    </Label>
+                    <MultipleSpeakersInput
+                        onSetData={setData}
+                        speakers={speakers}
+                        selectedSpeakers={selectedSpeakers}
+                        onSetSelectedSpeakers={setSelectedSpeakers}
+                    >
+                        <AddSpeakerDialog
+                            onSetSelectedSpeaker={(
+                                speaker:
+                                    | Speaker
+                                    | SetStateAction<Speaker | undefined>,
+                            ) => {
+                                const actualSpeaker =
+                                    typeof speaker === 'function'
+                                        ? speaker(selectedSpeakers[0])
+                                        : speaker;
+                                if (actualSpeaker) {
+                                    handleAddSpeaker(actualSpeaker);
+                                }
+                            }}
+                            onSetData={setData}
+                        />
+                    </MultipleSpeakersInput>
+                    <InputError
+                        className="mt-2"
+                        message={errors.speaker_ids || errors.speaker}
+                    />
                 </div>
 
                 <form

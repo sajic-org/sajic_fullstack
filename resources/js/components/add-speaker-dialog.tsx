@@ -26,7 +26,7 @@ import { Textarea } from './ui/textarea';
 
 interface Props {
     onSetSelectedSpeaker: Dispatch<SetStateAction<Speaker | undefined>>;
-    onSetData: InertiaFormProps<Required<LectureForm>>['setData'];
+    onSetData: InertiaFormProps<LectureForm>['setData'];
 }
 
 interface SpeakerForm {
