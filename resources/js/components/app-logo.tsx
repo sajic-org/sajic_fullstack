@@ -11,7 +11,7 @@ export default function AppLogo({ className = '' }: { className?: string }) {
                 )}
             />
 
-            <span className="mt-4 truncate text-base leading-none font-semibold">
+            <span className="mt-2 truncate text-base leading-none font-semibold">
                 2025
             </span>
         </>
