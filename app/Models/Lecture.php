@@ -35,6 +35,11 @@ class Lecture extends Model
         return $this->belongsTo(Speaker::class);
     }
 
+    public function speakers(): BelongsToMany
+    {
+        return $this->belongsToMany(Speaker::class, 'lecture_speaker');
+    }
+
     public function room(): BelongsTo
     {
         return $this->belongsTo(Room::class, 'room_number', 'number');
