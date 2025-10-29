@@ -22,10 +22,11 @@ class SpeakerController extends Controller
 
     public function store(Request $request)
     {
+
         $request->validate([
             'image' => 'image|nullable',
             'image_link'=>'nullable|string',
-            'name' => 'required|min:5|max:30',
+            'name' => 'required|min:5|max:60',
             'description' => 'required|min:50|max:1500',
         ]);
 
@@ -49,23 +50,49 @@ class SpeakerController extends Controller
         return back()->with('newSpeaker', $speaker);
     }
 
-    public function update(Speaker $speaker, Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'min:8|max:30',
-            'description' => 'min:150|max:1500',
-        ]);
+public function update(Speaker $speaker, Request $request)
+{
 
-        $oldData = $speaker->toArray();
-        Speaker::whereId($speaker->id)->update(['name' => $validated['name'], 'description' => $validated['description']]);
+    $validated = $request->validate([
+        'image' => 'nullable|sometimes|image',
+        'image_link' => 'nullable|string',
+        'name' => 'required|min:5|max:60',
+        'description' => 'required|min:150|max:1500',
+    ]);
 
-        $admin = Auth::user();
-        if ($admin && ($admin->is_admin ?? false)) {
-            Log::info('Admin [' . $admin->email . '] alterou o palestrante [' . $oldData['name'] . '] -> ' . json_encode($validated));
+    $oldName = $speaker->name;
+    
+    $updateData = [
+        'name' => $validated['name'],
+        'description' => $validated['description']
+    ];
+
+    if ($request->hasFile('image')) {
+        if ($speaker->image && !filter_var($speaker->image, FILTER_VALIDATE_URL)) {
+            $oldImagePath = str_replace(asset(Storage::url('')), '', $speaker->image);
+            Storage::disk('public')->delete($oldImagePath);
         }
 
-        return back();
+        $imagePath = Storage::disk('public')->putFile('speakers', $request->image);
+        $updateData['image'] = asset(Storage::url($imagePath));
+    } elseif ($request->image_link) {
+        if ($speaker->image && !filter_var($speaker->image, FILTER_VALIDATE_URL)) {
+            $oldImagePath = str_replace(asset(Storage::url('')), '', $speaker->image);
+            Storage::disk('public')->delete($oldImagePath);
+        }
+
+        $updateData['image'] = $request->image_link;
     }
+
+    Speaker::whereId($speaker->id)->update($updateData);
+
+    $admin = Auth::user();
+    if ($admin && ($admin->is_admin ?? false)) {
+        Log::info('Admin [' . $admin->email . '] alterou o palestrante [' . $oldName . '] -> ' . json_encode($validated));
+    }
+
+    return back();
+}
 
     public function destroy(Speaker $speaker)
     {
