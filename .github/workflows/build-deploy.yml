@@ -1,14 +1,12 @@
-name: Laravel
+name: Build and Deploy
 
 on:
   workflow_dispatch:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-  build:
+  build-deploy:
 
     runs-on: ubuntu-latest
 
@@ -30,18 +28,37 @@ jobs:
       run: |
         composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
         php artisan package:discover --ansi
-        npm ci
+        npm ci --omit=dev
 
     - name: "Build front-end"
       run: "npm run build:ssr"
 
-  deploy:
+    - name: "run pre deploy script"
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSHKEY }}
+        port: ${{ secrets.PORT }}
+        script: "cd /var/www/sajic.marce1in.com.br && bash ./.github/scripts/pre-deploy.sh"
 
-    runs-on: ubuntu-latest
+    - name: "deploy files in ec2"
+      uses: burnett01/rsync-deployments@5.2
+      with:
+        switches: -avzr --delete --exclude='.git' --exclude='node_modules' --exclude='frankenphp' --exclude='.env' --exclude="storage/" --exclude='bootstrap/cache/'
+        remote_path: "/var/www/sajic.marce1in.com.br"
+        remote_host: ${{ secrets.HOST }}
+        remote_port: ${{ secrets.PORT }}
+        remote_user: ${{ secrets.USERNAME }}
+        remote_key: ${{ secrets.SSHKEY }}
 
-    steps:
-      - name: "run pre deploy script"
-      - name: "deploy files in ec2"
-      - name: "run post deploy script"
+    - name: "run post deploy script"
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSHKEY }}
+        port: ${{ secrets.PORT }}
+        script: "cd /var/www/sajic.marce1in.com.br && bash ./.github/scripts/post-deploy.sh"
 
 

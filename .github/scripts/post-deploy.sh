@@ -2,14 +2,18 @@
 
 set -euo pipefail
 
-echo "::group::Running pre-deploy script..."
+echo "::group::Running post-deploy script..."
 
-echo "::notice::Set site to maintenance mode..."
-php artisan down || true
+echo "::notice::Caching framework..."
+php artisan optimize
 
-echo "::notice::Cleaning cache..."
-php artisan optimize:clear
+echo "::notice::Reloading Services..."
+sudo systemctl reload sajic-queue.service
+sudo systemctl reload sajic-site.service
+
+echo "::notice::Bring site back from maintenance mode..."
+php artisan up
 
 echo "::endgroup::"
 
-echo "::notice::Pre-deploy script was a success!"
+echo "::notice::Post-deploy script was a success!"
