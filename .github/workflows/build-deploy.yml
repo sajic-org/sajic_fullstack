@@ -62,4 +62,17 @@ jobs:
         port: ${{ secrets.PORT }}
         script: "cd /var/www/sajic.marce1in.com.br && bash ./.github/scripts/post-deploy.sh"
 
+    - name: "Deploy failed, bring site back up"
+      if: failure()
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSHKEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd /var/www/sajic.marce1in.com.br
+          php artisan up
+
+
 
