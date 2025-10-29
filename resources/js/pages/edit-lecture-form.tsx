@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { SelectValue } from '@/components/ui/select';
-import { Room, Speaker } from '@/types/models';
+import { LectureType, Room, Speaker } from '@/types/models';
 import { FormEventHandler, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { LectureForm } from './new-lecture-form';
@@ -31,10 +31,12 @@ function EditLectureForm({
     lecture,
     speakers,
     rooms,
+    types,
 }: {
     lecture: Lecture;
     speakers: Speaker[];
     rooms: Room[];
+    types: LectureType[];
 }) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
@@ -57,12 +59,16 @@ function EditLectureForm({
         currentSpeaker,
     );
 
+    const [availableTypes, setAvailableTypes] = useState<string[]>(
+        types.map((type) => type.title),
+    );
+
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm<Required<LectureForm>>({
             speaker_id: lecture.speaker_id,
             room_number: lecture.room_number,
             title: lecture.title,
-            type: lecture.type,
+            type: lecture.type?.title || lecture.type || '',
             date: lecture.date,
             starts: lecture.starts,
             ends: lecture.ends,
@@ -227,6 +233,8 @@ function EditLectureForm({
                             <Label>Tipo</Label>
 
                             <TypeDropdown
+                                availableTypes={availableTypes}
+                                onSetAvailableTypes={setAvailableTypes}
                                 onSetData={setData}
                                 defaultValue={data.type}
                             >
