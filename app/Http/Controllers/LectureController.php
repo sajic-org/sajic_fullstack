@@ -104,7 +104,7 @@ class LectureController extends Controller
     public function update(Request $request, Lecture $lecture)
     {
         $validated = $request->validate([
-            'title' => 'required|max:75|min:10',
+            'title' => 'required|max:255|min:10',
             'speaker_id' => 'required',
             'room_number' => 'required|min:3',
             'type' => 'required|in:Tecnologia,Gestão e Mercado',
