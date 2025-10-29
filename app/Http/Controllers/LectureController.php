@@ -29,7 +29,7 @@ class LectureController extends Controller
             $user = Auth::user()->load(['lectures']);
         }
 
-        $lectures = Lecture::with(['speaker.lectures', 'room', 'type'])->get();
+        $lectures = Lecture::with(['speaker', 'speakers', 'room', 'type'])->get();
 
         $lectures = $lectures->sortBy(function ($lecture) {
             $date = Carbon::createFromFormat('d/m', $lecture->date);
@@ -65,7 +65,8 @@ class LectureController extends Controller
     {
         $request->validate([
             'title' => 'required|max:75',
-            'speaker_id' => 'required',
+            'speaker_ids' => 'required|array|min:1',
+            'speaker_ids.*' => 'exists:speakers,id',
             'room_number' => 'required|min:3',
             'type' => 'required',
             'date' => 'required|min:5|max:5',
@@ -75,9 +76,8 @@ class LectureController extends Controller
 
         $lectureType = LectureType::firstOrCreate(['title'=>$request['type']]);
 
-
         $lecture = Lecture::create([
-            'speaker_id' => $request['speaker_id'],
+            'speaker_id' => $request['speaker_ids'][0] ?? null, 
             'room_number' => $request['room_number'],
             'type_id' => $lectureType->id,
             'title' => $request['title'],
@@ -86,17 +86,24 @@ class LectureController extends Controller
             'ends' => $request['ends'],
         ]);
 
-        
+        $lecture->speakers()->sync($request['speaker_ids']);
+
         Log::info('Admin [' . Auth::user()->email . '] adicionou palestra [' . $lecture->title . ']');
 
         return to_route('lectures.index');
     }
 
-    // GET do Form de Edição de Palestra
     public function edit(Lecture $lecture)
     {
+        // Carrega todos os relacionamentos necessários
+        $lecture->load(['type', 'speakers', 'speaker', 'room']);
 
-        return Inertia::render('edit-lecture-form', ['lecture' => $lecture->load('type'), 'speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get(), 'types'=> LectureType::get()]);
+        return Inertia::render('edit-lecture-form', [
+            'lecture' => $lecture,
+            'speakers' => Speaker::get(),
+            'rooms' => Room::with('lectures')->get(),
+            'types' => LectureType::get()
+        ]);
     }
 
     // PATCH da edição de Palestra
@@ -104,7 +111,8 @@ class LectureController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|max:75',
-            'speaker_id' => 'required',
+            'speaker_ids' => 'required|array|min:1',
+            'speaker_ids.*' => 'exists:speakers,id',
             'room_number' => 'required|min:3',
             'type' => 'required',
             'date' => 'required|min:5|max:5',
@@ -118,13 +126,16 @@ class LectureController extends Controller
         
         $lecture->update([
             'title' => $validated['title'],
-            'speaker_id' => $validated['speaker_id'],
+            'speaker_id' => $validated['speaker_ids'][0] ?? null, 
             'room_number' => $validated['room_number'],
             'type_id' => $lectureType->id,
             'date' => $validated['date'],
             'starts' => $validated['starts'],
             'ends' => $validated['ends'],
         ]);
+
+        // Sincroniza os palestrantes
+        $lecture->speakers()->sync($validated['speaker_ids']);
 
         Log::info('Admin [' . Auth::user()->email . '] alterou a palestra [' . $oldData['title'] . '] -> ' . json_encode($validated));
 
