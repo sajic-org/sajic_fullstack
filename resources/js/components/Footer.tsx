@@ -72,10 +72,10 @@ function Footer() {
                                 Redes Sociais
                             </h2>
                             <a
-                                href="https://www.instagram.com/sajic_unisenac/"
+                                href="https://www.instagram.com/sigasathon?igsh=MXd5N285c2Y0cHhsdw=="
                                 className="ml-auto flex w-fit items-center gap-1 hover:underline"
                             >
-                                @sajic_unisenac
+                                @sigasathon
                                 <Instagram className="size-4" />
                             </a>
                         </nav>
@@ -84,7 +84,7 @@ function Footer() {
 
                 <div className="mt-10 flex flex-col items-center gap-6 text-center md:flex-row md:justify-between md:text-right">
                     <img
-                        src="/assets/logo_branco.webp"
+                        src="/assets/logo_nova-branca.png"
                         alt=""
                         className="s max-w-[200px] filter not-dark:invert"
                     />
