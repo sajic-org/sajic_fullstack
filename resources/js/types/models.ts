@@ -10,6 +10,7 @@ export interface Lecture {
     is_active?: boolean | number;
     speaker_id?: number;
     speaker?: Speaker;
+    speakers?: Speaker[];
     type: LectureType;
     room?: Room;
     attendants?: User[];
