@@ -9,6 +9,7 @@ jobs:
   build-deploy:
 
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
     - name: Checkout
@@ -32,12 +33,6 @@ jobs:
 
     - name: "Build front-end"
       run: "npm run build"
-
-    - name: Debug secrets
-      run: |
-        echo "HOST: ${{ secrets.HOST }}"
-        echo "USERNAME: ${{ secrets.USERNAME }}"
-        echo "PORT: ${{ secrets.PORT }}"
 
     - name: "run pre deploy script"
       uses: appleboy/ssh-action@v1
