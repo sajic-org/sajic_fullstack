@@ -96,7 +96,7 @@ class LectureController extends Controller
     public function edit(Lecture $lecture)
     {
 
-        return Inertia::render('edit-lecture-form', ['lecture' => $lecture, 'speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get()]);
+        return Inertia::render('edit-lecture-form', ['lecture' => $lecture->load('type'), 'speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get(), 'types'=> LectureType::get()]);
     }
 
     // PATCH da edição de Palestra
@@ -113,10 +113,18 @@ class LectureController extends Controller
         ]);
 
         $lectureType = LectureType::firstOrCreate(['title'=>$request['type']]);
-        $validated['type'] = $lectureType->id;
-
+        
         $oldData = $lecture->toArray();
-        Lecture::whereId($lecture->id)->update($validated);
+        
+        $lecture->update([
+            'title' => $validated['title'],
+            'speaker_id' => $validated['speaker_id'],
+            'room_number' => $validated['room_number'],
+            'type_id' => $lectureType->id,
+            'date' => $validated['date'],
+            'starts' => $validated['starts'],
+            'ends' => $validated['ends'],
+        ]);
 
         Log::info('Admin [' . Auth::user()->email . '] alterou a palestra [' . $oldData['title'] . '] -> ' . json_encode($validated));
 
