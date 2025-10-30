@@ -70,7 +70,7 @@ const PastEditions = () => {
                             Eventos Passados
                         </h2>
                         <p className="text-muted-foreground max-w-lg text-xl">
-                            A SAJIC é um evento que ocorre anualmente desde 2017. Confira alguns registros de edições passadas:
+                            A SATHON é um evento que ocorre anualmente desde 2017. Confira alguns registros de edições passadas:
                         </p>
                     </div>
                     <div className="hidden shrink-0 gap-2 md:flex">

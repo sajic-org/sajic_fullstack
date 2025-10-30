@@ -6,7 +6,7 @@ import { hydrateRoot } from 'react-dom/client';
 // import { initializeTheme } from './hooks/use-appearance';
 
 createInertiaApp({
-    title: (title) => `SAJIC 2025 | ${title}`,
+    title: (title) => `SATHON 2025 | ${title}`,
     resolve: (name) =>
         resolvePageComponent(
             `./pages/${name}.tsx`,
