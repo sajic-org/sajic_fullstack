@@ -29,12 +29,12 @@ jobs:
     #     key: php-ext-cache-v1
     #     extensions: ctype, curl, dom, fileinfo, filter, hash, openssl, pcre, PDO, session, tokenizer, xml
 
-    - name: Cache PHP extensions
-      uses: actions/cache@v4
-      with:
-        path: ${{ steps.extcache.outputs.dir }}
-        key: ${{ steps.extcache.outputs.key }}
-        restore-keys: ${{ steps.extcache.outputs.key }}
+    # - name: Cache PHP extensions
+    #   uses: actions/cache@v4
+    #   with:
+    #     path: ${{ steps.extcache.outputs.dir }}
+    #     key: ${{ steps.extcache.outputs.key }}
+    #     restore-keys: ${{ steps.extcache.outputs.key }}
 
     - name: Setup php
       uses: shivammathur/setup-php@v2
