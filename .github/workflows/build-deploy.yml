@@ -21,6 +21,20 @@ jobs:
         node-version: '22.19.0'
         cache: 'npm'
 
+    - name: Setup cache environment for PHP extensions
+      id: extcache
+      uses: shivammathur/cache-extensions@v1
+      with:
+        php-version: '8.4.13'
+        key: php-ext-cache-v1
+
+    - name: Cache PHP extensions
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.extcache.outputs.dir }}
+        key: ${{ steps.extcache.outputs.key }}
+        restore-keys: ${{ steps.extcache.outputs.key }}
+
     - name: Setup php
       uses: shivammathur/setup-php@v2
       with:
