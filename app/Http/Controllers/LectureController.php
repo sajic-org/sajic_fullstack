@@ -198,8 +198,6 @@ class LectureController extends Controller
 
         Log::info('Admin [' . Auth::user()->email . '] fez o checkin da palestra [' . $lecture->title . ']');
 
-        Cache::forget('lectures_list');
-
         return to_route('lectures.index');
     }
 
