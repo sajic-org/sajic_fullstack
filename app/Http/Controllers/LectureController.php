@@ -11,6 +11,7 @@ use App\Models\Speaker;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -29,17 +30,25 @@ class LectureController extends Controller
             $user = Auth::user()->load(['lectures']);
         }
 
-        $lectures = Lecture::with(['speaker', 'speakers', 'room', 'type'])->get();
+        # faz cache por 30 minuto dessa lista, puta bgl pesado rodando toda hora q o zé entra no palestras
+        $lectures = Cache::remember('lectures_list', 60 * 30, function () {
 
-        $lectures = $lectures->sortBy(function ($lecture) {
-            $date = Carbon::createFromFormat('d/m', $lecture->date);
-            $startTime = Carbon::createFromFormat('H:i', $lecture->starts);
-            return [$date->timestamp, $startTime->timestamp];
-        })->values();
+            $lectures = Lecture::with(['speaker', 'speakers', 'room', 'type'])->get();
 
-        foreach ($lectures as $l) {
-            $l['n_attendees'] = DB::table('lecture_attendances')->where('lecture_id', $l->id)->count();
-        }
+            $lectures = $lectures->sortBy(function ($lecture) {
+                $date = Carbon::createFromFormat('d/m', $lecture->date);
+                $startTime = Carbon::createFromFormat('H:i', $lecture->starts);
+                return [$date->timestamp, $startTime->timestamp];
+            })->values();
+
+            foreach ($lectures as $l) {
+                $l['n_attendees'] = DB::table('lecture_attendances')
+                    ->where('lecture_id', $l->id)
+                    ->count();
+            }
+
+            return $lectures;
+        });
 
 
 
@@ -87,6 +96,8 @@ class LectureController extends Controller
         ]);
 
         $lecture->speakers()->sync($request['speaker_ids']);
+
+        Cache::forget('lectures_list');
 
         Log::info('Admin [' . Auth::user()->email . '] adicionou palestra [' . $lecture->title . ']');
 
@@ -137,6 +148,8 @@ class LectureController extends Controller
         // Sincroniza os palestrantes
         $lecture->speakers()->sync($validated['speaker_ids']);
 
+        Cache::forget('lectures_list');
+
         Log::info('Admin [' . Auth::user()->email . '] alterou a palestra [' . $oldData['title'] . '] -> ' . json_encode($validated));
 
         return back();
@@ -148,6 +161,8 @@ class LectureController extends Controller
         Lecture::destroy($lecture->id);
 
         Log::info('Admin [' . Auth::user()->email . '] deletou a palestra [' . $lecture->title . ']');
+
+        Cache::forget('lectures_list');
 
         return to_route('lectures.index');
     }
@@ -183,6 +198,8 @@ class LectureController extends Controller
 
         Log::info('Admin [' . Auth::user()->email . '] fez o checkin da palestra [' . $lecture->title . ']');
 
+        Cache::forget('lectures_list');
+
         return to_route('lectures.index');
     }
 
@@ -193,6 +210,8 @@ class LectureController extends Controller
         $lecture->save();
 
         Log::info('Admin [' . Auth::user()->email. '] reabriu as inscrições para a palestra [' . $lecture->title . ']');
+
+        Cache::forget('lectures_list');
 
         return back();
     }
