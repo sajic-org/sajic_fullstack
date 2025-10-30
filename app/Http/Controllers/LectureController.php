@@ -77,7 +77,7 @@ class LectureController extends Controller
         $lectureType = LectureType::firstOrCreate(['title'=>$request['type']]);
 
         $lecture = Lecture::create([
-            'speaker_id' => $request['speaker_ids'][0] ?? null, 
+            'speaker_id' => $request['speaker_ids'][0] ?? null,
             'room_number' => $request['room_number'],
             'type_id' => $lectureType->id,
             'title' => $request['title'],
@@ -121,12 +121,12 @@ class LectureController extends Controller
         ]);
 
         $lectureType = LectureType::firstOrCreate(['title'=>$request['type']]);
-        
+
         $oldData = $lecture->toArray();
-        
+
         $lecture->update([
             'title' => $validated['title'],
-            'speaker_id' => $validated['speaker_ids'][0] ?? null, 
+            'speaker_id' => $validated['speaker_ids'][0] ?? null,
             'room_number' => $validated['room_number'],
             'type_id' => $lectureType->id,
             'date' => $validated['date'],
@@ -146,7 +146,7 @@ class LectureController extends Controller
     public function destroy(Lecture $lecture)
     {
         Lecture::destroy($lecture->id);
-        
+
         Log::info('Admin [' . Auth::user()->email . '] deletou a palestra [' . $lecture->title . ']');
 
         return to_route('lectures.index');
@@ -162,7 +162,7 @@ class LectureController extends Controller
 
     // POST realiza o Check In
     public function checkin(Request $request, Lecture $lecture)
-    {        
+    {
         $validated = $request->validate([
             'checkedUsersIds' => 'required|array',
             'checkedUsersIds.*' => 'string',
