@@ -6,6 +6,7 @@ use App\Models\LectureAttendance;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -41,6 +42,8 @@ class UserController extends Controller
         $user = Auth::user();
         $user->lectures()->attach($request->id, ['id' => Str::uuid()]);
 
+        Cache::forget('lectures_list');
+
         return back();
     }
 
@@ -48,6 +51,8 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $user->lectures()->detach($request->id);
+
+        Cache::forget('lectures_list');
 
         return back();
     }
