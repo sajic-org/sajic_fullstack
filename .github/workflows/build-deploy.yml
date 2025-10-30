@@ -73,6 +73,7 @@ jobs:
         script: |
           cd /var/www/sajic.marce1in.com.br
           php artisan up
+          sudo systemctl reload sajic-site.service
 
 
 

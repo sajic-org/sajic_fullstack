@@ -8,7 +8,7 @@ echo "::notice::Caching framework..."
 php artisan optimize
 
 echo "::notice::Reloading Services..."
-# sudo systemctl reload sajic-queue.service
+sudo systemctl reload sajic-queue.service
 sudo systemctl reload sajic-site.service
 
 echo "::notice::Bring site back from maintenance mode..."
