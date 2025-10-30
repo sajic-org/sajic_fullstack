@@ -56,7 +56,7 @@ jobs:
     - name: "deploy files in ec2"
       uses: burnett01/rsync-deployments@5.2
       with:
-        switches: -avzr --delete --exclude='.git' --exclude='node_modules' --exclude='frankenphp' --exclude='.env' --exclude="storage/" --exclude='bootstrap/cache/'
+        switches: -avzr --delete --exclude='.git' --exclude='sajic_documentacao' --exclude='tests' --exclude='node_modules' --exclude='frankenphp' --exclude='.env' --exclude="storage/" --exclude='bootstrap/cache/'
         remote_path: "/var/www/sajic.marce1in.com.br"
         remote_host: ${{ secrets.HOST }}
         remote_port: ${{ secrets.PORT }}
