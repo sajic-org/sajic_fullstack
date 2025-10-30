@@ -7,6 +7,14 @@ import { useEffect, useRef, useState } from 'react';
 let LModule: typeof import('leaflet') | null = null;
 let ReactLeafletModule: typeof import('react-leaflet') | null = null;
 
+const ChangeView = ({ center, zoom }: { center: LatLngTuple; zoom: number }) => {
+    const map = ReactLeafletModule?.useMap();
+    if (map) {
+        map.setView(center, zoom);
+    }
+    return null;
+};
+
 const MapView = ({
     center = [-31.770226, -52.338867] as LatLngTuple,
     zoom = 18,
@@ -58,16 +66,7 @@ const MapView = ({
 
     // Effect 3: Invalidate map size when loaded, or when center/zoom props change.
     // This effect now also depends on mapInstanceRef.current being set.
-    useEffect(() => {
-        if (isClient && isLoaded && mapInstanceRef.current) {
-            const map = mapInstanceRef.current;
-            // A small delay can sometimes help ensure the DOM is fully settled before invalidating.
-            const timer = setTimeout(() => {
-                map.invalidateSize();
-            }, 100);
-            return () => clearTimeout(timer); // Cleanup timer
-        }
-    }, [isClient, isLoaded, center, zoom]);
+    
 
     // --- Conditional Rendering Logic (after all hooks) ---
 
@@ -108,8 +107,8 @@ const MapView = ({
     }
 
     // Modules are loaded.
-    const L = LModule;
-    const RL = ReactLeafletModule;
+    const L = LModule!; 
+    const RL = ReactLeafletModule!;
 
     const customMarkerIcon = L.icon({
         iconUrl: '/assets/marker-icon-hN30_KVU.webp',
@@ -121,7 +120,7 @@ const MapView = ({
     return (
         <div className="h-[500px] w-full overflow-hidden rounded-md">
             <RL.MapContainer
-                center={center}
+                center={center} 
                 zoom={zoom}
                 scrollWheelZoom={false}
                 zoomControl={false}
@@ -131,12 +130,18 @@ const MapView = ({
                     // The 'instance' is the Leaflet Map object or null if unmounting
                     if (instance) {
                         mapInstanceRef.current = instance;
+
+                        setTimeout(() => {
+                            instance.invalidateSize();
+                        }, 0);
                     }
                     // If you need to do something immediately when the ref is set,
                     // you could, but the useEffect for invalidateSize is often more robust
                     // as it runs after render.
                 }}
             >
+                <ChangeView center={center} zoom={zoom} />
+
                 <RL.TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
