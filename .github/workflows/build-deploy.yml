@@ -21,13 +21,13 @@ jobs:
         node-version: '22.19.0'
         cache: 'npm'
 
-    - name: Setup cache environment for PHP extensions
-      id: extcache
-      uses: shivammathur/cache-extensions@v1
-      with:
-        php-version: '8.3'
-        key: php-ext-cache-v1
-        extensions: ctype, curl, dom, fileinfo, filter, hash, openssl, pcre, PDO, session, tokenizer, xml
+    # - name: Setup cache environment for PHP extensions
+    #   id: extcache
+    #   uses: shivammathur/cache-extensions@v1
+    #   with:
+    #     php-version: '8.3'
+    #     key: php-ext-cache-v1
+    #     extensions: ctype, curl, dom, fileinfo, filter, hash, openssl, pcre, PDO, session, tokenizer, xml
 
     - name: Cache PHP extensions
       uses: actions/cache@v4
@@ -40,7 +40,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.3'
-        extensions: ctype, curl, dom, fileinfo, filter, hash, openssl, pcre, PDO, session, tokenizer, xml
+        # extensions: ctype, curl, dom, fileinfo, filter, hash, openssl, pcre, PDO, session, tokenizer, xml
 
     - name: Cache Composer dependencies
       uses: actions/cache@v4
