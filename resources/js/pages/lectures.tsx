@@ -3,7 +3,7 @@ import { LecturesGrid, LecturesGridItem } from '@/components/lectures-grid';
 import MapView from '@/components/Map';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
-import { Lecture, LectureType, User } from '@/types/models';
+import { Lecture, User } from '@/types/models';
 import { Head } from '@inertiajs/react';
 import { LatLngTuple } from 'leaflet';
 import { Search } from 'lucide-react';
@@ -43,37 +43,83 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
     const activeLocation = LOCATIONS[activeLocationKey];
 
     const [query, setQuery] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState<number | null>(
+        null,
+    );
     const [filteredLectures, setFilteredLectures] =
         useState<Lecture[]>(lectures);
 
-    useEffect(() => {
-        const results = lectures.filter(
-            (l: Lecture) =>
-                l.title.toLowerCase().includes(query.toLowerCase()) ||
-                l.speaker?.name.toLowerCase().includes(query.toLowerCase()),
-        );
-        setFilteredLectures(results);
-    }, [query, lectures]);
+    const categoryMap = new Map<number, string>();
+    lectures.forEach((l) => {
+        if (l.type) {
+            if (typeof l.type === 'object' && l.type.id && l.type.title) {
+                categoryMap.set(l.type.id, l.type.title);
+            } else if (typeof l.type === 'string') {
+                const id = categoryMap.size + 1;
+                if (!Array.from(categoryMap.values()).includes(l.type)) {
+                    categoryMap.set(id, l.type);
+                }
+            }
+        }
+    });
+    const categories = Array.from(categoryMap.entries())
+        .map(([id, title]) => ({
+            id,
+            title,
+        }))
+        .sort((a, b) => a.title.localeCompare(b.title));
 
-    // Group lectures by type
+    useEffect(() => {
+        const results = lectures.filter((l: Lecture) => {
+            if (selectedCategory !== null) {
+                const lectureTypeId =
+                    typeof l.type === 'object' && l.type?.id ? l.type.id : null;
+                if (lectureTypeId !== selectedCategory) {
+                    return false;
+                }
+            }
+
+            const titleMatch = l.title
+                .toLowerCase()
+                .includes(query.toLowerCase());
+            const speakerMatch = l.speaker?.name
+                .toLowerCase()
+                .includes(query.toLowerCase());
+            const speakersMatch = l.speakers?.some((s) =>
+                s.name.toLowerCase().includes(query.toLowerCase()),
+            );
+            return titleMatch || speakerMatch || speakersMatch;
+        });
+        setFilteredLectures(results);
+    }, [query, lectures, selectedCategory]);
+
+    // Group lectures by date
     const groupedLectures: Record<
-        number,
-        { type: LectureType; lectures: Lecture[] }
+        string,
+        { date: string; lectures: Lecture[] }
     > = {};
 
     filteredLectures.forEach((lecture) => {
-        if (!lecture.type) return;
+        if (!lecture.date) return;
 
-        if (!groupedLectures[lecture.type.id]) {
-            groupedLectures[lecture.type.id] = {
-                type: lecture.type,
+        if (!groupedLectures[lecture.date]) {
+            groupedLectures[lecture.date] = {
+                date: lecture.date,
                 lectures: [],
             };
         }
-        groupedLectures[lecture.type.id].lectures.push(lecture);
+        groupedLectures[lecture.date].lectures.push(lecture);
     });
 
-    const lectureGroups = Object.values(groupedLectures);
+    const lectureGroups = Object.values(groupedLectures).sort((a, b) => {
+        const [dayA, monthA] = a.date.split('/').map(Number);
+        const [dayB, monthB] = b.date.split('/').map(Number);
+
+        if (monthA !== monthB) {
+            return monthA - monthB;
+        }
+        return dayA - dayB;
+    });
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -155,6 +201,37 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
                 </div>
             </div>
 
+            {/* Category filter buttons */}
+            {categories.length > 0 && (
+                <div className="mt-6 px-4 sm:px-6 md:max-w-7xl">
+                    <div className="flex flex-wrap gap-2">
+                        <button
+                            onClick={() => setSelectedCategory(null)}
+                            className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+                                selectedCategory === null
+                                    ? 'bg-primary-blue text-white shadow-md'
+                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            }`}
+                        >
+                            Todas
+                        </button>
+                        {categories.map((category) => (
+                            <button
+                                key={category.id}
+                                onClick={() => setSelectedCategory(category.id)}
+                                className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+                                    selectedCategory === category.id
+                                        ? 'bg-primary-blue text-white shadow-md'
+                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                }`}
+                            >
+                                {category.title}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+
             <div className="mt-10 px-4 sm:px-6 md:max-w-7xl">
                 <h2 className="text-primary-blue text-xl font-semibold">
                     Palestras
@@ -166,7 +243,7 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
 
             <section className="xs:px-4 mx-auto w-full space-y-4 px-2 sm:px-6 md:max-w-7xl">
                 {lectureGroups.map((group, index) => (
-                    <div key={group.type.id}>
+                    <div key={group.date}>
                         <div
                             className={
                                 index % 2 === 0
@@ -175,7 +252,7 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
                             }
                         >
                             <h4 className="mt-6 mb-1 text-2xl font-semibold">
-                                {group.type.title}
+                                {group.date}
                             </h4>
                             <div className="h-0.5 w-4/5 bg-gray-300 sm:w-1/3" />
                         </div>
