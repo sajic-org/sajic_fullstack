@@ -24,13 +24,13 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
     const LOCATIONS = {
         tech: {
             center: [-31.772016, -52.340731] as LatLngTuple,
-            label: 'Predio tech',
+            label: 'Prédio Tech',
             address: 'R. Félix Xavier da Cunha, 520',
             zoom: 19,
         },
         antigo: {
             center: [-31.770102803945708, -52.33884128983381] as LatLngTuple,
-            label: 'Predio antigo',
+            label: 'Prédio Principal',
             address: 'R. Gonçalves Chaves, 602',
             zoom: 19,
         },
