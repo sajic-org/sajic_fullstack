@@ -21,26 +21,24 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
-    console.log(lectures);
-
     const LOCATIONS = {
         tech: {
-            center: [-31.772016, -52.340731] as LatLngTuple, 
+            center: [-31.772016, -52.340731] as LatLngTuple,
             label: 'Predio tech',
             address: 'R. Félix Xavier da Cunha, 520',
             zoom: 19,
         },
         antigo: {
-            center: [-31.770102803945708, -52.33884128983381] as LatLngTuple, 
+            center: [-31.770102803945708, -52.33884128983381] as LatLngTuple,
             label: 'Predio antigo',
             address: 'R. Gonçalves Chaves, 602',
-            zoom: 19, 
+            zoom: 19,
         },
     };
 
-    const [activeLocationKey, setActiveLocationKey] = useState<'tech' | 'antigo'>(
-        'tech'
-    );
+    const [activeLocationKey, setActiveLocationKey] = useState<
+        'tech' | 'antigo'
+    >('tech');
 
     const activeLocation = LOCATIONS[activeLocationKey];
 
@@ -208,12 +206,13 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
                         Confira aqui o local dos nossos prédios
                     </h1>
                     <h2 className="text-gray-500">
-                        As palestras ocorrerão no nosso Centro Universitário UniSenac
+                        As palestras ocorrerão no nosso Centro Universitário
+                        UniSenac
                     </h2>
-                    <div className='flex justify-center gap-4 mt-4'> 
+                    <div className="mt-4 flex justify-center gap-4">
                         <button
                             onClick={() => setActiveLocationKey('tech')}
-                            className={`px-4 py-2 rounded-md transition-colors ${
+                            className={`rounded-md px-4 py-2 transition-colors ${
                                 activeLocationKey === 'tech'
                                     ? 'bg-primary-blue text-white shadow-lg'
                                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -223,7 +222,7 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
                         </button>
                         <button
                             onClick={() => setActiveLocationKey('antigo')}
-                            className={`px-4 py-2 rounded-md transition-colors ${
+                            className={`rounded-md px-4 py-2 transition-colors ${
                                 activeLocationKey === 'antigo'
                                     ? 'bg-primary-blue text-white shadow-lg'
                                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -231,14 +230,14 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
                         >
                             {LOCATIONS.antigo.label}
                         </button>
-                    </div>         
-                    <h2 className="text-gray-500 mt-2 font-semibold">
+                    </div>
+                    <h2 className="mt-2 font-semibold text-gray-500">
                         {activeLocation.address}
                     </h2>
                 </div>
-                <MapView 
-                    center={activeLocation.center} 
-                    zoom={activeLocation.zoom} 
+                <MapView
+                    center={activeLocation.center}
+                    zoom={activeLocation.zoom}
                 />
             </section>
         </AppLayout>
