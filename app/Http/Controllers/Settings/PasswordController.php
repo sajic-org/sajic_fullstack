@@ -32,7 +32,7 @@ class PasswordController extends Controller
         $validated = $request->validate([
             'current_password' => ['nullable', 'current_password'],
             'password' => ['nullable', Password::defaults(), 'confirmed'],
-            'course' => ['nullable', 'in:ADS,REDES,MKT,PG,ETC'],
+            'course' => ['nullable', 'in:ADS,REDES,MKT,PG,OUTRO,PMM'],
             'semester' => ['nullable', 'in:1,2,3,4,5,6,7,8,8+'],
 
         ]);
