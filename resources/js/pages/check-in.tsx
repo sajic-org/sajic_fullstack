@@ -91,7 +91,7 @@ function CheckIn({ lecture }: checkInPageProps) {
                     </p>
                     <div className="flex flex-wrap items-center gap-4 pt-4">
                         <img
-                            className="h-30 w-30 rounded-2xl"
+                            className="cover h-30 w-30 rounded-2xl object-cover"
                             src={lecture.speaker?.image}
                         />
 

@@ -84,8 +84,6 @@ export function RoomDropdown({ children, rooms, onSetData, data }: Props) {
         (!isScreenMedium || // Always show on small screens
             showInfo === data.room_number); // Show on hover for medium+ screens
 
-    console.log(rooms);
-
     return (
         <Select
             defaultValue={data.room_number}
