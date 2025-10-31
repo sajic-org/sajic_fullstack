@@ -183,7 +183,7 @@ function Lectures({ lectures, user }: { lectures: Lecture[]; user?: User }) {
                 description="caso, no momento da palestra, as salas ainda tenham espaço, os organizadores poderão permitir que você se inscreva e participe."
                 linkText=""
                 linkUrl=""
-                title="Palestras Esgotadas:"
+                title="No caso da palestra estar esgotada:"
             />
             <div className="px-2">
                 <div className="mx-auto mt-2 flex w-full items-center gap-3 rounded-lg border border-gray-300 bg-white px-3 py-1.5 shadow-sm md:w-2/5">
