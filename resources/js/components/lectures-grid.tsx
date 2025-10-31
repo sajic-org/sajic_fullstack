@@ -295,6 +295,28 @@ export const LecturesGridItem = ({
                     />
 
                     {user?.is_admin && <AdminButtons lecture={lecture} />}
+
+                    {lecture.room && lecture.n_attendees !== undefined && (
+                        <div className="mt-2 text-right text-sm text-gray-600">
+                            {lecture.room.capacity - lecture.n_attendees > 0 ? (
+                                <span>
+                                    <span className="text-primary-blue font-semibold">
+                                        {lecture.room.capacity -
+                                            lecture.n_attendees}
+                                    </span>{' '}
+                                    {lecture.room.capacity -
+                                        lecture.n_attendees ===
+                                    1
+                                        ? 'vaga disponível'
+                                        : 'vagas disponíveis'}
+                                </span>
+                            ) : (
+                                <span className="font-semibold text-red-600">
+                                    Esgotado
+                                </span>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
 
