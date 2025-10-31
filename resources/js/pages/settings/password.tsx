@@ -82,7 +82,7 @@ export default function Password() {
         });
     };
 
-    const cursos = ['ADS', 'MKT', 'PG', 'REDES', 'OUTRO'];
+    const cursos = ['ADS', 'MKT', 'PG', 'REDES', 'PMM', 'OUTRO'];
     const semestres = ['1', '2', '3', '4', '5', '6', '7', '8', '8+'];
 
     return (
@@ -119,7 +119,7 @@ export default function Password() {
                                         />
                                     </div>
 
-                                    {data.course && data.course != 'Outro' ? (
+                                    {data.course ? (
                                         <div>
                                             <SemesterDropdown
                                                 semesters={semestres}
