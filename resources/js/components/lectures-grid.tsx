@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import { Lecture, User } from '@/types/models';
 import { ArrowUpRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import AdminButtons from './admin-buttons';
 import ButtonBasedOnAvailability from './buttons-based-on-availability';
@@ -102,18 +102,66 @@ export const LecturesGridItem = ({
                                         </div>
                                     </div>
                                 </SpeakerDialog>
+                            ) : // Múltiplos palestrantes - fotos em grid 2x2 quando 5+
+                            speakers.length >= 5 ? (
+                                <div className="grid h-32 w-32 grid-cols-2 gap-1">
+                                    {speakers
+                                        .slice(0, 4)
+                                        .map((speaker: any, idx: number) => {
+                                            const remainingCount =
+                                                speakers.length - 4;
+                                            const isLast = idx === 3;
+                                            const showOverlay =
+                                                isLast && remainingCount > 0;
+                                            // Se for a última e tiver mais palestrantes, mostra o 5º no modal
+                                            const speakerToShow =
+                                                isLast &&
+                                                remainingCount === 1 &&
+                                                speakers[4]
+                                                    ? speakers[4]
+                                                    : speaker;
+
+                                            return (
+                                                <SpeakerDialog
+                                                    key={speaker.id}
+                                                    speaker={speakerToShow}
+                                                >
+                                                    <div className="relative overflow-hidden rounded-xl border border-white shadow-sm transition duration-400 ease-in-out hover:brightness-60">
+                                                        <img
+                                                            src={speaker.image}
+                                                            alt={speaker.name}
+                                                            className="h-full w-full object-cover"
+                                                        />
+                                                        {showOverlay && (
+                                                            <div className="absolute inset-0 flex items-center justify-center bg-black/60 text-xs font-bold text-white">
+                                                                +
+                                                                {remainingCount}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </SpeakerDialog>
+                                            );
+                                        })}
+                                </div>
                             ) : (
-                                // Múltiplos palestrantes - fotos sobrepostas
                                 <div className="relative h-32 w-32">
                                     {speakers
                                         .slice(0, 3)
                                         .map((speaker: any, idx: number) => {
                                             const isLast =
-                                                idx ===
-                                                Math.min(speakers.length, 3) -
-                                                    1;
+                                                idx === speakers.length - 1 ||
+                                                idx === 2;
                                             const remainingCount =
                                                 speakers.length - 3;
+                                            let size;
+                                            if (speakers.length === 2) {
+                                                size = '80%';
+                                            } else if (speakers.length === 3) {
+                                                size = '55%';
+                                            } else {
+                                                size =
+                                                    idx === 2 ? '50%' : '60%';
+                                            }
 
                                             return (
                                                 <SpeakerDialog
@@ -123,38 +171,49 @@ export const LecturesGridItem = ({
                                                     <div
                                                         className="absolute overflow-hidden rounded-xl border-2 border-white shadow-md transition duration-400 ease-in-out hover:z-10 hover:brightness-60"
                                                         style={{
-                                                            width:
-                                                                speakers.length ===
-                                                                2
-                                                                    ? '65%'
-                                                                    : idx === 2
-                                                                      ? '50%'
-                                                                      : '60%',
-                                                            height:
-                                                                speakers.length ===
-                                                                2
-                                                                    ? '65%'
-                                                                    : idx === 2
-                                                                      ? '50%'
-                                                                      : '60%',
+                                                            width: size,
+                                                            height: size,
                                                             left:
-                                                                idx === 0
-                                                                    ? '0'
-                                                                    : idx === 1
-                                                                      ? speakers.length ===
-                                                                        2
-                                                                          ? '35%'
-                                                                          : '40%'
-                                                                      : '50%',
+                                                                speakers.length ===
+                                                                2
+                                                                    ? idx === 0
+                                                                        ? '0'
+                                                                        : '81%'
+                                                                    : speakers.length ===
+                                                                        3
+                                                                      ? idx ===
+                                                                        0
+                                                                          ? '0'
+                                                                          : idx ===
+                                                                              1
+                                                                            ? '57%'
+                                                                            : '30.5%'
+                                                                      : idx ===
+                                                                          0
+                                                                        ? '0'
+                                                                        : idx ===
+                                                                            1
+                                                                          ? '40%'
+                                                                          : '50%',
                                                             top:
-                                                                idx === 0
-                                                                    ? '0'
-                                                                    : idx === 1
-                                                                      ? speakers.length ===
+                                                                speakers.length ===
+                                                                2
+                                                                    ? idx === 0
+                                                                        ? '0'
+                                                                        : '0'
+                                                                    : speakers.length ===
+                                                                        3
+                                                                      ? idx ===
                                                                         2
-                                                                          ? '35%'
+                                                                          ? '55%'
                                                                           : '0'
-                                                                      : '50%',
+                                                                      : idx ===
+                                                                          0
+                                                                        ? '0'
+                                                                        : idx ===
+                                                                            1
+                                                                          ? '0'
+                                                                          : '50%',
                                                             zIndex:
                                                                 speakers.length -
                                                                 idx,
@@ -169,30 +228,13 @@ export const LecturesGridItem = ({
                                                         {isLast &&
                                                             remainingCount >
                                                                 0 && (
-                                                                <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-sm font-bold text-white">
+                                                                <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-xs font-bold text-white">
                                                                     +
                                                                     {
                                                                         remainingCount
                                                                     }
                                                                 </div>
                                                             )}
-                                                        {idx === 0 && (
-                                                            <div
-                                                                className="absolute right-1 bottom-1 flex h-5 w-5 items-center justify-center rounded-full bg-white/90 shadow-sm"
-                                                                style={{
-                                                                    backdropFilter:
-                                                                        'blur(4px)',
-                                                                }}
-                                                            >
-                                                                <ArrowUpRight
-                                                                    size={10}
-                                                                    strokeWidth={
-                                                                        2
-                                                                    }
-                                                                    color="#000000"
-                                                                />
-                                                            </div>
-                                                        )}
                                                     </div>
                                                 </SpeakerDialog>
                                             );
@@ -202,15 +244,43 @@ export const LecturesGridItem = ({
 
                             {portalElement &&
                                 createPortal(
-                                    <span>
+                                    <>
                                         {speakers.map((s: any, idx: number) => (
-                                            <span key={s.id}>
-                                                {s.name}
+                                            <React.Fragment key={s.id}>
+                                                <SpeakerDialog speaker={s}>
+                                                    <span
+                                                        className="text-primary-blue inline cursor-pointer font-medium capitalize"
+                                                        style={
+                                                            {
+                                                                textDecoration:
+                                                                    'none !important',
+                                                            } as React.CSSProperties
+                                                        }
+                                                        onMouseEnter={(e) => {
+                                                            e.stopPropagation();
+                                                            e.currentTarget.style.setProperty(
+                                                                'text-decoration',
+                                                                'underline',
+                                                                'important',
+                                                            );
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.stopPropagation();
+                                                            e.currentTarget.style.setProperty(
+                                                                'text-decoration',
+                                                                'none',
+                                                                'important',
+                                                            );
+                                                        }}
+                                                    >
+                                                        {s.name}
+                                                    </span>
+                                                </SpeakerDialog>
                                                 {idx < speakers.length - 1 &&
                                                     ', '}
-                                            </span>
+                                            </React.Fragment>
                                         ))}
-                                    </span>,
+                                    </>,
                                     portalElement,
                                 )}
                         </div>
@@ -237,7 +307,7 @@ export const LecturesGridItem = ({
                         com{' '}
                         <span
                             id={lecture.id.toString()}
-                            className="text-primary-blue cursor-pointer font-medium capitalize hover:underline"
+                            className="text-primary-blue cursor-pointer font-medium capitalize"
                         >
                             {/*
                             O nome do palestrante tá vindo do portal dentro do trigger do speakerdialog...
