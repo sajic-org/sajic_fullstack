@@ -141,7 +141,7 @@ export default function Password() {
                     </div>
                     <HeadingSmall
                         title="Atualizar Senha"
-                        description="Certifique-se que sua conta esta usando uma senha longa e aleatória para manter-se seguro"
+                        description="Certifique-se que sua conta está usando uma senha longa e aleatória para manter-se seguro"
                     />
 
                     <form

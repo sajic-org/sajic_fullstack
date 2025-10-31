@@ -24,7 +24,7 @@ function MyLectures({ user }: { user: User }) {
                 <div>
                     <h1 className="text-2xl font-bold">Minhas Palestras</h1>
                     <h2 className="text-light-text">
-                        As palestras nas quais você esta inscrito
+                        As palestras nas quais você está inscrito
                     </h2>
                 </div>
                 <div className="grid gap-6 lg:grid-cols-2">

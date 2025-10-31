@@ -21,8 +21,6 @@ interface Props {
     children: React.ReactNode;
     rooms: Room[];
     data: Required<LectureForm>;
-
-    //Typescript voodoo
     onSetData: ReturnType<typeof useForm<Required<LectureForm>>>['setData'];
 }
 
