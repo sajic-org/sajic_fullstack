@@ -11,10 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->enum('course', ['ADS', 'REDES', 'MKT', 'PG', 'PMM','OUTRO'])
-            ->nullable()
-            ->change();
+        DB::transaction(function () {
+            DB::statement("
+                ALTER TABLE users
+                DROP CONSTRAINT IF EXISTS users_course_check
+                ");
+
+            DB::statement("
+                ALTER TABLE users
+                ADD CONSTRAINT users_course_check
+                CHECK (course IN ('ADS', 'REDES', 'MKT', 'PG', 'PMM', 'OUTRO'))
+                ");
         });
     }
 
@@ -23,8 +30,17 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->enum('course', ['ADS', 'REDES', 'MKT', 'PG', 'OUTRO'])->nullable()->change();
+        DB::transaction(function () {
+            DB::statement("
+                ALTER TABLE users
+                DROP CONSTRAINT IF EXISTS users_course_check
+                ");
+
+            DB::statement("
+                ALTER TABLE users
+                ADD CONSTRAINT users_course_check
+                CHECK (course IN ('ADS', 'REDES', 'MKT', 'PG', 'OUTRO'))
+                ");
         });
     }
 };
