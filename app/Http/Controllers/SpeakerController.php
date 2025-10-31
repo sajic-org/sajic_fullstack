@@ -13,7 +13,7 @@ class SpeakerController extends Controller
 {
     public function index()
     {
-        $speakers = Speaker::get();
+        $speakers = Speaker::with('lectures')->get();
         $admin = Auth::user();
         if ($admin && ($admin->is_admin ?? false)) {
             Log::info('Admin [' . $admin->email . '] acessou a listagem de palestrantes.');
@@ -26,15 +26,15 @@ class SpeakerController extends Controller
 
         $request->validate([
             'image' => 'image|nullable',
-            'image_link'=>'nullable|string',
+            'image_link' => 'nullable|string',
             'name' => 'required|min:5|max:60',
             'description' => 'required|min:50|max:1500',
         ]);
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $imagePath = Storage::disk('public')->putFile('speakers', $request->image);
             $assetPath = asset(Storage::url($imagePath));
-        } elseif($request->image_link){
+        } elseif ($request->image_link) {
             $assetPath = $request->image_link;
         }
         $speaker = Speaker::create([

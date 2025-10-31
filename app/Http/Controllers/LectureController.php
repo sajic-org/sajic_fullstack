@@ -33,7 +33,7 @@ class LectureController extends Controller
         # faz cache por 30 minuto dessa lista, puta bgl pesado rodando toda hora q o zé entra no palestras
         $lectures = Cache::remember('lectures_list', 60 * 30, function () {
 
-            $lectures = Lecture::with(['speaker', 'speakers', 'room', 'type'])->get();
+            $lectures = Lecture::with(['speaker.lectures', 'speakers.lectures', 'room', 'type'])->get();
 
             $lectures = $lectures->sortBy(function ($lecture) {
                 $date = Carbon::createFromFormat('d/m', $lecture->date);
@@ -63,7 +63,7 @@ class LectureController extends Controller
     // GET do Form de criação de Palestras
     public function create(bool $speakerJustCreated = false)
     {
-        return Inertia::render('new-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get(), 'types'=> LectureType::get()]);
+        return Inertia::render('new-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get(), 'types' => LectureType::get()]);
     }
 
 
@@ -83,7 +83,7 @@ class LectureController extends Controller
             'ends' => 'required|min:5|max:5',
         ]);
 
-        $lectureType = LectureType::firstOrCreate(['title'=>$request['type']]);
+        $lectureType = LectureType::firstOrCreate(['title' => $request['type']]);
 
         $lecture = Lecture::create([
             'speaker_id' => $request['speaker_ids'][0] ?? null,
@@ -131,7 +131,7 @@ class LectureController extends Controller
             'ends' => 'required|min:5|max:5',
         ]);
 
-        $lectureType = LectureType::firstOrCreate(['title'=>$request['type']]);
+        $lectureType = LectureType::firstOrCreate(['title' => $request['type']]);
 
         $oldData = $lecture->toArray();
 
@@ -207,7 +207,7 @@ class LectureController extends Controller
         $lecture->is_open_for_enrollment = ! $lecture->is_open_for_enrollment;
         $lecture->save();
 
-        Log::info('Admin [' . Auth::user()->email. '] reabriu as inscrições para a palestra [' . $lecture->title . ']');
+        Log::info('Admin [' . Auth::user()->email . '] reabriu as inscrições para a palestra [' . $lecture->title . ']');
 
         Cache::forget('lectures_list');
 
