@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Lecture;
+use App\Models\LectureType;
 use App\Models\Room;
 use App\Models\Speaker;
 use App\Models\User;
@@ -17,6 +18,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        new RoomSeeder()->run();
+
+        LectureType::factory(5);
+
         // Pablito Velhito
         Speaker::factory(1)->create([
             'image' => 'https://x0hwtz7p9i.ufs.sh/f/7fxSWKXR2MtuS0RtU2qDUwcP7FE1GnOp6mC4kj5beKT3J82M',
@@ -118,14 +123,12 @@ class DatabaseSeeder extends Seeder
         // Pablito Velhito (ID: 1)
         Lecture::factory(1)->create([
             'title' => 'Redes Ancestrais e Protocolos Perdidos',
-            'type' => 'Tecnologia',
             'speaker_id' => 1,
             'room_number' => '102',
         ]);
-        
+
         Lecture::factory(1)->create([
             'title' => 'Scrum Sem Frescura: Como Gerir Equipes com Planilha, Rock e Café',
-            'type' => 'Gestão e Mercado',
             'speaker_id' => 1,
             'room_number' => '201',
         ]);
@@ -133,13 +136,11 @@ class DatabaseSeeder extends Seeder
         // Angelo Luz (ID: 2)
         Lecture::factory(1)->create([
             'title' => 'Programação orientada a Padel, nova trend do momento',
-            'type' => 'Tecnologia',
             'speaker_id' => 2,
             'room_number' => '202',
         ]);
         Lecture::factory(1)->create([
             'title' => 'Como gerir sem gerar',
-            'type' => 'Gestão e Mercado',
             'speaker_id' => 2,
             'room_number' => 'Biblioteca',
         ]);
@@ -147,13 +148,11 @@ class DatabaseSeeder extends Seeder
         // Kidécio (ID: 3)
         Lecture::factory(1)->create([
             'title' => 'Como programar em binário puro',
-            'type' => 'Tecnologia',
             'speaker_id' => 3,
             'room_number' => '203',
         ]);
         Lecture::factory(1)->create([
             'title' => 'Como desenvolver papiro para publicar e divulgar suas idéias',
-            'type' => 'Gestão e Mercado',
             'speaker_id' => 3,
             'room_number' => 'LabTec',
         ]);
@@ -161,13 +160,11 @@ class DatabaseSeeder extends Seeder
         // Bruno Gomes (ID: 4)
         Lecture::factory(1)->create([
             'title' => 'Como alinhar uma div sem CSS',
-            'type' => 'Tecnologia',
             'speaker_id' => 4,
             'room_number' => '204',
         ]);
         Lecture::factory(1)->create([
             'title' => 'Aluno usou position para o layout da página? como faze-lo desistir da carreira',
-            'type' => 'Tecnologia',
             'speaker_id' => 4,
             'room_number' => '205',
         ]);
@@ -175,13 +172,11 @@ class DatabaseSeeder extends Seeder
         // GladMau (ID: 5)
         Lecture::factory(1)->create([
             'title' => 'Como Matar mais de 1000 só na faca',
-            'type' => 'Gestão e Mercado',
             'speaker_id' => 5,
             'room_number' => '206',
         ]);
         Lecture::factory(1)->create([
             'title' => 'Como produzir um banco de bombas nucleares',
-            'type' => 'Tecnologia',
             'speaker_id' => 5,
             'room_number' => 'Idiomas',
         ]);
@@ -189,13 +184,11 @@ class DatabaseSeeder extends Seeder
         // Guto depois da Manual (ID: 6)
         Lecture::factory(1)->create([
             'title' => 'Da nuvem até a cabeça, como salvar o cabelo via backup',
-            'type' => 'Gestão e Mercado',
             'speaker_id' => 6,
             'room_number' => '207',
         ]);
         Lecture::factory(1)->create([
             'title' => 'De Careca a Cabeludo no Código: Como a Manual me Ensinou a Versionar a Vida',
-            'type' => 'Tecnologia',
             'speaker_id' => 6,
             'room_number' => '208',
         ]);
@@ -203,13 +196,11 @@ class DatabaseSeeder extends Seeder
         // Marcelão Lanches (ID: 7)
         Lecture::factory(1)->create([
             'title' => 'API Rest-aurante: Modelando Endpoints com Sabor de Hamburguer',
-            'type' => 'Tecnologia',
             'speaker_id' => 7,
             'room_number' => '102',
         ]);
         Lecture::factory(1)->create([
             'title' => 'Como consertar garotas confusas',
-            'type' => 'Gestão e Mercado',
             'speaker_id' => 7,
             'room_number' => '201',
         ]);
@@ -217,13 +208,11 @@ class DatabaseSeeder extends Seeder
         // Gabrielão (ID: 8)
         Lecture::factory(1)->create([
             'title' => 'DevOps Monstrão: Levantando Containers Mais Pesados que Supino',
-            'type' => 'Tecnologia',
             'speaker_id' => 8,
             'room_number' => 'LabTec',
         ]);
         Lecture::factory(1)->create([
             'title' => 'Como aplicar a técnica RLPC para conseguir qualquer vaga',
-            'type' => 'Gestão e Mercado',
             'speaker_id' => 8,
             'room_number' => '209',
         ]);
@@ -231,13 +220,11 @@ class DatabaseSeeder extends Seeder
         // João Oval (ID: 9)
         Lecture::factory(1)->create([
             'title' => 'tutorial avançado: Como arrastar quadrados na tela',
-            'type' => 'Tecnologia',
             'speaker_id' => 9,
             'room_number' => '210',
         ]);
         Lecture::factory(1)->create([
             'title' => 'Metodologias Redondas: Como comer coxinha sem ter um AVC',
-            'type' => 'Gestão e Mercado',
             'speaker_id' => 9,
             'room_number' => 'Biblioteca',
         ]);
@@ -245,13 +232,11 @@ class DatabaseSeeder extends Seeder
         // Lo (ID: 10)
         Lecture::factory(1)->create([
             'title' => 'Programação em Baixo Nível: Falando a Língua das Máquinas e dos Duendes',
-            'type' => 'Tecnologia',
             'speaker_id' => 10,
             'room_number' => '202',
         ]);
         Lecture::factory(1)->create([
             'title' => 'Como ser linda e programar em java',
-            'type' => 'Tecnologia',
             'speaker_id' => 10,
             'room_number' => '203',
         ]);
@@ -259,13 +244,11 @@ class DatabaseSeeder extends Seeder
         // Natasha Pederzolli (ID: 11)
         Lecture::factory(1)->create([
             'title' => 'Como conseguir itens de graça no WoW',
-            'type' => 'Gestão e Mercado',
             'speaker_id' => 11,
             'room_number' => '204',
         ]);
         Lecture::factory(1)->create([
             'title' => 'Como programar com uma mão',
-            'type' => 'Tecnologia',
             'speaker_id' => 11,
             'room_number' => '205',
         ]);
@@ -273,13 +256,11 @@ class DatabaseSeeder extends Seeder
         // Igor Raposinha (ID: 12)
         Lecture::factory(1)->create([
             'title' => 'Como ir no Front e receber no Back',
-            'type' => 'Tecnologia',
             'speaker_id' => 12,
             'room_number' => '206',
         ]);
         Lecture::factory(1)->create([
             'title' => 'Como evitar galãs do amor',
-            'type' => 'Gestão e Mercado',
             'speaker_id' => 12,
             'room_number' => 'Idiomas',
         ]);
@@ -287,13 +268,11 @@ class DatabaseSeeder extends Seeder
         // Nathan UwU (ID: 13)
         Lecture::factory(1)->create([
             'title' => 'Kawaii Code: Escrevendo Códigos Tão Fofos que Dão Vontade de Apertar',
-            'type' => 'Tecnologia',
             'speaker_id' => 13,
             'room_number' => '207',
         ]);
         Lecture::factory(1)->create([
             'title' => 'Error Handling com Fofura: Transformando "404 Not Found" em "Desculpe, não encontrei, UwU"',
-            'type' => 'Tecnologia',
             'speaker_id' => 13,
             'room_number' => '208',
         ]);
@@ -301,15 +280,11 @@ class DatabaseSeeder extends Seeder
         // Guilherme das Neves (ID: 14)
         Lecture::factory(1)->create([
             'title' => 'Como nunca faltar sem nunca ir',
-            'type' => 'Tecnologia',
             'speaker_id' => 14,
-            'room_number' => 'teste',
         ]);
         Lecture::factory(1)->create([
             'title' => 'Como conseguir atestados de graça *Método novo 2026*',
-            'type' => 'Tecnologia',
             'speaker_id' => 14,
-            'room_number' => 'teste',
         ]);
 
         $users = User::factory(40)->create();
