@@ -6,13 +6,14 @@ use App\Models\Speaker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class SpeakerController extends Controller
 {
     public function index()
     {
-        $speakers = Speaker::get();
+        $speakers = Speaker::with('lectures')->get();
         $admin = Auth::user();
         if ($admin && ($admin->is_admin ?? false)) {
             Log::info('Admin [' . $admin->email . '] acessou a listagem de palestrantes.');
@@ -22,17 +23,18 @@ class SpeakerController extends Controller
 
     public function store(Request $request)
     {
+
         $request->validate([
             'image' => 'image|nullable',
-            'image_link'=>'nullable|string',
-            'name' => 'required|min:8|max:30',
-            'description' => 'required|min:150|max:1500',
+            'image_link' => 'nullable|string',
+            'name' => 'required|min:5|max:60',
+            'description' => 'required|min:50|max:1500',
         ]);
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $imagePath = Storage::disk('public')->putFile('speakers', $request->image);
             $assetPath = asset(Storage::url($imagePath));
-        } elseif($request->image_link){
+        } elseif ($request->image_link) {
             $assetPath = $request->image_link;
         }
         $speaker = Speaker::create([
@@ -51,18 +53,46 @@ class SpeakerController extends Controller
 
     public function update(Speaker $speaker, Request $request)
     {
+
         $validated = $request->validate([
-            'name' => 'min:8|max:30',
-            'description' => 'min:150|max:1500',
+            'image' => 'nullable|sometimes|image',
+            'image_link' => 'nullable|string',
+            'name' => 'required|min:5|max:60',
+            'description' => 'required|min:150|max:1500',
         ]);
 
-        $oldData = $speaker->toArray();
-        Speaker::whereId($speaker->id)->update(['name' => $validated['name'], 'description' => $validated['description']]);
+        $oldName = $speaker->name;
+
+        $updateData = [
+            'name' => $validated['name'],
+            'description' => $validated['description']
+        ];
+
+        if ($request->hasFile('image')) {
+            if ($speaker->image && !filter_var($speaker->image, FILTER_VALIDATE_URL)) {
+                $oldImagePath = str_replace(asset(Storage::url('')), '', $speaker->image);
+                Storage::disk('public')->delete($oldImagePath);
+            }
+
+            $imagePath = Storage::disk('public')->putFile('speakers', $request->image);
+            $updateData['image'] = asset(Storage::url($imagePath));
+        } elseif ($request->image_link) {
+            if ($speaker->image && !filter_var($speaker->image, FILTER_VALIDATE_URL)) {
+                $oldImagePath = str_replace(asset(Storage::url('')), '', $speaker->image);
+                Storage::disk('public')->delete($oldImagePath);
+            }
+
+            $updateData['image'] = $request->image_link;
+        }
+
+        Speaker::whereId($speaker->id)->update($updateData);
 
         $admin = Auth::user();
         if ($admin && ($admin->is_admin ?? false)) {
-            Log::info('Admin [' . $admin->email . '] alterou o palestrante [' . $oldData['name'] . '] -> ' . json_encode($validated));
+            Log::info('Admin [' . $admin->email . '] alterou o palestrante [' . $oldName . '] -> ' . json_encode($validated));
         }
+
+        Cache::forget('lectures_list');
 
         return back();
     }
@@ -71,10 +101,15 @@ class SpeakerController extends Controller
     {
         $admin = Auth::user();
         $speakerName = $speaker->name;
+
         Speaker::destroy($speaker->id);
+
         if ($admin && ($admin->is_admin ?? false)) {
             Log::info('Admin [' . $admin->email . '] deletou o palestrante [' . $speakerName . ']');
         }
+
+        Cache::forget('lectures_list');
+
         return back();
     }
 }

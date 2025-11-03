@@ -1,0 +1,86 @@
+name: Build and Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-deploy:
+
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    environment: production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+
+    - name: Setup Node
+      uses: actions/setup-node@v6
+      with:
+        node-version: '22.19.0'
+        cache: 'npm'
+
+    - name: Setup php
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: ctype, curl, dom, fileinfo, filter, hash, openssl, pcre, PDO, session, tokenizer, xml
+
+    - name: Cache Composer dependencies
+      uses: actions/cache@v4
+      with:
+        path: vendor
+        key: composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          composer-
+
+    - name: "Install project depedencies"
+      run: |
+        composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-scripts
+        php artisan package:discover --ansi
+        npm ci --omit=dev
+
+    - name: "Build front-end"
+      run: "npm run build"
+
+    - name: "run pre deploy script"
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSHKEY }}
+        port: ${{ secrets.PORT }}
+        script: "cd /var/www/sajic.marce1in.com.br && bash ./.github/scripts/pre-deploy.sh"
+
+    - name: "deploy files in ec2"
+      uses: burnett01/rsync-deployments@5.2
+      with:
+        switches: -avzr --delete --exclude='.git' --exclude='sajic_documentacao' --exclude='tests' --exclude='node_modules' --exclude='frankenphp' --exclude='.env' --exclude="storage/" --exclude='bootstrap/cache/'
+        remote_path: "/var/www/sajic.marce1in.com.br"
+        remote_host: ${{ secrets.HOST }}
+        remote_port: ${{ secrets.PORT }}
+        remote_user: ${{ secrets.USERNAME }}
+        remote_key: ${{ secrets.SSHKEY }}
+
+    - name: "run post deploy script"
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSHKEY }}
+        port: ${{ secrets.PORT }}
+        script: "cd /var/www/sajic.marce1in.com.br && bash ./.github/scripts/post-deploy.sh"
+
+    - name: "Deploy failed, bring site back up"
+      if: failure()
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSHKEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd /var/www/sajic.marce1in.com.br
+          php artisan up
+          sudo systemctl reload sajic-site.service

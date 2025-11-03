@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use App\Mail\SendCertificate;
 use App\Models\Lecture;
 use App\Models\LectureAttendance;
+use App\Models\LectureType;
 use App\Models\Room;
 use App\Models\Speaker;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
+
+use function PHPSTORM_META\type;
 
 class LectureController extends Controller
 {
@@ -26,22 +30,27 @@ class LectureController extends Controller
             $user = Auth::user()->load(['lectures']);
         }
 
-        $lectures = Lecture::with(['speaker.lectures', 'room'])->get();
+        # faz cache por 30 minuto dessa lista, puta bgl pesado rodando toda hora q o zé entra no palestras
+        $lectures = Cache::remember('lectures_list', 60 * 30, function () {
 
-        $lectures = $lectures->sortBy(function ($lecture) {
-            $date = Carbon::createFromFormat('d/m', $lecture->date);
-            $startTime = Carbon::createFromFormat('H:i', $lecture->starts);
-            return [$date->timestamp, $startTime->timestamp];
-        })->values();
+            $lectures = Lecture::with(['speaker.lectures', 'speakers.lectures', 'room', 'type'])->get();
 
-        foreach ($lectures as $l) {
-            $l['n_attendees'] = DB::table('lecture_attendances')->where('lecture_id', $l->id)->count();
-        }
+            $lectures = $lectures->sortBy(function ($lecture) {
+                $date = Carbon::createFromFormat('d/m', $lecture->date);
+                $startTime = Carbon::createFromFormat('H:i', $lecture->starts);
+                return [$date->timestamp, $startTime->timestamp];
+            })->values();
 
-        $admin = Auth::user();
-        if ($admin && ($admin->is_admin ?? false)) {
-            Log::info('Admin [' . $admin->email . '] acessou a listagem de palestras.');
-        }
+            foreach ($lectures as $l) {
+                $l['n_attendees'] = DB::table('lecture_attendances')
+                    ->where('lecture_id', $l->id)
+                    ->count();
+            }
+
+            return $lectures;
+        });
+
+
 
         return Inertia::render('lectures', [
             'lectures' => $lectures,
@@ -49,77 +58,99 @@ class LectureController extends Controller
         ]);
     }
 
+
+
     // GET do Form de criação de Palestras
     public function create(bool $speakerJustCreated = false)
     {
-        $admin = Auth::user();
-        if ($admin && ($admin->is_admin ?? false)) {
-            Log::info('Admin [' . $admin->email . '] acessou o formulário de criação de palestra.');
-        }
-        return Inertia::render('new-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get()]);
+        return Inertia::render('new-lecture-form', ['speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get(), 'types' => LectureType::get()]);
     }
+
+
+
 
     //  POST de criação de Palestras
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|max:75|min:10',
-            'speaker_id' => 'required',
+            'title' => 'required|max:75',
+            'speaker_ids' => 'required|array|min:1',
+            'speaker_ids.*' => 'exists:speakers,id',
             'room_number' => 'required|min:3',
-            'type' => 'required|in:Tecnologia,Gestão e Mercado',
+            'type' => 'required',
             'date' => 'required|min:5|max:5',
             'starts' => 'required|min:5|max:5',
             'ends' => 'required|min:5|max:5',
         ]);
 
+        $lectureType = LectureType::firstOrCreate(['title' => $request['type']]);
+
         $lecture = Lecture::create([
-            'speaker_id' => $request['speaker_id'],
+            'speaker_id' => $request['speaker_ids'][0] ?? null,
             'room_number' => $request['room_number'],
-            'type' => $request['type'],
+            'type_id' => $lectureType->id,
             'title' => $request['title'],
             'date' => $request['date'],
             'starts' => $request['starts'],
             'ends' => $request['ends'],
         ]);
 
-        $user = Auth::user();
-        if ($user && ($user->is_admin ?? false)) {
-            Log::info('Admin [' . $user->email . '] adicionou palestra [' . $lecture->title . ']');
-        }
+        $lecture->speakers()->sync($request['speaker_ids']);
+
+        Cache::forget('lectures_list');
+
+        Log::info('Admin [' . Auth::user()->email . '] adicionou palestra [' . $lecture->title . ']');
 
         return to_route('lectures.index');
     }
 
-    // GET do Form de Edição de Palestra
     public function edit(Lecture $lecture)
     {
-        $admin = Auth::user();
-        if ($admin && ($admin->is_admin ?? false)) {
-            Log::info('Admin [' . $admin->email . '] acessou o formulário de edição da palestra [' . $lecture->title . '].');
-        }
-        return Inertia::render('edit-lecture-form', ['lecture' => $lecture, 'speakers' => Speaker::get(), 'rooms' => Room::with('lectures')->get()]);
+        // Carrega todos os relacionamentos necessários
+        $lecture->load(['type', 'speakers', 'speaker', 'room']);
+
+        return Inertia::render('edit-lecture-form', [
+            'lecture' => $lecture,
+            'speakers' => Speaker::get(),
+            'rooms' => Room::with('lectures')->get(),
+            'types' => LectureType::get()
+        ]);
     }
 
     // PATCH da edição de Palestra
     public function update(Request $request, Lecture $lecture)
     {
         $validated = $request->validate([
-            'title' => 'required|max:255|min:10',
-            'speaker_id' => 'required',
+            'title' => 'required|max:75',
+            'speaker_ids' => 'required|array|min:1',
+            'speaker_ids.*' => 'exists:speakers,id',
             'room_number' => 'required|min:3',
-            'type' => 'required|in:Tecnologia,Gestão e Mercado',
+            'type' => 'required',
             'date' => 'required|min:5|max:5',
             'starts' => 'required|min:5|max:5',
             'ends' => 'required|min:5|max:5',
         ]);
 
-        $oldData = $lecture->toArray();
-        Lecture::whereId($lecture->id)->update($validated);
+        $lectureType = LectureType::firstOrCreate(['title' => $request['type']]);
 
-        $admin = Auth::user();
-        if ($admin && ($admin->is_admin ?? false)) {
-            Log::info('Admin [' . $admin->email . '] alterou a palestra [' . $oldData['title'] . '] -> ' . json_encode($validated));
-        }
+        $oldData = $lecture->toArray();
+
+        $lecture->update([
+            'title' => $validated['title'],
+            'speaker_id' => $validated['speaker_ids'][0] ?? null,
+            'room_number' => $validated['room_number'],
+            'type_id' => $lectureType->id,
+            'date' => $validated['date'],
+            'starts' => $validated['starts'],
+            'ends' => $validated['ends'],
+        ]);
+
+        // Sincroniza os palestrantes
+        $lecture->speakers()->sync($validated['speaker_ids']);
+
+        Cache::forget('lectures_list');
+
+        Log::info('Admin [' . Auth::user()->email . '] alterou a palestra [' . $oldData['title'] . '] -> ' . json_encode($validated));
 
         return back();
     }
@@ -127,12 +158,12 @@ class LectureController extends Controller
     // Deleta Palestra
     public function destroy(Lecture $lecture)
     {
-        $admin = Auth::user();
-        $lectureTitle = $lecture->title;
         Lecture::destroy($lecture->id);
-        if ($admin && ($admin->is_admin ?? false)) {
-            Log::info('Admin [' . $admin->email . '] deletou a palestra [' . $lectureTitle . ']');
-        }
+
+        Log::info('Admin [' . Auth::user()->email . '] deletou a palestra [' . $lecture->title . ']');
+
+        Cache::forget('lectures_list');
+
         return to_route('lectures.index');
     }
 
@@ -162,8 +193,10 @@ class LectureController extends Controller
 
         foreach ($attendances as $attendance) {
             Mail::to($attendance->user->email)
-                ->send(new SendCertificate($attendance->id));
+                ->queue(new SendCertificate($attendance->id));
         }
+
+        Log::info('Admin [' . Auth::user()->email . '] fez o checkin da palestra [' . $lecture->title . ']');
 
         return to_route('lectures.index');
     }
@@ -173,6 +206,10 @@ class LectureController extends Controller
     {
         $lecture->is_open_for_enrollment = ! $lecture->is_open_for_enrollment;
         $lecture->save();
+
+        Log::info('Admin [' . Auth::user()->email . '] reabriu as inscrições para a palestra [' . $lecture->title . ']');
+
+        Cache::forget('lectures_list');
 
         return back();
     }

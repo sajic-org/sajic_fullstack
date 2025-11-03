@@ -18,24 +18,24 @@ interface PastEditionsItem {
 
 const data: PastEditionsItem[] = [
     {
-        image: '/assets/newton_i_guess.webp',
-        year: '1690',
+        image: '/assets/sajic_2018_1.jpeg',
+        year: '2018',
     },
     {
-        image: '/assets/school_of_athens.webp',
-        year: '380 AC',
+        image: '/assets/sajic_2018_2.jpeg',
+        year: '2018',
     },
     {
-        image: '/assets/oppenheimer.webp',
-        year: '1942',
+        image: '/assets/sajic_2019_2.jpeg',
+        year: '2019',
     },
     {
-        image: '/assets/marie_curie.webp',
-        year: '1910',
+        image: '/assets/sajic_2019_3.jpeg',
+        year: '2019',
     },
     {
-        image: '/assets/pliny_the_elder.webp',
-        year: '55',
+        image: '/assets/sajic_2024_1.jpeg',
+        year: '2024',
     },
 ];
 
@@ -70,8 +70,9 @@ const PastEditions = () => {
                             Eventos Passados
                         </h2>
                         <p className="text-muted-foreground max-w-lg text-xl">
-                            A SAJIC é um evento que ocorre anualmente desde 2300
-                            AC. Confira alguns registros de edições passadas:
+                            A SATHON (anteriormente SAJIC) é um evento que
+                            ocorre anualmente desde 2017. Confira alguns
+                            registros de edições passadas:
                         </p>
                     </div>
                     <div className="hidden shrink-0 gap-2 md:flex">
@@ -128,7 +129,7 @@ const PastEditions = () => {
                                         <div className="text-primary-foreground absolute inset-x-0 bottom-0 flex flex-col items-start p-6 md:p-8">
                                             <div className="flex items-center text-sm">
                                                 <img
-                                                    src="/assets/logo_branco.webp"
+                                                    src="/assets/logo_nova-branca.png"
                                                     alt=""
                                                     className="w-21"
                                                 />

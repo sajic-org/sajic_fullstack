@@ -21,8 +21,6 @@ interface Props {
     children: React.ReactNode;
     rooms: Room[];
     data: Required<LectureForm>;
-
-    //Typescript voodoo
     onSetData: ReturnType<typeof useForm<Required<LectureForm>>>['setData'];
 }
 
@@ -83,8 +81,6 @@ export function RoomDropdown({ children, rooms, onSetData, data }: Props) {
         data.room_number &&
         (!isScreenMedium || // Always show on small screens
             showInfo === data.room_number); // Show on hover for medium+ screens
-
-    console.log(rooms);
 
     return (
         <Select

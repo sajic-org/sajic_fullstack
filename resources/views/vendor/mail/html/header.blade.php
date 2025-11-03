@@ -1,8 +1,8 @@
 @props(['url'])
 <tr>
     <td class="header">
-        <a href="{{ $url }}" style="display: inline-block; width: 180px; filter: invert(80%);">
-            <img src="https://sajic.marce1in.com.br/assets/logo_branco.webp" alt="SAJIC 2025">
+        <a href="https://sathon.com.br" style="display: inline-block; width: 180px;">
+            <img src="https://sathon.com.br/assets/sathon_fresco.png" alt="SATHON 2025">
         </a>
     </td>
 </tr>

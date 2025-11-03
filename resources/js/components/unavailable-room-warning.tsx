@@ -19,7 +19,7 @@ export default function UnavailableRoomWarning({
                 className,
             )}
         >
-            <p>A sala {room_number} está sendo utilizada nesse horario por:</p>
+            <p>A sala {room_number} está sendo utilizada nesse horário por:</p>
             <ul className="mt-1 space-y-2">
                 {conflicts.map((lecture) => (
                     <li>

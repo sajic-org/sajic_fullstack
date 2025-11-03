@@ -7,7 +7,7 @@ function Hero() {
             <div className="mx-auto px-4 max-sm:my-28 sm:mt-36 sm:px-6 md:max-w-7xl">
                 <div className="md:w-3/5 dark:text-white">
                     <h1 className="text-4xl font-semibold">
-                        Sajic 5ª Edição | outubro de 2025
+                        Sathon 5ª Edição | novembro de 2025
                     </h1>
                     <p className="mt-5 text-justify text-xl">
                         A Semana Acadêmica do UniSenac é um evento que oferece
