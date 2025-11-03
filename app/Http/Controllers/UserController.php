@@ -62,17 +62,18 @@ class UserController extends Controller
         return back();
     }
 
-    public function certificate(LectureAttendance $lectureAttendance)
-    {
-        $lectureAttendance->load('lecture', 'user');
-
-        return Pdf::loadView('pdf.certificate', [
-            'id' => $lectureAttendance->id,
-            'name' => Str::upper($lectureAttendance->user->name),
-            'title' => $lectureAttendance->lecture->title,
-            'date' => $lectureAttendance->lecture->date,
-            'start' => $lectureAttendance->lecture->starts,
-            'end' => $lectureAttendance->lecture->ends,
-        ])->setPaper('a4', 'landscape')->stream();
-    }
+    // Desativado Press F to pay respects
+    // public function certificate(LectureAttendance $lectureAttendance)
+    // {
+    //     $lectureAttendance->load('lecture', 'user');
+    //
+    //     return Pdf::loadView('pdf.certificate', [
+    //         'id' => $lectureAttendance->id,
+    //         'name' => Str::upper($lectureAttendance->user->name),
+    //         'title' => $lectureAttendance->lecture->title,
+    //         'date' => $lectureAttendance->lecture->date,
+    //         'start' => $lectureAttendance->lecture->starts,
+    //         'end' => $lectureAttendance->lecture->ends,
+    //     ])->setPaper('a4', 'landscape')->stream();
+    // }
 }
