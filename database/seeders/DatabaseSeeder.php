@@ -7,6 +7,7 @@ use App\Models\LectureType;
 use App\Models\Room;
 use App\Models\Speaker;
 use App\Models\User;
+use Hash;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -289,6 +290,13 @@ class DatabaseSeeder extends Seeder
 
         $users = User::factory(40)->create();
         $lectureIds = range(1, 28);
+
+        User::factory(1)->create([
+            'name' => 'admin',
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('admin'),
+            'is_admin' => true,
+        ]);
 
         foreach ($users as $user) {
             $numberOfLectures = rand(1, 5);
