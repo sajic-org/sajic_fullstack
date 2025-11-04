@@ -193,7 +193,7 @@ class LectureController extends Controller
 
         foreach ($attendances as $attendance) {
             Mail::to($attendance->user->email)
-                ->queue(new SendCertificate($attendance->id));
+                ->queue(new SendCertificate($lecture->title));
         }
 
         Log::info('Admin [' . Auth::user()->email . '] fez o checkin da palestra [' . $lecture->title . ']');
