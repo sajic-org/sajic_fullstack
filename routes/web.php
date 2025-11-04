@@ -31,8 +31,5 @@ Route::prefix('minhas-palestras')->middleware(['auth', 'verified'])->group(funct
 
 });
 
-// Desativado Press F to pay respects
-// Route::get('certificate/{lectureAttendance}', [UserController::class, 'certificate'])->name('user.certificate');
-
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\LectureAttendance;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -61,19 +60,4 @@ class UserController extends Controller
 
         return back();
     }
-
-    // Desativado Press F to pay respects
-    // public function certificate(LectureAttendance $lectureAttendance)
-    // {
-    //     $lectureAttendance->load('lecture', 'user');
-    //
-    //     return Pdf::loadView('pdf.certificate', [
-    //         'id' => $lectureAttendance->id,
-    //         'name' => Str::upper($lectureAttendance->user->name),
-    //         'title' => $lectureAttendance->lecture->title,
-    //         'date' => $lectureAttendance->lecture->date,
-    //         'start' => $lectureAttendance->lecture->starts,
-    //         'end' => $lectureAttendance->lecture->ends,
-    //     ])->setPaper('a4', 'landscape')->stream();
-    // }
 }
