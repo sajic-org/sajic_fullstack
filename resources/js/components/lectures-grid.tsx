@@ -39,9 +39,9 @@ export const LecturesGridItem = ({
         null,
     );
 
-    const attended =
-        user?.lectures?.[user.lectures.findIndex((l) => l.id === lecture.id)]
-            ?.lecture_attendances?.showed_up;
+    const subscribed =
+        user?.lectures?.[user.lectures.findIndex((l) => l.id === lecture.id)] ||
+        false;
 
     //Precisa ter useEffect pq o elemento que abre o dialog renderiza antes doq
     //o div onde fica o nome do palestrante (e tem o ID)
@@ -299,7 +299,8 @@ export const LecturesGridItem = ({
                     />
 
                     {lecture.finished &&
-                        (attended ? (
+                        subscribed &&
+                        (subscribed.lecture_attendances?.showed_up ? (
                             <span className="font-semibold text-green-500">
                                 Recebeu presença
                             </span>
