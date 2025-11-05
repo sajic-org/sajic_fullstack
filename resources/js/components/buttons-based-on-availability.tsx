@@ -62,7 +62,7 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
         return (
                 <Button
                     disabled
-                    className={`${buttonBaseClass} text-light-text bg-gray-300`}
+                    className={`${buttonBaseClass} bg-green-500`}
                 >
                     Participado
                     <Check className="size-5" />
