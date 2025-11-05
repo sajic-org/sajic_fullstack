@@ -5,6 +5,7 @@ export interface Lecture {
     starts: string;
     ends: string;
     room_number: string;
+    finished: boolean;
     is_open_for_enrollment: boolean;
     n_attendees?: number;
     is_active?: boolean | number;
