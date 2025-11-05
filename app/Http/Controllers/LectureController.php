@@ -175,7 +175,7 @@ class LectureController extends Controller
         return Inertia::render('check-in', ['lecture' => $lecture]);
     }
 
-    // POST realiza o Check In
+    // PATCH realiza o Check In
     public function checkin(Request $request, Lecture $lecture)
     {
         $validated = $request->validate([
@@ -200,6 +200,17 @@ class LectureController extends Controller
 
         Log::info('Admin [' . Auth::user()->email . '] fez o checkin da palestra [' . $lecture->title . ']');
 
+        Cache::forget('lectures_list');
+
+        return to_route('lectures.index');
+    }
+
+    // PATCH Finaliza Palestra
+    public function finish(Request $request, Lecture $lecture){
+        $lecture->update(['finished'=> true]);
+        
+        Log::info('Admin [' . Auth::user()->email . '] fez finalizou a palestra [' . $lecture->title . ']');
+        
         return to_route('lectures.index');
     }
 

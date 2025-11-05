@@ -32,7 +32,17 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
         (userLecture) => lecture.id === userLecture.id,
     );
 
-    if (!userLecture) {
+    if (lecture.finished) {
+        return (
+            <Button
+                disabled
+                className={`${buttonBaseClass} bg-gray-300 text-gray-900`}
+            >
+                Finalizada
+                <Check className="size-5" />
+            </Button>
+        );
+    } else if (!userLecture) {
         if (!isFull || lecture.is_open_for_enrollment) {
             return (
                 <ParticipateDialog
@@ -58,16 +68,6 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
                 </Button>
             );
         }
-    } else if (lecture.finished) {
-        return (
-            <Button
-                disabled
-                className={`${buttonBaseClass} bg-gray-300 text-gray-900`}
-            >
-                Finalizada
-                <Check className="size-5" />
-            </Button>
-        );
     } else if (!lecture.finished && userLecture) {
         return (
             <Button
