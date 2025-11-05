@@ -188,10 +188,12 @@ class LectureController extends Controller
             ->with('user')
             ->get();
 
-        LectureAttendance::whereIn('id', $attendances->pluck('id'))
+        $newlyChecked = $attendances->where('showed_up', false);
+
+        LectureAttendance::whereIn('id', $newlyChecked->pluck('id'))
             ->update(['showed_up' => true]);
 
-        foreach ($attendances as $attendance) {
+        foreach ($newlyChecked as $attendance) {
             Mail::to($attendance->user->email)
                 ->queue(new SendCertificate($lecture->title));
         }
