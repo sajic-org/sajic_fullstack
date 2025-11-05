@@ -39,6 +39,10 @@ export const LecturesGridItem = ({
         null,
     );
 
+    const attended =
+        user?.lectures?.[user.lectures.findIndex((l) => l.id === lecture.id)]
+            ?.lecture_attendances?.showed_up;
+
     //Precisa ter useEffect pq o elemento que abre o dialog renderiza antes doq
     //o div onde fica o nome do palestrante (e tem o ID)
     useEffect(() => {
@@ -293,6 +297,17 @@ export const LecturesGridItem = ({
                         lecture={lecture}
                         user={user}
                     />
+
+                    {lecture.finished &&
+                        (attended ? (
+                            <span className="font-semibold text-green-500">
+                                Recebeu presença
+                            </span>
+                        ) : (
+                            <span className="font-semibold text-red-500">
+                                Não recebeu presença
+                            </span>
+                        ))}
 
                     {user?.is_admin && <AdminButtons lecture={lecture} />}
 

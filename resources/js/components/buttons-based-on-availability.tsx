@@ -58,17 +58,17 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
                 </Button>
             );
         }
-    } else if (userLecture.lecture_attendances?.showed_up) {
+    } else if (lecture.finished) {
         return (
-                <Button
-                    disabled
-                    className={`${buttonBaseClass} bg-green-500`}
-                >
-                    Participado
-                    <Check className="size-5" />
-                </Button>
+            <Button
+                disabled
+                className={`${buttonBaseClass} bg-gray-300 text-gray-900`}
+            >
+                Finalizada
+                <Check className="size-5" />
+            </Button>
         );
-    } else {
+    } else if (!lecture.finished && userLecture) {
         return (
             <Button
                 className={`${buttonBaseClass} bg-red-600 hover:bg-red-600 hover:brightness-85`}

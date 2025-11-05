@@ -191,6 +191,8 @@ class LectureController extends Controller
         LectureAttendance::whereIn('id', $attendances->pluck('id'))
             ->update(['showed_up' => true]);
 
+        $lecture->update(['finished'=>true]);
+
         foreach ($attendances as $attendance) {
             Mail::to($attendance->user->email)
                 ->queue(new SendCertificate($lecture->title));
