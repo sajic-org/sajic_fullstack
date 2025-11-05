@@ -1,9 +1,13 @@
 import { unsubcribe } from '@/lib/utils';
 import { Lecture } from '@/types/models';
-import { CircleX, FileText } from 'lucide-react';
+import { Check, CircleX, FileText } from 'lucide-react';
 import SpeakerDialog from './speaker-drawer';
+import { Button } from './ui/button';
 
 function MyLecturesListItem({ lecture }: { lecture: Lecture }) {
+    const buttonBaseClass =
+        'h-10 w-36 flex cursor-pointer items-center justify-center gap-3 rounded-md font-semibold sm:gap-2';
+
     return (
         <div className="border-border min-h-28 rounded-md border-2 p-2 shadow-md lg:w-full">
             <div className="flex">
@@ -32,13 +36,13 @@ function MyLecturesListItem({ lecture }: { lecture: Lecture }) {
 
                             {/* Buttons on Mobile */}
                             {lecture.lecture_attendances?.showed_up ? (
-                                <a
-                                    href={`/certificate/${lecture.lecture_attendances.id}`}
-                                    className="ml-auto flex h-fit cursor-pointer items-center gap-3 rounded-sm bg-blue-500 p-2 text-sm font-semibold text-white sm:gap-2 md:hidden md:rounded-md md:px-4.5 md:py-2.5"
+                                <Button
+                                    disabled
+                                    className={`${buttonBaseClass} bg-green-500 md:hidden`}
                                 >
-                                    <span>Certificado</span>
-                                    <FileText className="size-5.5" />
-                                </a>
+                                    Participado
+                                    <Check className="size-5" />
+                                </Button>
                             ) : (
                                 <button
                                     className="ml-auto flex h-fit cursor-pointer items-center gap-3 rounded-sm bg-red-600 p-2 text-sm font-semibold text-white sm:gap-2 md:hidden md:rounded-md md:px-4.5 md:py-2.5"
@@ -54,13 +58,13 @@ function MyLecturesListItem({ lecture }: { lecture: Lecture }) {
 
                 {/* Buttons on Desktop */}
                 {lecture.lecture_attendances?.showed_up ? (
-                    <a
-                        href={`/certificate/${lecture.lecture_attendances.id}`}
-                        className="text-md hidden h-fit cursor-pointer items-center gap-3 rounded-sm bg-blue-500 p-2 font-semibold text-white sm:gap-2 md:flex md:rounded-md md:px-4.5 md:py-2.5"
+                    <Button
+                        disabled
+                        className={`${buttonBaseClass} bg-green-500 hidden md:flex`}
                     >
-                        <span>Certificado</span>
-                        <FileText className="size-5.5" />
-                    </a>
+                        Participado
+                        <Check className="size-5" />
+                    </Button>
                 ) : (
                     <button
                         className="text-md hidden h-fit cursor-pointer items-center gap-3 rounded-sm bg-red-600 p-2 font-semibold text-white sm:gap-2 md:flex md:rounded-md md:px-4.5 md:py-2.5"
