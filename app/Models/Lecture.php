@@ -22,6 +22,7 @@ class Lecture extends Model
         'is_active',
         'type_id',
         'speaker_id',
+        'finished',
         'room_number',
         'is_open_for_enrollment',
     ];
