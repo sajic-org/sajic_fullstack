@@ -1,7 +1,7 @@
 import { unsubcribe } from '@/lib/utils';
 import { Lecture, User } from '@/types/models';
 import { Link } from '@inertiajs/react';
-import { CircleOff, CircleX, FileText, GraduationCap } from 'lucide-react';
+import { Check, CircleOff, CircleX, GraduationCap } from 'lucide-react';
 import ParticipateDialog from './participate-dialog';
 import { Button } from './ui/button';
 
@@ -60,13 +60,13 @@ function ButtonBasedOnAvailability({ isFull, lecture, user }: Props) {
         }
     } else if (userLecture.lecture_attendances?.showed_up) {
         return (
-            <a
-                className={`${buttonBaseClass} bg-green-600 text-white hover:bg-green-600 hover:brightness-85`}
-                href={`/certificate/${userLecture.lecture_attendances.id}`}
-            >
-                Certificado
-                <FileText className="size-5.5" />
-            </a>
+                <Button
+                    disabled
+                    className={`${buttonBaseClass} bg-green-500`}
+                >
+                    Participado
+                    <Check className="size-5" />
+                </Button>
         );
     } else {
         return (

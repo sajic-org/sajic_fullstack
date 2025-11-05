@@ -12,7 +12,7 @@ class SendCertificate extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(protected string $pdfId) {}
+    public function __construct(protected string $lectureName) {}
 
     /**
      * Get the message envelope.
@@ -20,7 +20,7 @@ class SendCertificate extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Certificado de participação',
+            subject: 'Confirmação de participação',
         );
     }
 
@@ -32,7 +32,7 @@ class SendCertificate extends Mailable
         return new Content(
             markdown: 'mail.mailCertificate',
             with: [
-                'url' => url("/certificate/{$this->pdfId}"),
+                'lectureName' => $this->lectureName
             ]
         );
     }
