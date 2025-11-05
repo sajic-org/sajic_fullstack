@@ -29,5 +29,8 @@ Route::get('presencas', [UserController::class, 'attendance_list'])->name('user.
 Route::get('palestras/{lecture}/check-in', [LectureController::class, 'attendant_table'])->name('lectures.attendant_table');
 Route::patch('palestras/{lecture}/check-in', [LectureController::class, 'checkin'])->name('lectures.check-in');
 
+//Finaliza Palestra
+Route::patch('palestras/{lecture}/finish', [LectureController::class, 'finish'])->name('lectures.finish');
+
 // Reabre inscrições
 Route::patch('palestras/{lecture}/reabrir-inscricoes', [LectureController::class, 'reopen_enrollment'])->name('lectures.reopen_enrollment');
