@@ -1,6 +1,4 @@
 import CheckInDataTable from '@/components/check-in-data-table';
-import Spinner from '@/components/spinner';
-import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 
 import {
@@ -110,30 +108,76 @@ function CheckIn({ lecture }: checkInPageProps) {
                 </div>
 
                 <div className="flex items-baseline gap-3">
-                    <div>
-                        <span className="text-xs font-semibold">
-                            (caso as vagas esgotarem)
-                        </span>
-                        <Button
-                            variant="link"
+                    <div className="flex items-center gap-3">
+                        <button
                             onClick={() => openAndCloseEnrollment(lecture)}
-                            className="w-fit px-1"
+                            className="flex items-center gap-2 rounded-lg bg-amber-100 px-4 py-2 font-medium text-amber-700 transition-colors hover:bg-amber-200"
                         >
+                            <svg
+                                className="h-4 w-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                                />
+                            </svg>
                             {lecture.is_open_for_enrollment
                                 ? 'Fechar Inscrições'
                                 : 'Reabrir Inscrições'}
-                        </Button>
-                    </div>
+                        </button>
 
-                    <Button
-                        disabled={form.processing}
-                        className="bg-primary-blue cursor-pointer rounded-md px-9 py-5 text-xl font-medium text-white sm:gap-2"
-                        onClick={() =>
-                            form.patch(`/palestras/${lecture.id}/check-in`)
-                        }
-                    >
-                        {form.processing ? <Spinner size={8} /> : 'Salvar'}
-                    </Button>
+                        <button
+                            disabled={form.processing}
+                            className="flex cursor-pointer items-center gap-2 rounded-lg bg-slate-200 px-4 py-2 font-medium text-slate-700 transition-colors hover:bg-slate-300"
+                            onClick={() =>
+                                form.patch(`/palestras/${lecture.id}/check-in`)
+                            }
+                        >
+                            <>
+                                <svg
+                                    className="h-4 w-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"
+                                    />
+                                </svg>{' '}
+                                Salvar
+                            </>
+                        </button>
+
+                        <button
+                            className="bg-primary-blue flex items-center gap-2 rounded-lg px-5 py-2 font-medium text-white shadow-sm transition-colors hover:bg-green-700"
+                            onClick={() =>
+                                form.patch(`/palestras/${lecture.id}/finish`)
+                            }
+                        >
+                            <svg
+                                className="h-4 w-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M5 13l4 4L19 7"
+                                />
+                            </svg>
+                            Finalizar
+                        </button>
+                    </div>
                 </div>
             </div>
 
