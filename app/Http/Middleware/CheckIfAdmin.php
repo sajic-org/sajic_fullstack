@@ -54,10 +54,6 @@ class CheckIfAdmin
      */
     public function handle($request, Closure $next)
     {
-        if ($request->header('X-Inertia')) {
-            return $next($request);
-        }
-
         if (backpack_auth()->guest()) {
             return $this->respondToUnauthorizedRequest($request);
         }
