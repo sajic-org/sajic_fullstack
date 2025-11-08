@@ -11,6 +11,8 @@ echo "::notice::Reloading Services..."
 sudo systemctl reload sajic-queue.service || true
 sudo systemctl reload sajic-site.service
 
+php artisan migrate --force --isolated
+
 echo "::notice::Bring site back from maintenance mode..."
 php artisan up
 
