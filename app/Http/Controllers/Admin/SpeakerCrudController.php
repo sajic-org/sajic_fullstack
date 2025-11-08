@@ -21,19 +21,19 @@ class SpeakerCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
     {
         CRUD::setModel(\App\Models\Speaker::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/speaker');
-        CRUD::setEntityNameStrings('speaker', 'speakers');
+        CRUD::setEntityNameStrings('palestrante', 'palestrantes');
     }
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -45,11 +45,16 @@ class SpeakerCrudController extends CrudController
          * Columns can be defined using the fluent syntax:
          * - CRUD::column('price')->type('number');
          */
+
+        CRUD::column('id')->label('id');
+        CRUD::column('name')->label('nome');
+        CRUD::column('description')->label('descrição');
+        CRUD::column('image')->label('imagem');
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -62,16 +67,32 @@ class SpeakerCrudController extends CrudController
          * Fields can be defined using the fluent syntax:
          * - CRUD::field('price')->type('number');
          */
+
+        CRUD::field('name')->label('nome');
+        CRUD::field('description')->label('descrição');
+        CRUD::field('image')->label('imagem');
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    protected function setupShowOperation()
+    {
+        CRUD::setFromDb(); // set columns from db columns.
+
+        CRUD::column('id')->label('id');
+        CRUD::column('name')->label('Nome');
+        CRUD::column('description')->label('Descrição');
+        CRUD::column('image')->label('Imagem');
+        CRUD::column('created_at')->label('Criado em');
+        CRUD::column('updated_at')->label('Atualizado em');
     }
 }

@@ -21,19 +21,19 @@ class RoomCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
     {
         CRUD::setModel(\App\Models\Room::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/room');
-        CRUD::setEntityNameStrings('room', 'rooms');
+        CRUD::setEntityNameStrings('sala', 'Salas');
     }
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -45,11 +45,15 @@ class RoomCrudController extends CrudController
          * Columns can be defined using the fluent syntax:
          * - CRUD::column('price')->type('number');
          */
+
+        crud::column('number')->label('número');
+        crud::column('capacity')->label('capacidade');
+        crud::column('building')->label('prédio');
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -62,16 +66,32 @@ class RoomCrudController extends CrudController
          * Fields can be defined using the fluent syntax:
          * - CRUD::field('price')->type('number');
          */
+
+        crud::field('number')->label('número');
+        crud::field('capacity')->type('number')->label('capacidade');
+        crud::field('building')->label('prédio');
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    protected function setupShowOperation()
+    {
+        CRUD::setFromDb(); // set columns from db columns.
+
+        crud::column('number')->label('número');
+        crud::column('capacity')->label('capacidade');
+        crud::column('building')->label('prédio');
+
+        CRUD::column('created_at')->label('Criado em');
+        CRUD::column('updated_at')->label('Atualizado em');
     }
 }

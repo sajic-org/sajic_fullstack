@@ -21,19 +21,19 @@ class UserCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
     {
         CRUD::setModel(\App\Models\User::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/user');
-        CRUD::setEntityNameStrings('user', 'users');
+        CRUD::setEntityNameStrings('usuário', 'usuários');
     }
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -45,11 +45,17 @@ class UserCrudController extends CrudController
          * Columns can be defined using the fluent syntax:
          * - CRUD::column('price')->type('number');
          */
+
+        CRUD::column('id')->label('id');
+        CRUD::column('name')->label('nome');
+        CRUD::column('email')->label('e-mail');
+        CRUD::column('course')->label('curso');
+        CRUD::column('semester')->label('semestre');
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -62,16 +68,41 @@ class UserCrudController extends CrudController
          * Fields can be defined using the fluent syntax:
          * - CRUD::field('price')->type('number');
          */
+
+        CRUD::field('name')->label('nome');
+        CRUD::field('email')->label('e-mail');
+        CRUD::field('password')->label('senha');
+        CRUD::field('course')->label('curso');
+        CRUD::field('semester')->label('semestre');
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    /**
+     * Define what happens when the Show operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-show
+     * @return void
+     */
+    protected function setupShowOperation()
+    {
+        CRUD::setFromDb(); // set columns from db columns.
+
+        CRUD::column('id')->label('id');
+        CRUD::column('name')->label('Nome');
+        CRUD::column('email')->label('E-mail');
+        CRUD::column('course')->label('Curso');
+        CRUD::column('semester')->label('Semestre');
+        CRUD::column('created_at')->label('Criado em');
+        CRUD::column('updated_at')->label('Atualizado em');
     }
 }

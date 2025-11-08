@@ -21,19 +21,19 @@ class LectureTypeCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
     {
         CRUD::setModel(\App\Models\LectureType::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/lecture-type');
-        CRUD::setEntityNameStrings('lecture type', 'lecture types');
+        CRUD::setEntityNameStrings('Tipo de Palestra', 'Tipos de Palestras');
     }
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -45,11 +45,14 @@ class LectureTypeCrudController extends CrudController
          * Columns can be defined using the fluent syntax:
          * - CRUD::column('price')->type('number');
          */
+
+        CRUD::column('id')->label('id');
+        CRUD::column('title')->label('título');
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -62,16 +65,29 @@ class LectureTypeCrudController extends CrudController
          * Fields can be defined using the fluent syntax:
          * - CRUD::field('price')->type('number');
          */
+
+        CRUD::field('title')->label('título');
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    protected function setupShowOperation()
+    {
+        CRUD::setFromDb(); // set columns from db columns.
+
+        CRUD::column('id')->label('id');
+        CRUD::column('title')->label('título');
+
+        CRUD::column('created_at')->label('Criado em');
+        CRUD::column('updated_at')->label('Atualizado em');
     }
 }

@@ -21,57 +21,109 @@ class LectureAttendanceCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
     {
         CRUD::setModel(\App\Models\LectureAttendance::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/lecture-attendance');
-        CRUD::setEntityNameStrings('lecture attendance', 'lecture attendances');
+        CRUD::setEntityNameStrings('presença na palestra', 'presenças nas palestras');
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     * 
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // set columns from db columns.
+        CRUD::setFromDb();
 
-        /**
-         * Columns can be defined using the fluent syntax:
-         * - CRUD::column('price')->type('number');
-         */
+        CRUD::removeColumn('lecture_id');
+        CRUD::removeColumn('user_id');
+
+        CRUD::column('lecture')
+            ->attribute('title')
+            ->label('Palestra');
+
+        CRUD::column('user')
+            ->attribute('name')
+            ->label('Usuário');
+
+        CRUD::column('showed_up')
+            ->type('boolean')
+            ->options([
+                0 => 'Faltou',
+                1 => 'Presente'
+            ])
+            ->label('Compareceu?');
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     * 
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     * @return void
-     */
     protected function setupCreateOperation()
     {
         CRUD::setValidation(LectureAttendanceRequest::class);
-        CRUD::setFromDb(); // set fields from db columns.
+        CRUD::setFromDb();
 
-        /**
-         * Fields can be defined using the fluent syntax:
-         * - CRUD::field('price')->type('number');
-         */
+        CRUD::removeField('lecture_id');
+        CRUD::removeField('user_id');
+
+        CRUD::field('lecture_id')
+            ->type('select')
+            ->entity('lecture')
+            ->model('App\Models\Lecture')
+            ->attribute('title')
+            ->label('Palestra');
+
+        CRUD::field('user_id')
+            ->type('select')
+            ->entity('user')
+            ->model('App\Models\User')
+            ->attribute('name')
+            ->label('Usuário');
+
+        CRUD::field('showed_up')
+            ->type('switch')
+            ->label('Compareceu?');
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    /**
+     * Define what happens when the Show operation is loaded.
+     *
+     * @see https://backpackforlaravel.com/docs/crud-operation-show
+     * @return void
+     */
+    protected function setupShowOperation()
+    {
+        CRUD::setFromDb(); // set columns from db columns.
+
+        CRUD::column('id')->label('id');
+        CRUD::column('lecture_id')->label('id da palestra');
+        CRUD::column('user_id')->label('id do usuário');
+
+        CRUD::column('lecture')
+            ->attribute('title')
+            ->label('Palestra');
+
+        CRUD::column('user')
+            ->attribute('name')
+            ->label('Usuário');
+
+        CRUD::column('showed_up')
+            ->type('boolean')
+            ->options([
+                0 => 'Não',
+                1 => 'Sim'
+            ])
+            ->label('Compareceu?');
+
+        CRUD::column('created_at')->label('Criado em');
+        CRUD::column('updated_at')->label('Atualizado em');
     }
 }
